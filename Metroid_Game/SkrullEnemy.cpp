@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "SkrullEnemy.h"
+#include "TextureManager.h"
 
 SkrullEnemy::SkrullEnemy(Point2f& position)
 	: Enemy(position)
@@ -10,7 +11,6 @@ SkrullEnemy::SkrullEnemy(Point2f& position)
 SkrullEnemy::~SkrullEnemy()
 {
 	delete m_pTexture;
-	m_pTexture = nullptr;
 }
 
 void SkrullEnemy::Draw() const

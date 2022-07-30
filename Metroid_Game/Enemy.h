@@ -1,7 +1,7 @@
 #pragma once
 #include "Vector2f.h"
+#include "GameObject.h"
 
-class GameObject;
 class TextureManager;
 class Animation;
 

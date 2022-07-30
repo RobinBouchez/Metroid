@@ -1,6 +1,6 @@
 #pragma once
+#include "Enemy.h"
 
-class Enemy;
 class World;
 
 class CrawlerEnemy : virtual public Enemy

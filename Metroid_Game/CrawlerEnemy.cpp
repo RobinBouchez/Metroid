@@ -1,17 +1,19 @@
 #include "pch.h"
 #include "CrawlerEnemy.h"
 #include "Enemy.h"
+#include "TextureManager.h"
+#include "GameObject.h"
 #include "World.h"
 #include "utils.h"
 #include "Matrix2x3.h"
 
 CrawlerEnemy::CrawlerEnemy(Point2f &position)
-	: Enemy{ position }
+	: Enemy( position )
 	, m_Speed{ 100.f }
 	, m_Direction{ CrawlerDirection::right }
 {
 	m_Velocity = Vector2f{ 1.f, 0.f };
-	Enemy::m_pTexture->CreateTexture("Crawler");
+	m_pTexture->CreateTexture("Crawler");
 }
 
 CrawlerEnemy::~CrawlerEnemy()
@@ -24,13 +26,13 @@ void CrawlerEnemy::Draw() const
 		glTranslatef(m_Boundaries.left + m_Boundaries.width / 2, m_Boundaries.bottom + m_Boundaries.height / 2, 0);
 		SetTextureRotation();
 		glTranslatef(-(m_Boundaries.left + m_Boundaries.width / 2), -(m_Boundaries.bottom + m_Boundaries.height / 2), 0);
-		Enemy::Draw();
+		//Enemy::Draw();
 	glPopMatrix();
 }
 
 void CrawlerEnemy::Update(float elapsedSec, World* level)
 {
-	Enemy::Update(elapsedSec);
+	//Enemy::Update(elapsedSec);
 	Move(elapsedSec, level);
 }
 

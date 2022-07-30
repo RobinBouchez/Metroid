@@ -5,10 +5,11 @@ class Screen
 {
 public:
 	Screen() = default;
+	virtual ~Screen();
 
 protected:
 	Texture* m_pTexure;
-private:
 
+	bool m_IsActive;
 };
 

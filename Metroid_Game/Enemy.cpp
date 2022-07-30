@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "Enemy.h"
 #include "TextureManager.h"
-#include "GameObject.h"
 #include "Animation.h"
 
 Enemy::Enemy(Point2f& position)
@@ -17,7 +16,7 @@ Enemy::Enemy(Point2f& position)
 {
 	m_Boundaries.left = position.x;
 	m_Boundaries.bottom = position.y;
-	m_Boundaries.width = m_pTexture->GetWidth() / 3;
+	m_Boundaries.width = m_pTexture->GetWidth() / m_Rows;
 	m_Boundaries.height = m_pTexture->GetHeight();
 	
 }

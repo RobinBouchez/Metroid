@@ -86,6 +86,8 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>C:\Users\robin\OneDrive - Hogeschool West-Vlaanderen\DAE 2021-2022\SEM_2\Programming 2\00 Game Project\Bouchez_Robin_Metroid\1DAE22_Bouchez_Robin_Metroid\Metroid\Libraries;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\robin\OneDrive - Hogeschool West-Vlaanderen\DAE 2021-2022\SEM_2\Programming 2\00 Game Project\Bouchez_Robin_Metroid\1DAE22_Bouchez_Robin_Metroid\Metroid\Libraries;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>

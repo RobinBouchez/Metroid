@@ -16,9 +16,6 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="Framework Files\Game Files\World">
-      <UniqueIdentifier>{7a73a2ed-0f1e-480c-a3b2-2d4f070387f0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Framework Files\Game Files\Game">
       <UniqueIdentifier>{e06a1230-c98d-4f5e-81e4-60dbe9a9243b}</UniqueIdentifier>
     </Filter>
@@ -49,10 +46,13 @@
     <Filter Include="Framework Files\Game Files\Screen">
       <UniqueIdentifier>{6ef9bf58-bb7f-43ab-97c0-318fbc439af7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework Files\World">
+      <UniqueIdentifier>{7a73a2ed-0f1e-480c-a3b2-2d4f070387f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="World.cpp">
-      <Filter>Framework Files\Game Files\World</Filter>
+      <Filter>Framework Files\World</Filter>
     </ClCompile>
     <ClCompile Include="Player.cpp">
       <Filter>Framework Files\Game Files\GameObjects\Player</Filter>
@@ -147,7 +147,7 @@
       <Filter>Framework Files\Game Files\GameObjects\Player</Filter>
     </ClInclude>
     <ClInclude Include="World.h">
-      <Filter>Framework Files\Game Files\World</Filter>
+      <Filter>Framework Files\World</Filter>
     </ClInclude>
     <ClInclude Include="Game.h">
       <Filter>Framework Files\Game Files\Game</Filter>
