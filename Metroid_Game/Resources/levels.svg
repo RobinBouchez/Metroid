@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.0"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="4129px"
+   height="760px"
+   viewBox="0 0 4129 760"
+   enable-background="new 0 0 4129 760"
+   xml:space="preserve"
+   sodipodi:docname="levels.svg"
+   inkscape:version="1.1.2 (b8e25be833, 2022-02-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs15" /><sodipodi:namedview
+   id="namedview13"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="3.1510692"
+   inkscape:cx="2009.794"
+   inkscape:cy="93.619017"
+   inkscape:window-width="1920"
+   inkscape:window-height="1009"
+   inkscape:window-x="-8"
+   inkscape:window-y="-8"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="a1165" />
+<g
+   id="g10">
+	<a
+   id="a1165"><path
+     fill-rule="evenodd"
+     clip-rule="evenodd"
+     d="m 0.852,0.036 h 4126 l 2,3 V 745 l -2,15.036 h -4127 v -757 z m 1958,9.964 -48,40 -44,-1 -16,10.964 -46,43 -49,-45 -25,19 -25,20 -1,57 -54,-1 -1,-53 -517,-2 V 12 l -23,19 -23,19 -45,-1 -62,53.964 -50,-45 -25,19 -24,20 -1,54 h -50 l -1,514 h 149 l 1,-100 57,1 1,51 51,1 v 47 h 58 v -43 l -10,-5 1,-107 51,1 v 109 l -10,2 1,43 h 61 l 1,-48 h 47 l 1,-52 54,1 1,99 h 565 l 1,-51 365,1 1,51 1755,-1 v -203 l -204,-1 1,-54 232,-1 v -147 l -29,-2 v -154 l -414,-1 V 13 l -23,18 -23,19 -44,-1 -16,11.964 -48,43 -50,-45 -24,19 -24,20 -1,56 -54,-1 v -53 l -107,-1 V 11 l -24,19 -26,20 -44,-1 -16,10.964 -46,43 -49,-45 -24,18 -23,19 -1,56 h -54 v -47 l -103,-2 -1,-91.964 -24,20 -25,20 -45,-1 -16,10.964 -46,43 -51,-45 -24,19 -24,20 -1,54 -54,-1 -1,-47 -106,-1 V 12 l -23,19 -23,19 -46,-1 -61,53.964 -50,-45 -25,19 -24,20 -1,57 -58,-1 v -53 l -52.7871,-1.024993 -47.6035,-0.924338 1.8335,-96.2085065 z"
+     id="path2"
+     sodipodi:nodetypes="cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc" /></a>
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   d="m 1914.852,150.964 h 48 l 1,103 52,1 v 258 h -103 v -359 z"
+   id="path4"
+   sodipodi:nodetypes="cccccccc" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   d="m 2224.852,150.964 h 49 v 362 h -102 l -1,-257 51,-1 1,-101 z"
+   id="path6"
+   sodipodi:nodetypes="cccccccc" />
+	<path
+   fill-rule="evenodd"
+   clip-rule="evenodd"
+   d="m 1344.852,202.964 h 205 v 99 l 52,2 v 105 l 51,1 v 210 h -206 v -106 l -52,-2 v -98 l -51,-1 -1,-207 z"
+   id="path8"
+   sodipodi:nodetypes="cccccccccccccc" />
+</g>
+</svg>
