@@ -132,9 +132,6 @@
     <ClCompile Include="SkrullEnemy.cpp">
       <Filter>Framework Files\Game Files\GameObjects\Enemy</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Framework Files\Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="ScreenManager.cpp">
       <Filter>Framework Files\Game Files\Manager</Filter>
     </ClCompile>
@@ -223,9 +220,6 @@
     </ClInclude>
     <ClInclude Include="SkrullEnemy.h">
       <Filter>Framework Files\Game Files\GameObjects\Enemy</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Framework Files</Filter>
     </ClInclude>
     <ClInclude Include="ScreenManager.h">
       <Filter>Framework Files\Game Files\Manager</Filter>
