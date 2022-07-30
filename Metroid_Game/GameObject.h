@@ -8,9 +8,12 @@ public:
 	GameObject();
 	virtual ~GameObject();
 
-	virtual void Draw() const = 0;
+	
 
 protected:
+	virtual void Draw() const = 0;
+	//virtual void Update(float elapsedSec);
+
 	static bool m_IsOnGround;
 	static const float m_Gravity;
 	

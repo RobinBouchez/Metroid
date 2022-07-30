@@ -2,9 +2,9 @@
 #include "SoundManager.h"
 #include "SoundEffect.h"
 
-SoundManager::SoundManager()
+SoundManager::SoundManager(const std::string& filename)
 {
-	Initialize();
+	CreateSound(filename);
 }
 
 SoundManager::~SoundManager()
@@ -16,12 +16,9 @@ SoundManager::~SoundManager()
 	}
 }
 
-void SoundManager::Initialize()
+void SoundManager::CreateSound(const std::string& filename)
 {
-	m_pSoundEffects["Music"] = new SoundEffect("Resources/Sound/Music.mp3");
-	m_pSoundEffects["Jump"] = new SoundEffect("Resources/Sound/Jump.wav");
-	m_pSoundEffects["Roll"] = new SoundEffect("Resources/Sound/Roll.wav");
-	m_pSoundEffects["PickUp"] = new SoundEffect("Resources/Sound/PickUp.wav");
+	m_pSoundEffects[filename] = new SoundEffect("Resources/Sound/" + filename + ".wav");
 }
 
 void SoundManager::Play(std::string soundName)

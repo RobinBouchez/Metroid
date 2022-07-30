@@ -2,7 +2,6 @@
 #include "GameObject.h"
 
 bool GameObject::m_IsOnGround = false;
-//bool GameObject::m_Gravity = 9.81f;
 
 GameObject::GameObject()
 	: m_Boundaries{}

@@ -10,7 +10,7 @@ SkrullEnemy::SkrullEnemy(Point2f& position)
 
 SkrullEnemy::~SkrullEnemy()
 {
-	delete m_pTexture;
+	//delete m_pTexture;
 }
 
 void SkrullEnemy::Draw() const

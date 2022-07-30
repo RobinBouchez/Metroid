@@ -13,7 +13,7 @@ CrawlerEnemy::CrawlerEnemy(Point2f &position)
 	, m_Direction{ CrawlerDirection::right }
 {
 	m_Velocity = Vector2f{ 1.f, 0.f };
-	m_pTexture->CreateTexture("Crawler");
+	//m_pTexture->CreateTexture("Crawler");
 }
 
 CrawlerEnemy::~CrawlerEnemy()

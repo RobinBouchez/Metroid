@@ -1,11 +1,13 @@
 #include "pch.h"
 #include "Enemy.h"
 #include "TextureManager.h"
+#include "Texture.h"
 #include "Animation.h"
 
 Enemy::Enemy(Point2f& position)
 	: m_Position{ position }
-	, m_pTexture{ new TextureManager() }
+	, m_FileName{ "Crawler" }
+	, m_pTexture{ new Texture("./Resources/Crawler") }
 	, m_State{ State::alive }
 	, m_Boundaries{}
 	, m_HorizontalSpeed{ 180.f }

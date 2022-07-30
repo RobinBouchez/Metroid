@@ -2,7 +2,7 @@
 #include "Vector2f.h"
 #include "GameObject.h"
 
-class TextureManager;
+class Texture;
 class Animation;
 
 class Enemy : public GameObject
@@ -23,8 +23,9 @@ public:
 protected:
 	Rectf m_Boundaries;
 	Point2f m_Position;
-	TextureManager* m_pTexture;
-
+	Texture* m_pTexture;
+	
+	std::string m_FileName;
 
 private:
 	Animation* m_pAnimation;

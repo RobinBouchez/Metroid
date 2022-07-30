@@ -5,7 +5,7 @@ class SoundEffect;
 class SoundManager
 {
 public:
-	SoundManager();
+	SoundManager(const std::string& filename);
 	SoundManager(const SoundManager& other) = delete;
 	SoundManager& operator=(const SoundManager& other) = delete;
 	SoundManager(SoundManager&& other) = delete;
@@ -20,5 +20,5 @@ public:
 private:
 	std::unordered_map<std::string, SoundEffect*> m_pSoundEffects;
 
-	void Initialize();
+	void CreateSound(const std::string& filename);
 };

@@ -2,8 +2,8 @@
 #include "TextureManager.h"
 #include "Texture.h"
 
-TextureManager::TextureManager()
-	: m_TextureFilename{}
+TextureManager::TextureManager(const std::string& texture)
+	: m_TextureFilename{ texture }
 	, m_TextureMap{}
 {
 }
@@ -39,14 +39,14 @@ void TextureManager::CreateTexture(const std::string& filename)
 	m_TextureMap[filename] = new Texture("Resources/" + filename + ".png");
 }
 
-const float TextureManager::GetWidth()
+const float TextureManager::GetWidth(const std::string& filename)
 {
-	return m_TextureMap[m_TextureFilename]->GetWidth();
+	return m_TextureMap[filename]->GetWidth();
 }
 
-const float TextureManager::GetHeight()
+const float TextureManager::GetHeight(const std::string& filename) 
 {
-	return m_TextureMap[m_TextureFilename]->GetHeight();
+	return m_TextureMap[filename]->GetHeight();
 }
 
 void TextureManager::DeleteTextures()

@@ -15,7 +15,7 @@ Morphball::Morphball()
 	, m_pAnimation{ new Animation(m_Rows, 0.05f )}
 	, m_DstRect{}
 	, m_SrcRect{}
-	, m_pSoundManager{ new SoundManager() }
+	, m_pSound{ new SoundManager("Morphball")}
 {
 }
 
@@ -27,8 +27,8 @@ Morphball::~Morphball()
 	delete m_pAnimation;
 	m_pAnimation = nullptr;
 
-	delete m_pSoundManager;
-	m_pSoundManager = nullptr;
+	delete m_pSound;
+	m_pSound = nullptr;
 }
 
 void Morphball::Draw() const
@@ -55,7 +55,7 @@ bool Morphball::CheckIfhit(Player* player)
 		{
 			if (!m_IsHit)
 			{
-				m_pSoundManager->Play("PickUp");
+				m_pSound->Play("PickUp");
 			}
 
 			m_IsHit = true;

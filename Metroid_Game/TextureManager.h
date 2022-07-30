@@ -6,14 +6,14 @@ class Texture;
 class TextureManager final
 {
 public:
-	TextureManager();
+	TextureManager(const std::string& texture);
 	virtual ~TextureManager();
 	
 	void Draw(const Point2f& destBottomLeft, const Rectf& sourceRect) const;
 	void Draw(const Rectf& destRect, const Rectf& sourceRect) const;
 
-	const float GetWidth() ;
-	const float GetHeight();
+	const float GetWidth(const std::string& filename);
+	const float GetHeight(const std::string& filename);
 
 	void CreateTexture(const std::string& filename);
 
