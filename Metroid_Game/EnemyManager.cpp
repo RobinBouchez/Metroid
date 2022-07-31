@@ -1,64 +1,34 @@
 #include "pch.h"
 #include "EnemyManager.h"
-#include <algorithm>
 #include "Enemy.h"
-#include <set>
-#include "Player.h"
-#include "BulletManager.h"
 
-EnemyManager::~EnemyManager()
+void EnemyManager::Add(Enemy* enemy)
 {
-	Clear();
+	m_pEnemies.push_back(enemy);
 }
 
 void EnemyManager::Draw() const
 {
-	for (Enemy* enemy : m_pEnemies)
+	for (auto& e : m_pEnemies)
 	{
-		enemy->Draw();
+		e->Draw();
 	}
 }
 
-void EnemyManager::Update(float elapsedSec, const Player* avatar, const World* level)
+void EnemyManager::Update(float elapsedSec)
 {
-	//std::vector<Enemy*>::iterator it;
-
-	//for (Enemy* enemy : m_pEnemies)
-	//{
-	//	if (!enemy->GetIsImmobile())
-	//	{
-	//		enemy->Update(elapsedSec, m_pBulletManager, avatar, level);
-	//	}
-	//}
-	//it = std::remove_if(m_pEnemies.begin(), m_pEnemies.end(), (Enemy* p)
-	//	{
-	//		if (p->InteractionsHealthBar().GetHP() <= 0)
-	//		{
-	//			delete p;
-	//			p = nullptr;
-	//			return true;
-	//		}
-	//		return false;
-	//	});
-	//m_pEnemies.erase(it, m_pEnemies.end());
-}
-
-void EnemyManager::AddEnemy(Enemy* newEnemy)
-{
-	m_pEnemies.push_back(newEnemy);
-}
-
-void EnemyManager::SetBulletManagerPointer(BulletManager* bulletManager)
-{
-	m_pBulletManager = bulletManager;
-}
-
-void EnemyManager::Clear()
-{
-	for (Enemy* enemy : m_pEnemies)
+	for (auto& e : m_pEnemies)
 	{
-		delete enemy;
-		enemy = nullptr;
+		e->Update(elapsedSec);
+	}
+}
+
+void EnemyManager::Cleanup()
+{
+	for (auto& e : m_pEnemies)
+	{
+		delete e;
+		e = nullptr;
 	}
 	m_pEnemies.clear();
 }

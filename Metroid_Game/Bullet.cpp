@@ -1,22 +1,19 @@
 #include "pch.h"
+#include "TextureManager.h"
 #include "Texture.h"
 #include "Bullet.h"
 #include "Animation.h"
 
 Bullet::Bullet()
-	: m_pTexture{}
-	, m_Rows{4}
+	: m_Rows{4}
 	, m_pAnimation{ new Animation(m_Rows) }
 	, m_Position{ 2000 , 200}
 {
-	m_pTexture = new Texture("Resources/Bullet.png");
+	m_pTexture = TextureManager::GetInstance().CreateTexture("Bullet");
 }
 
 Bullet::~Bullet()
 {
-	delete m_pTexture;
-	m_pTexture = nullptr;
-
 	delete m_pAnimation;
 	m_pAnimation;
 }

@@ -39,7 +39,6 @@ private:
 	World* m_pWorld;
 	Player* m_pPlayer;
 	Camera* m_pCamera;
-	std::vector<Enemy*> m_pEnemyVector;
 	Morphball* m_pMorphball;
 	SoundManager* m_pSoundManager;
 	HUD* m_pHUD;
@@ -69,11 +68,5 @@ private:
 	void UpdateHUD(float elapsedSec);
 
 	//DELETE
-	void DeleteWorld();
-	void DeletePlayer();
-	void DeleteCamera();
-	void DeleteEnemy();
-	void DeleteSoundManager();
-	void DeleteHUD();
-	void DeleteMorphball();
+	void DeleteGameObjects();
 };

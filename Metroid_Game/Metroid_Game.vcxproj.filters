@@ -141,6 +141,12 @@
     <ClCompile Include="Screen.cpp">
       <Filter>Framework Files\Game Files\Screen</Filter>
     </ClCompile>
+    <ClCompile Include="Weapon.cpp">
+      <Filter>Framework Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
+      <Filter>Framework Files\Game Files\Manager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -229,6 +235,12 @@
     </ClInclude>
     <ClInclude Include="StartScreen.h">
       <Filter>Framework Files\Game Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="Weapon.h">
+      <Filter>Framework Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Framework Files\Game Files\Manager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

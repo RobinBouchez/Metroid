@@ -2,33 +2,29 @@
 #include "Player.h"
 #include "Animation.h"
 #include "Texture.h"
+#include "TextureManager.h"
 #include "Morphball.h"
-#include"utils.h"
+#include "utils.h"
 #include "SoundManager.h"
+#include "SoundEffect.h"
 
 bool Morphball::m_IsHit = false;
 
 Morphball::Morphball()
 	: m_Position{ 1136.f, 250.f }
 	, m_Rows{ 4 }
-	, m_pTexture{ new Texture("Resources/u_morphball.png")}
 	, m_pAnimation{ new Animation(m_Rows, 0.05f )}
 	, m_DstRect{}
 	, m_SrcRect{}
-	, m_pSound{ new SoundManager("Morphball")}
+	//, m_pSound{}//SoundManager::GetInstance().CreateSound("morphball")}
 {
+	m_pTexture = TextureManager::GetInstance().CreateTexture("Morphball");
 }
 
 Morphball::~Morphball()
 {
-	delete m_pTexture;
-	m_pTexture = nullptr;
-
 	delete m_pAnimation;
 	m_pAnimation = nullptr;
-
-	delete m_pSound;
-	m_pSound = nullptr;
 }
 
 void Morphball::Draw() const
@@ -55,7 +51,7 @@ bool Morphball::CheckIfhit(Player* player)
 		{
 			if (!m_IsHit)
 			{
-				m_pSound->Play("PickUp");
+				SoundManager::GetInstance().Play("PickUp");
 			}
 
 			m_IsHit = true;

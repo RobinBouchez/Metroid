@@ -12,8 +12,3 @@ GameObject::GameObject()
 	, m_JumpSpeed{ 800.f }
 {
 }
-
-GameObject::~GameObject()
-{
-
-}

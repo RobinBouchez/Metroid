@@ -2,23 +2,17 @@
 #include "SoundManager.h"
 #include "SoundEffect.h"
 
-SoundManager::SoundManager(const std::string& filename)
-{
-	CreateSound(filename);
-}
-
 SoundManager::~SoundManager()
 {
-	for (std::pair<std::string, SoundEffect*> e: m_pSoundEffects)
-	{
-		delete e.second;
-		e.second = nullptr;
-	}
 }
 
-void SoundManager::CreateSound(const std::string& filename)
+SoundEffect* SoundManager::CreateSound(const std::string& filename)
 {
-	m_pSoundEffects[filename] = new SoundEffect("Resources/Sound/" + filename + ".wav");
+	if (m_pSoundEffects.find(filename) == m_pSoundEffects.end())
+	{
+		m_pSoundEffects.emplace(filename, new SoundEffect("Resources/Sound/" + filename + ".wav"));
+	}
+	return m_pSoundEffects[filename];
 }
 
 void SoundManager::Play(std::string soundName)
@@ -36,5 +30,14 @@ void SoundManager::SetVolume(int volume)
 	for (std::pair<std::string, SoundEffect*> e : m_pSoundEffects)
 	{
 		e.second->SetVolume(volume);
+	}
+}
+
+void SoundManager::Cleanup()
+{
+	for (auto& e : m_pSoundEffects)
+	{
+		delete e.second;
+		e.second = nullptr;
 	}
 }

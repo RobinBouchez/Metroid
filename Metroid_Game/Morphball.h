@@ -1,6 +1,6 @@
 #pragma once
 class Player;
-class SoundManager;
+class SoundEffect;
 class Morphball
 {
 public:
@@ -20,7 +20,7 @@ private:
 	Rectf m_SrcRect;
 
 	Animation* m_pAnimation;
-	SoundManager* m_pSoundManager;
+	//SoundEffect* m_pSound;
 	Texture* m_pTexture;
 
 	int m_Rows;

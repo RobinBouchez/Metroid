@@ -2,11 +2,13 @@
 #include "Game.h"
 #include "World.h"
 #include "Player.h"
-#include "CrawlerEnemy.h"
 #include "Camera.h"
-#include "SkrullEnemy.h"
 #include "Morphball.h"
 #include "SoundManager.h"
+#include "CrawlerEnemy.h"
+#include "SkrullEnemy.h"
+#include "TextureManager.h"
+#include "EnemyManager.h"
 #include "HUD.h"
 #include <iostream>
 
@@ -30,19 +32,27 @@ void Game::Initialize( )
 	CreateCamera();
 	CreateSoundManager();
 	CreateHUD();
-
-	m_pMorphball = new Morphball();
 }
 
 void Game::Cleanup( )
 {
-	DeleteWorld();
-	DeletePlayer();
-	DeleteCamera();
-	DeleteEnemy();
-	DeleteHUD();
-	DeleteSoundManager();
-	DeleteMorphball();
+	DeleteGameObjects();
+
+	delete m_pWorld;
+	m_pWorld = nullptr;
+
+	delete m_pHUD;
+	m_pHUD = nullptr;
+
+	delete m_pCamera;
+	m_pCamera = nullptr;
+
+	SoundManager::GetInstance().Cleanup();
+	TextureManager::GetInstance().Cleanup();
+	EnemyManager::GetInstance().Cleanup();
+
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
 }
 
 void Game::Update( float elapsedSec )
@@ -158,19 +168,14 @@ void Game::CreateGameObjects()
 {
 	m_pPlayer = new Player(m_PlayerPosition);
 
-	Point2f m_EnemyPosition_1{ 1900.f, 612.f };
-	m_pEnemyVector.push_back(new CrawlerEnemy(m_EnemyPosition_1));
+	m_pMorphball = new Morphball();
 
+	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{1900.f, 612.f} });
+	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{2250.f, 500.f } });
 
-	Point2f m_EnemyPosition_2{ 2250.f, 500.f };
-	m_pEnemyVector.push_back(new CrawlerEnemy(m_EnemyPosition_2));
+	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2250.f, 500.f } });
+	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2250.f, 500.f } });
 
-
-	Point2f m_EnemyPosition_3{ 2250.f, 500.f };
-	m_pEnemyVector.push_back(new SkrullEnemy(m_EnemyPosition_3));
-
-	Point2f m_EnemyPosition_4{ 2250.f, 500.f };
-	m_pEnemyVector.push_back(new SkrullEnemy(m_EnemyPosition_4));
 }
 
 void Game::CreateCamera()
@@ -184,7 +189,7 @@ void Game::CreateSoundManager()
 {
 	m_pSoundManager = new SoundManager();
 	
-	m_pSoundManager->PlayLoop("Music");
+	//m_pSoundManager->PlayLoop("Music");
 }
 
 void Game::CreateHUD()
@@ -200,13 +205,8 @@ void Game::DrawWorld() const
 void Game::DrawGameObjects() const
 {
 	m_pPlayer->Draw();
-
+	EnemyManager::GetInstance().Draw();
 	m_pMorphball->Draw();
-
-	for (Enemy* e : m_pEnemyVector) 
-	{
-		e->Draw();//world need to be updated as parameter mate
-	}
 }
 
 void Game::DrawHUD() const
@@ -220,14 +220,9 @@ void Game::DrawHUD() const
 void Game::UpdateGameObjects(float elapsedSec)
 {
 	m_pPlayer->Update(elapsedSec, m_pWorld);
-
+	EnemyManager::GetInstance().Update(elapsedSec);
 	m_pMorphball->CheckIfhit(m_pPlayer);
 	m_pMorphball->Update(elapsedSec);
-
-	for (Enemy* e : m_pEnemyVector)
-	{
-		e->Update(elapsedSec);
-	}
 }
 
 void Game::UpdateHUD(float elapsedSec)
@@ -235,49 +230,11 @@ void Game::UpdateHUD(float elapsedSec)
 	m_pHUD->Update(elapsedSec);
 }
 
-
-void Game::DeleteWorld()
-{
-	delete m_pWorld;
-	m_pWorld = nullptr;
-}
-
-void Game::DeletePlayer()
+void Game::DeleteGameObjects()
 {
 	delete m_pPlayer;
 	m_pPlayer = nullptr;
-}
 
-void Game::DeleteCamera()
-{
-	delete m_pCamera;
-	m_pCamera = nullptr;
-}
-
-void Game::DeleteEnemy()
-{
-	for (Enemy* e : m_pEnemyVector)
-	{ 
-		delete e;
-		e = nullptr;
-	}
-	m_pEnemyVector.clear();
-}
-
-void Game::DeleteSoundManager()
-{
-	delete m_pSoundManager;
-	m_pSoundManager = nullptr;
-}
-
-void Game::DeleteHUD()
-{
-	delete m_pHUD;
-	m_pHUD = nullptr;
-}
-
-void Game::DeleteMorphball()
-{
 	delete m_pMorphball;
 	m_pMorphball = nullptr;
 }

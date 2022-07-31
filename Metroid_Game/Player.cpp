@@ -23,7 +23,6 @@ Player::Player(Point2f& position)
 	, m_Angle{}
 	, m_RotSpeed{ 1200.f }
 	, m_pBullet{ new Bullet() }
-	, m_pSoundManager{ new SoundManager() }
 	, m_IsShooting{false}
 {
 	m_Shape.left = position.x;
@@ -117,6 +116,10 @@ void Player::Update(float elapsedSec, World* level)
 		m_Shape.bottom = m_BallShape.bottom;
 	}
 	
+}
+
+void Player::Update(float elapsedSec)
+{
 }
 
 int Player::GetScore()
@@ -213,7 +216,7 @@ void Player::UpdateMovement(float elapsedSec, World* level)
 		{
 			m_IsRolling = true;
 
-			m_pSoundManager->Play("Roll");
+			SoundManager::GetInstance().Play("Roll");
 		}
 	}
 	else if (State[SDL_SCANCODE_SPACE])
@@ -225,7 +228,7 @@ void Player::UpdateMovement(float elapsedSec, World* level)
 		if (level->IsOnGround(m_Shape))
 		{
 			m_Velocity.y += m_JumpSpeed * elapsedSec;
-			m_pSoundManager->Play("Jump");
+			SoundManager::GetInstance().Play("Jump");
 		}
 	}
 	else if (State[SDL_SCANCODE_F])

@@ -169,6 +169,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="Morphball.cpp" />
     <ClCompile Include="pch.cpp">
@@ -191,6 +192,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
+    <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +207,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="Morphball.h" />
     <ClInclude Include="pch.h" />
@@ -222,6 +225,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2f.h" />
+    <ClInclude Include="Weapon.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

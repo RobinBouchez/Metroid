@@ -7,13 +7,13 @@
 #include "utils.h"
 #include "Matrix2x3.h"
 
-CrawlerEnemy::CrawlerEnemy(Point2f &position)
+CrawlerEnemy::CrawlerEnemy(const Point2f &position)
 	: Enemy( position )
 	, m_Speed{ 100.f }
-	, m_Direction{ CrawlerDirection::right }
+	, m_Direction{ Direction::right }
 {
 	m_Velocity = Vector2f{ 1.f, 0.f };
-	//m_pTexture->CreateTexture("Crawler");
+	CalculateTexture("Crawler", 3);
 }
 
 CrawlerEnemy::~CrawlerEnemy()
@@ -26,13 +26,19 @@ void CrawlerEnemy::Draw() const
 		glTranslatef(m_Boundaries.left + m_Boundaries.width / 2, m_Boundaries.bottom + m_Boundaries.height / 2, 0);
 		SetTextureRotation();
 		glTranslatef(-(m_Boundaries.left + m_Boundaries.width / 2), -(m_Boundaries.bottom + m_Boundaries.height / 2), 0);
-		//Enemy::Draw();
+		Enemy::Draw();
 	glPopMatrix();
+}
+
+void CrawlerEnemy::Update(float elapsedSec)
+{
+	Enemy::Update(elapsedSec); 
+	Update(elapsedSec, m_pWorld);
 }
 
 void CrawlerEnemy::Update(float elapsedSec, World* level)
 {
-	//Enemy::Update(elapsedSec);
+	Enemy::Update(elapsedSec);
 	Move(elapsedSec, level);
 }
 
@@ -64,7 +70,7 @@ void CrawlerEnemy::Move(float elapsedSec, World* level)
 
 	switch (m_Direction)
 	{
-	case CrawlerEnemy::CrawlerDirection::right:
+	case CrawlerEnemy::Direction::right:
 		for (size_t i = 0; i < level->GetVertices().size(); i++)
 		{
 			if (utils::Raycast(level->GetVertices()[i], center, ray_right, hitinfo_right))
@@ -88,23 +94,23 @@ void CrawlerEnemy::Move(float elapsedSec, World* level)
 		{
 			m_Boundaries.left = hitinfo_right.intersectPoint.x - m_Boundaries.width;
 			m_Velocity = Vector2f{ 0.f, 1.f };
-			m_Direction = CrawlerDirection::up;
+			m_Direction = Direction::up;
 		}
 		else if (isHittingRight_2)
 		{
 			m_Boundaries.left = hitinfo_right_2.intersectPoint.x - m_Boundaries.width;
 			m_Velocity = Vector2f{ 0.f, 1.f };
-			m_Direction = CrawlerDirection::up;
+			m_Direction = Direction::up;
 		}
 		else if(!(isHittingDown || isHittingDown_2))
 		{
 			m_Boundaries.left += m_Boundaries.width / 2;
 			m_Boundaries.bottom -= m_Boundaries.height / 2 - 1;
 			m_Velocity = Vector2f{ 0.f, -1.f };
-			m_Direction = CrawlerDirection::down;
+			m_Direction = Direction::down;
 		}
 		break;
-	case CrawlerEnemy::CrawlerDirection::down:
+	case CrawlerEnemy::Direction::down:
 		for (size_t i = 0; i < level->GetVertices().size(); i++)
 		{
 			if (utils::Raycast(level->GetVertices()[i], center, ray_down, hitinfo_right))
@@ -128,13 +134,13 @@ void CrawlerEnemy::Move(float elapsedSec, World* level)
 		{
 			m_Boundaries.bottom = hitinfo_right.intersectPoint.y;
 			m_Velocity = Vector2f{ 1.f, 0.f };
-			m_Direction = CrawlerDirection::right;
+			m_Direction = Direction::right;
 		}
 		else if (isHittingRight_2)
 		{
 			m_Boundaries.bottom = hitinfo_right_2.intersectPoint.y;
 			m_Velocity = Vector2f{ 1.f, 0.f };
-			m_Direction = CrawlerDirection::right;
+			m_Direction = Direction::right;
 		}
 		else if (!(isHittingDown || isHittingDown_2))
 		{
@@ -142,10 +148,10 @@ void CrawlerEnemy::Move(float elapsedSec, World* level)
 			m_Boundaries.left -= m_Boundaries.width / 2 - 1;
 			m_Boundaries.bottom -= m_Boundaries.height / 2;
 			m_Velocity = Vector2f{ -1.f, 0.f };
-			m_Direction = CrawlerDirection::left;
+			m_Direction = Direction::left;
 		}
 		break;
-	case CrawlerEnemy::CrawlerDirection::left:
+	case CrawlerEnemy::Direction::left:
 		for (size_t i = 0; i < level->GetVertices().size(); i++)
 		{
 			if (utils::Raycast(level->GetVertices()[i], center, ray_left, hitinfo_right))
@@ -169,23 +175,23 @@ void CrawlerEnemy::Move(float elapsedSec, World* level)
 		{
 			m_Boundaries.left = hitinfo_right.intersectPoint.x;
 			m_Velocity = Vector2f{ 0.f, -1.f };
-			m_Direction = CrawlerDirection::down;
+			m_Direction = Direction::down;
 		}
 		else if (isHittingRight_2)
 		{
 			m_Boundaries.left = hitinfo_right_2.intersectPoint.x;
 			m_Velocity = Vector2f{ 0.f, -1.f };
-			m_Direction = CrawlerDirection::down;
+			m_Direction = Direction::down;
 		}
 		else if (!(isHittingDown || isHittingDown_2))
 		{
 			m_Boundaries.left -= m_Boundaries.width / 2;
 			m_Boundaries.bottom += m_Boundaries.height / 2 + 1;
 			m_Velocity = Vector2f{ 0.f, 1.f };
-			m_Direction = CrawlerDirection::up;
+			m_Direction = Direction::up;
 		}
 		break;
-	case CrawlerEnemy::CrawlerDirection::up:
+	case CrawlerEnemy::Direction::up:
 		for (size_t i = 0; i < level->GetVertices().size(); i++)
 		{
 			if (utils::Raycast(level->GetVertices()[i], center, ray_up, hitinfo_right))
@@ -209,20 +215,20 @@ void CrawlerEnemy::Move(float elapsedSec, World* level)
 		{
 			m_Boundaries.bottom = hitinfo_right.intersectPoint.y - m_Boundaries.height;
 			m_Velocity = Vector2f{ -1.f, 0.f };
-			m_Direction = CrawlerDirection::left;
+			m_Direction = Direction::left;
 		}
 		else if (isHittingRight_2)
 		{
 			m_Boundaries.bottom = hitinfo_right_2.intersectPoint.y - m_Boundaries.height;
 			m_Velocity = Vector2f{ -1.f, 0.f };
-			m_Direction = CrawlerDirection::left;
+			m_Direction = Direction::left;
 		}
 		else if (!(isHittingDown || isHittingDown_2))
 		{
 			m_Boundaries.left += m_Boundaries.width / 2 + 1;
 			m_Boundaries.bottom += m_Boundaries.height / 2;
 			m_Velocity = Vector2f{ 1.f, 0.f };
-			m_Direction = CrawlerDirection::right;
+			m_Direction = Direction::right;
 		}
 		break;
 	default:
@@ -240,16 +246,16 @@ void CrawlerEnemy::SetTextureRotation() const
 {
 	switch (m_Direction)
 	{
-	case CrawlerEnemy::CrawlerDirection::right:
+	case CrawlerEnemy::Direction::right:
 		glRotatef(0, 0, 0, 1);
 		break;
-	case CrawlerEnemy::CrawlerDirection::left:
+	case CrawlerEnemy::Direction::left:
 		glRotatef(180, 0, 0, 1);
 		break;
-	case CrawlerEnemy::CrawlerDirection::down:
+	case CrawlerEnemy::Direction::down:
 		glRotatef(-90, 0, 0, 1);
 		break;
-	case CrawlerEnemy::CrawlerDirection::up:
+	case CrawlerEnemy::Direction::up:
 		glRotatef(90, 0, 0, 1);
 		break;
 	default:

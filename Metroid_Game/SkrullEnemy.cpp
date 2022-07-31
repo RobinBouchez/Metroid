@@ -2,21 +2,22 @@
 #include "SkrullEnemy.h"
 #include "TextureManager.h"
 
-SkrullEnemy::SkrullEnemy(Point2f& position)
+SkrullEnemy::SkrullEnemy(const Point2f& position)
 	: Enemy(position)
-	, m_Direction{}
 {
+	CalculateTexture("Skrull", 3);
 }
 
 SkrullEnemy::~SkrullEnemy()
 {
-	//delete m_pTexture;
 }
 
 void SkrullEnemy::Draw() const
 {
+	Enemy::Draw();
 }
 
 void SkrullEnemy::Update(float elapsedSec, World* level)
 {
+	Enemy::Update(elapsedSec);
 }

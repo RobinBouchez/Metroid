@@ -1,31 +1,28 @@
 #pragma once
 #include <map>
+#include "Manager.h"
 
 class Texture;
-
-class TextureManager final
+class TextureManager final : public Manager<TextureManager>
 {
 public:
-	TextureManager(const std::string& texture);
-	virtual ~TextureManager();
+	TextureManager() = default;
+	~TextureManager() = default;
+	TextureManager(const TextureManager&) = delete;
+	TextureManager& operator=(const TextureManager&) = delete;
+	TextureManager(TextureManager&&) = delete;
+	TextureManager& operator=(TextureManager&&) = delete;
+
+	Texture* CreateTexture(const std::string& filename);
+	void Cleanup();
 	
+protected:
 	void Draw(const Point2f& destBottomLeft, const Rectf& sourceRect) const;
 	void Draw(const Rectf& destRect, const Rectf& sourceRect) const;
-
-	const float GetWidth(const std::string& filename);
-	const float GetHeight(const std::string& filename);
-
-	void CreateTexture(const std::string& filename);
-
-protected:
-	
-	Texture* GetTexture(const std::string& filename);
 
 private:
 	std::map<const std::string, Texture*> m_TextureMap;
 
 	const std::string m_TextureFilename;
-
-	void DeleteTextures();
 };
 

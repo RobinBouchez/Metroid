@@ -21,11 +21,12 @@ public:
 	};
 
 	Player(Point2f& position);
-	~Player();
+	virtual ~Player();
 
 	virtual void Draw() const override;
 	
 	void Update(float elapsedSec, World* level);
+	virtual void Update(float elapsedSec) override;
 
 	int GetScore();
 
@@ -40,7 +41,6 @@ private:
 	Texture* m_pTexture;
 	Texture* m_pBallTexture;
 	Bullet* m_pBullet;
-	SoundManager* m_pSoundManager;
 	
 	Rectf m_SourceClip;
 	Rectf m_BallTextureClip;
