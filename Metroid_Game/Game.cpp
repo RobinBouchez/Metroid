@@ -36,8 +36,6 @@ void Game::Initialize( )
 
 void Game::Cleanup( )
 {
-	DeleteGameObjects();
-
 	delete m_pWorld;
 	m_pWorld = nullptr;
 
@@ -46,6 +44,12 @@ void Game::Cleanup( )
 
 	delete m_pCamera;
 	m_pCamera = nullptr;
+
+	delete m_pPlayer;
+	m_pPlayer = nullptr;
+
+	delete m_pMorphball;
+	m_pMorphball = nullptr;
 
 	SoundManager::GetInstance().Cleanup();
 	TextureManager::GetInstance().Cleanup();
@@ -86,7 +90,7 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 		DisplayInfo();
 		break;
 	case SDLK_m:
-		m_pSoundManager->SetVolume(0);
+		m_pSoundManager->SetVolume(m_Volume -= m_Volume);
 		break;
 	case SDLK_COMMA:
 		m_Volume -= 10;
@@ -232,9 +236,5 @@ void Game::UpdateHUD(float elapsedSec)
 
 void Game::DeleteGameObjects()
 {
-	delete m_pPlayer;
-	m_pPlayer = nullptr;
 
-	delete m_pMorphball;
-	m_pMorphball = nullptr;
 }

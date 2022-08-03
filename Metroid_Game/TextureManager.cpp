@@ -34,4 +34,5 @@ void TextureManager::Cleanup()
 		delete e.second;
 		e.second = nullptr;
 	}
+	m_TextureMap.clear();
 }

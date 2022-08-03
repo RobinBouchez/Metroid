@@ -1,7 +1,9 @@
 #include "pch.h"
 #include "Screen.h"
+#include "Texture.h"
 
 Screen::~Screen()
 {
-	delete this;
+	delete m_pTexure;
+	m_pTexure = nullptr;
 }

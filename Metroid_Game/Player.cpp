@@ -6,13 +6,12 @@
 #include "World.h"
 #include "Morphball.h"
 #include "SoundManager.h"
+#include "TextureManager.h"
 
 int Player::m_Score = 0;
 
 Player::Player(Point2f& position)
-	: m_pTexture{ new Texture("Resources/Samus.png") }
-	, m_pBallTexture{ new Texture("Resources/morphball.png")}
-	, m_State{ State::idle }
+	: m_State{ State::idle }
 	, m_SourceClip{}
 	, m_TextureClip{}
 	, m_Shape{}
@@ -25,25 +24,27 @@ Player::Player(Point2f& position)
 	, m_pBullet{ new Bullet() }
 	, m_IsShooting{false}
 {
+
+	m_pPlayerTexture = TextureManager::GetInstance().CreateTexture("Samus");
+	m_pBallTexture = TextureManager::GetInstance().CreateTexture("morphball");
+
 	m_Shape.left = position.x;
 	m_Shape.bottom = position.y;
-	m_Shape.width = m_pTexture->GetWidth() / m_Rows;
-	m_Shape.height = m_pTexture->GetHeight() / m_Cols;
+	m_Shape.width = m_pPlayerTexture->GetWidth() / m_Rows;
+	m_Shape.height = m_pPlayerTexture->GetHeight() / m_Cols;
 
 	m_BallShape.left = m_Shape.left;
 	m_BallShape.bottom = m_Shape.bottom;
 	m_BallShape.width = m_pBallTexture->GetWidth();
 	m_BallShape.height = m_pBallTexture->GetHeight();
+
+	SoundManager::GetInstance().CreateSound("Jump");
+	SoundManager::GetInstance().CreateSound("Roll");
+
 }
 
 Player::~Player()
-{
-	delete m_pTexture;
-	m_pTexture = nullptr;
-
-	delete m_pBallTexture;
-	m_pBallTexture = nullptr;
-	
+{	
 	delete m_pBullet;
 	m_pBullet = nullptr;
 
@@ -70,7 +71,7 @@ void Player::Draw() const
 			glTranslatef(m_Shape.left, 0, 0);
 			glScalef(-1, 1, 1);
 			glTranslatef(-m_Shape.left - m_Shape.width, 0, 0);
-			m_pTexture->Draw(m_TextureClip, m_SourceClip);
+			m_pPlayerTexture->Draw(m_TextureClip, m_SourceClip);
 			glPopMatrix();
 		}
 	}
@@ -85,7 +86,7 @@ void Player::Draw() const
 	}
 	else
 	{
-		m_pTexture->Draw(m_TextureClip, m_SourceClip);
+		m_pPlayerTexture->Draw(m_TextureClip, m_SourceClip);
 	}
 
 	if (m_IsShooting)
@@ -95,7 +96,7 @@ void Player::Draw() const
 	}
 }
 
-void Player::Update(float elapsedSec, World* level)
+void Player::Update(float elapsedSec, World* &level)
 {
 	UpdateMovement(elapsedSec, level);
 	SetTexture();
@@ -115,7 +116,6 @@ void Player::Update(float elapsedSec, World* level)
 		m_Shape.left = m_BallShape.left;
 		m_Shape.bottom = m_BallShape.bottom;
 	}
-	
 }
 
 void Player::Update(float elapsedSec)
@@ -133,35 +133,35 @@ void Player::SetTexture()
 	{
 	case Player::State::idle:
 		m_SourceClip.left = 0.f;
-		m_SourceClip.bottom = m_pTexture->GetHeight() / m_Cols;
-		m_SourceClip.height = m_pTexture->GetHeight() / m_Cols;
-		m_SourceClip.width  = m_pTexture->GetWidth() / m_Rows;
+		m_SourceClip.bottom = m_pPlayerTexture->GetHeight() / m_Cols;
+		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
+		m_SourceClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::running:
-		m_SourceClip.left = m_pAnimation->m_AnimationFrame * m_pTexture->GetWidth() / m_Rows;
-		m_SourceClip.bottom = (m_pTexture->GetHeight() / m_Cols) * 2;
-		m_SourceClip.height = m_pTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pTexture->GetWidth() / m_Rows;
+		m_SourceClip.left = m_pAnimation->m_AnimationFrame * m_pPlayerTexture->GetWidth() / m_Rows;
+		m_SourceClip.bottom = (m_pPlayerTexture->GetHeight() / m_Cols) * 2;
+		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
+		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::jumping:
 		m_IsRolling = false;
 		m_SourceClip.left = 0;
-		m_SourceClip.bottom = m_pTexture->GetHeight() - m_pTexture->GetHeight() / m_Cols;
-		m_SourceClip.height = m_pTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pTexture->GetWidth() / m_Rows;
+		m_SourceClip.bottom = m_pPlayerTexture->GetHeight() - m_pPlayerTexture->GetHeight() / m_Cols;
+		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
+		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::lookingUp:
 		m_IsRolling = false;
 		m_SourceClip.left = 0;
-		m_SourceClip.bottom = (m_pTexture->GetHeight() / m_Cols) * 4;
-		m_SourceClip.height = m_pTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pTexture->GetWidth() / m_Rows;
+		m_SourceClip.bottom = (m_pPlayerTexture->GetHeight() / m_Cols) * 4;
+		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
+		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::crouching:
 		m_SourceClip.left = 0;
 		m_SourceClip.bottom = 0;
-		m_SourceClip.height = m_pTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pTexture->GetWidth() / m_Rows;
+		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
+		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	}
 	
@@ -172,12 +172,12 @@ void Player::SetTexture()
 	
 	m_TextureClip.left   = m_Shape.left;
 	m_TextureClip.bottom = m_Shape.bottom;
-	m_TextureClip.height = m_pTexture->GetHeight() / m_Cols;
-	m_TextureClip.width  = m_pTexture->GetWidth() / m_Rows;
+	m_TextureClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
+	m_TextureClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 }
 
 
-void Player::UpdateMovement(float elapsedSec, World* level)
+void Player::UpdateMovement(float elapsedSec, World* &level)
 {
 	if (m_Velocity.x > 0)
 	{

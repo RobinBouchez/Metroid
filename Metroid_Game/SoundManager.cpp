@@ -2,10 +2,6 @@
 #include "SoundManager.h"
 #include "SoundEffect.h"
 
-SoundManager::~SoundManager()
-{
-}
-
 SoundEffect* SoundManager::CreateSound(const std::string& filename)
 {
 	if (m_pSoundEffects.find(filename) == m_pSoundEffects.end())
@@ -15,17 +11,17 @@ SoundEffect* SoundManager::CreateSound(const std::string& filename)
 	return m_pSoundEffects[filename];
 }
 
-void SoundManager::Play(std::string soundName)
+void SoundManager::Play(const std::string& soundName)
 {
 	m_pSoundEffects.at(soundName)->Play(0);
 }
 
-void SoundManager::PlayLoop(std::string soundName)
+void SoundManager::PlayLoop(const std::string& soundName)
 {
-	m_pSoundEffects.at(soundName)->Play(INFINITE);
+	m_pSoundEffects.at(soundName)->Play(1);
 }
 
-void SoundManager::SetVolume(int volume)
+void SoundManager::SetVolume(int& volume)
 {
 	for (std::pair<std::string, SoundEffect*> e : m_pSoundEffects)
 	{
@@ -40,4 +36,5 @@ void SoundManager::Cleanup()
 		delete e.second;
 		e.second = nullptr;
 	}
+	m_pSoundEffects.clear();
 }

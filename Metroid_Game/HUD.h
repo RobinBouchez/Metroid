@@ -1,7 +1,7 @@
 #pragma once
 
 class Texture;
-class HUD
+class HUD final
 {
 public:
 	HUD();
@@ -19,7 +19,8 @@ private:
 	const float m_Ypos;
 	//const Point2f m_WindowPos;
 
-	//Functions
+
+	//Helper Functions
 	void DisplayScore();
 	void UpdateScore();
 

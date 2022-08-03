@@ -25,7 +25,7 @@ public:
 
 	virtual void Draw() const override;
 	
-	void Update(float elapsedSec, World* level);
+	void Update(float elapsedSec, World* &level);
 	virtual void Update(float elapsedSec) override;
 
 	int GetScore();
@@ -38,7 +38,7 @@ private:
 	State m_State;
 
 	Animation* m_pAnimation;
-	Texture* m_pTexture;
+	Texture* m_pPlayerTexture;
 	Texture* m_pBallTexture;
 	Bullet* m_pBullet;
 	
@@ -59,5 +59,5 @@ private:
 
 
 	void SetTexture();
-	void UpdateMovement(float elapsedSec, World* level);
+	void UpdateMovement(float elapsedSec, World* &level);
 };

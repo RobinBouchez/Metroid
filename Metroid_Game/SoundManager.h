@@ -7,18 +7,18 @@ class SoundManager final : public Manager<SoundManager>
 {
 public:
 	SoundManager() = default;
+	~SoundManager() = default;
 	SoundManager(const SoundManager& other) = delete;
 	SoundManager& operator=(const SoundManager& other) = delete;
 	SoundManager(SoundManager&& other) = delete;
 	SoundManager& operator=(SoundManager&& other) = delete;
-	~SoundManager();
 	
 	SoundEffect* CreateSound(const std::string& filename);
 
-	void Play(std::string soundName);
-	void PlayLoop(std::string soundName);
+	void Play(const std::string& soundName);
+	void PlayLoop(const std::string& soundName);
 
-	void SetVolume(int volume);
+	void SetVolume(int& volume);
 
 	void Cleanup();
 
