@@ -4,12 +4,20 @@
 #include "Bullet.h"
 #include "Animation.h"
 
-Bullet::Bullet()
+Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
 	: m_Rows{4}
 	, m_pAnimation{ new Animation(m_Rows) }
-	, m_Position{ 2000 , 200}
+	, m_Position{ pos }
+	, m_Velocity{ velocity }
+	, m_Speed{ 200 }
+	, m_IsActive{ true }
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("Bullet");
+
+	m_Boundaries.left = pos.x;
+	m_Boundaries.bottom = pos.y;
+	m_Boundaries.width = m_pTexture->GetWidth();
+	m_Boundaries.height = m_pTexture->GetHeight();
 }
 
 Bullet::~Bullet()
@@ -20,6 +28,10 @@ Bullet::~Bullet()
 
 void Bullet::Draw() const
 {
+	if (!m_IsActive)
+	{
+		return;
+	}
 	Rectf m_SourceClip;
 	Rectf m_TextureClip;
 
@@ -39,5 +51,27 @@ void Bullet::Draw() const
 
 void Bullet::Update(float elapsedSec)
 {
+	if (!m_IsActive)
+	{
+		return;
+	}
+
 	m_pAnimation->Update(elapsedSec);
+
+	Vector2f v = m_Velocity * m_Speed; 
+
+	m_Position.x += v.x * elapsedSec;
+	m_Position.y += v.y * elapsedSec;
 }
+
+Rectf Bullet::GetBoundaries() const
+{
+	return m_Boundaries;
+}
+
+bool Bullet::GetIsActive() const
+{
+	return m_IsActive;
+}
+
+

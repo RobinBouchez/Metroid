@@ -20,6 +20,12 @@ public:
 		crouching
 	};
 
+	enum class AimDirection
+	{
+		up, left, right
+	};
+
+
 	Player(Point2f& position);
 	virtual ~Player();
 
@@ -28,6 +34,8 @@ public:
 	void Update(float elapsedSec, World* &level);
 	virtual void Update(float elapsedSec) override;
 
+	void Shoot();
+
 	int GetScore();
 
 	Rectf m_Shape;
@@ -35,13 +43,13 @@ public:
 
 
 private:
+	AimDirection m_AimDirection;
 	State m_State;
 
 	Animation* m_pAnimation;
 	Texture* m_pPlayerTexture;
 	Texture* m_pBallTexture;
-	Bullet* m_pBullet;
-	
+
 	Rectf m_SourceClip;
 	Rectf m_BallTextureClip;
 	Rectf m_TextureClip;
@@ -57,6 +65,9 @@ private:
 	const float m_RotSpeed;
 	float m_Angle;
 
+	float m_Timer;
+	bool m_HasShot;
+	float m_Cooldown;
 
 	void SetTexture();
 	void UpdateMovement(float elapsedSec, World* &level);

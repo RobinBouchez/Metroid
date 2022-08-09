@@ -26,6 +26,9 @@ public:
 
 	virtual void Update(float ElapsedSec) override;
 	virtual void Draw() const override;
+
+	Rectf GetBoundaries() const;
+	void TakeHit();
 	
 protected:
 	Rectf m_Boundaries;
@@ -41,7 +44,10 @@ private:
 
 	float m_HorizontalSpeed;
 
-	float m_Health;
+	bool m_IsActive;
+
+	float m_CurrentHealth;
+	const float m_Health;
 	float m_Damage;
 	int m_Columns;
 };

@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "EnemyManager.h"
 #include "Enemy.h"
+#include "BulletManager.h"
+#include "utils.h"
+#include "Bullet.h"
 
 void EnemyManager::Add(Enemy* enemy)
 {
@@ -17,10 +20,20 @@ void EnemyManager::Draw() const
 
 void EnemyManager::Update(float elapsedSec)
 {
+	auto& bullets = BulletManager::GetInstance().GetBullets();
 	for (auto& e : m_pEnemies)
 	{
 		e->Update(elapsedSec);
+		for (auto &b: bullets)
+		{
+			if (utils::IsOverlapping(b->GetBoundaries(), e->GetBoundaries()))
+			{
+				//enemy health
+				e->TakeHit();
+			}
+		}
 	}
+
 }
 
 void EnemyManager::Cleanup()

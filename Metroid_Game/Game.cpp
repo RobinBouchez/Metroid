@@ -9,8 +9,15 @@
 #include "SkrullEnemy.h"
 #include "TextureManager.h"
 #include "EnemyManager.h"
+#include "BulletManager.h"
 #include "HUD.h"
 #include <iostream>
+
+#if _DEBUG
+#if __has_include(<vld.h>)
+#include <vld.h>
+#endif
+#endif
 
 Game::Game( const Window& window ) 
 	:m_Window{ window }
@@ -36,6 +43,7 @@ void Game::Initialize( )
 
 void Game::Cleanup( )
 {
+
 	delete m_pWorld;
 	m_pWorld = nullptr;
 
@@ -53,10 +61,8 @@ void Game::Cleanup( )
 
 	SoundManager::GetInstance().Cleanup();
 	TextureManager::GetInstance().Cleanup();
-	EnemyManager::GetInstance().Cleanup();
-
-	delete m_pSoundManager;
-	m_pSoundManager = nullptr;
+	EnemyManager::GetInstance().Cleanup(); 
+	BulletManager::GetInstance().Cleanup();
 }
 
 void Game::Update( float elapsedSec )
@@ -191,7 +197,6 @@ void Game::CreateCamera()
 
 void Game::CreateSoundManager()
 {
-	m_pSoundManager = new SoundManager();
 	
 	//m_pSoundManager->PlayLoop("Music");
 }
@@ -211,6 +216,7 @@ void Game::DrawGameObjects() const
 	m_pPlayer->Draw();
 	EnemyManager::GetInstance().Draw();
 	m_pMorphball->Draw();
+	BulletManager::GetInstance().Draw();
 }
 
 void Game::DrawHUD() const
@@ -227,6 +233,7 @@ void Game::UpdateGameObjects(float elapsedSec)
 	EnemyManager::GetInstance().Update(elapsedSec);
 	m_pMorphball->CheckIfhit(m_pPlayer);
 	m_pMorphball->Update(elapsedSec);
+	BulletManager::GetInstance().Update(elapsedSec);
 }
 
 void Game::UpdateHUD(float elapsedSec)

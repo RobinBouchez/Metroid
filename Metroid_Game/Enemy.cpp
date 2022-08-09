@@ -16,6 +16,8 @@ Enemy::Enemy(const Point2f& position)
 	, m_Columns{3}
 	, m_pTexture{nullptr}
 	, m_pWorld{ new World(1,1)}
+	, m_IsActive{}
+	, m_CurrentHealth{}
 {
 }
 
@@ -30,11 +32,20 @@ Enemy::~Enemy()
 
 void Enemy::Update(float ElapsedSec)
 {
+	if (!m_IsActive)
+	{
+		return;
+	}
 	m_pAnimation->Update(ElapsedSec);
 }
 
 void Enemy::Draw() const
 {
+	if (!m_IsActive)
+	{
+		return;
+	}
+
 	m_pTexture->Draw(m_Position, Rectf{ m_pAnimation->m_AnimationFrame * m_pTexture->GetWidth() / m_Columns, 0,
 										m_pTexture->GetWidth() / 3, m_pTexture->GetHeight() });
 }
@@ -49,4 +60,18 @@ void Enemy::CalculateTexture(const std::string& filename, const int columns)
 	m_Boundaries.bottom = m_Position.y;
 	m_Boundaries.width = m_pTexture->GetWidth() / columns;
 	m_Boundaries.height = m_pTexture->GetHeight();
+}
+
+Rectf Enemy::GetBoundaries() const
+{
+	return m_Boundaries;
+}
+
+void Enemy::TakeHit()
+{
+	m_CurrentHealth--;
+	if (m_CurrentHealth <= 0)
+	{
+		m_IsActive = false;
+	}
 }

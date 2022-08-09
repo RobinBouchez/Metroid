@@ -7,6 +7,7 @@
 #include "Morphball.h"
 #include "SoundManager.h"
 #include "TextureManager.h"
+#include "BulletManager.h"
 
 int Player::m_Score = 0;
 
@@ -21,8 +22,11 @@ Player::Player(Point2f& position)
 	, m_IsRolling{false}
 	, m_Angle{}
 	, m_RotSpeed{ 1200.f }
-	, m_pBullet{ new Bullet() }
 	, m_IsShooting{false}
+	, m_AimDirection{}
+	, m_Timer{}
+	, m_Cooldown{ 0.1f }
+	, m_HasShot{}
 {
 
 	m_pPlayerTexture = TextureManager::GetInstance().CreateTexture("Samus");
@@ -45,9 +49,6 @@ Player::Player(Point2f& position)
 
 Player::~Player()
 {	
-	delete m_pBullet;
-	m_pBullet = nullptr;
-
 	delete m_pAnimation;
 	m_pAnimation = nullptr;
 }
@@ -88,12 +89,6 @@ void Player::Draw() const
 	{
 		m_pPlayerTexture->Draw(m_TextureClip, m_SourceClip);
 	}
-
-	if (m_IsShooting)
-	{
-		m_pBullet->Draw();
-
-	}
 }
 
 void Player::Update(float elapsedSec, World* &level)
@@ -102,7 +97,6 @@ void Player::Update(float elapsedSec, World* &level)
 	SetTexture();
 	
 	m_pAnimation->Update(elapsedSec);
-	m_pBullet->Update(elapsedSec);
 
 	if (!m_IsRolling)
 	{
@@ -116,10 +110,42 @@ void Player::Update(float elapsedSec, World* &level)
 		m_Shape.left = m_BallShape.left;
 		m_Shape.bottom = m_BallShape.bottom;
 	}
+
+	if (m_HasShot)
+	{
+		m_Timer += elapsedSec;
+		if (m_Timer >= m_Cooldown)
+		{
+			m_Timer = 0;
+			m_HasShot = false;
+		}
+	}
 }
 
 void Player::Update(float elapsedSec)
 {
+}
+
+void Player::Shoot()
+{
+	if (!m_HasShot)
+	{
+		Vector2f bulletVelocity{};
+		switch (m_AimDirection)
+		{
+		case AimDirection::left:
+			bulletVelocity = Vector2f{ -1, 0 };
+			break;
+		case AimDirection::right:
+			bulletVelocity = Vector2f{ 1, 0 };
+			break;
+		case AimDirection::up:
+			bulletVelocity = Vector2f{ 0, 1 };
+			break;
+		}
+		BulletManager::GetInstance().Create(new Bullet(Point2f{ m_Shape.left + 10, m_Shape.bottom + 50 }, bulletVelocity));
+		m_HasShot = true;
+	}
 }
 
 int Player::GetScore()
@@ -195,6 +221,8 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 	const UINT8* State = SDL_GetKeyboardState(NULL);
 	if (State[SDL_SCANCODE_RIGHT] || State[SDL_SCANCODE_D])
 	{
+
+		m_AimDirection = AimDirection::right;
 		m_State = State::running;
 		m_IsMovingLeft = false;
 		m_Velocity.x = m_HorizontalSpeed * elapsedSec;
@@ -202,11 +230,17 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 	else if (State[SDL_SCANCODE_LEFT] || State[SDL_SCANCODE_A])
 	{
 		m_State = State::running;
+		m_AimDirection = AimDirection::left;
 		m_IsMovingLeft = true;
 		m_Velocity.x = -m_HorizontalSpeed * elapsedSec;
 	}
 	else if (State[SDL_SCANCODE_UP] || State[SDL_SCANCODE_W])
 	{
+		if (State[SDL_SCANCODE_F])
+		{
+			m_AimDirection = AimDirection::up;
+			Shoot();
+		}
 		m_State = State::lookingUp;
 		m_IsRolling = false;
 	}
@@ -228,12 +262,16 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 		if (level->IsOnGround(m_Shape))
 		{
 			m_Velocity.y += m_JumpSpeed * elapsedSec;
-			SoundManager::GetInstance().Play("Jump");
+			//SoundManager::GetInstance().Play("Jump");
 		}
 	}
 	else if (State[SDL_SCANCODE_F])
 	{
 		m_IsShooting = true;
+		if (m_State != State::lookingUp)
+		{
+			Shoot();
+		}
 	}
 	else
 	{
