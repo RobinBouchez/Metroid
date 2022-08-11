@@ -13,6 +13,7 @@ class Player : public GameObject
 public:
 	enum class State
 	{
+		dead,
 		idle,
 		running,
 		jumping,
@@ -36,9 +37,11 @@ public:
 
 	void Shoot();
 
-	int GetScore();
+	Rectf GetShape() const;
+	int GetScore() const;
+	enum class State GetState() const;
 
-	Rectf m_Shape;
+
 	static int m_Score;
 
 
@@ -54,6 +57,8 @@ private:
 	Rectf m_BallTextureClip;
 	Rectf m_TextureClip;
 	
+	Rectf m_Shape;
+
 	Rectf m_BallShape;
 
 	int m_Rows;

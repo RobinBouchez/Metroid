@@ -44,7 +44,7 @@ void Morphball::Update(float elapsedSec)
 
 bool Morphball::CheckIfhit(Player* player)
 {
-	Point2f playerPos{ player->m_Shape.left, player->m_Shape.bottom };
+	Point2f playerPos{ player->GetShape().left, player->GetShape().bottom};
 	if (playerPos.x >= m_DstRect.left && playerPos.x <= m_DstRect.left + m_DstRect.width)
 	{
 		if (playerPos.y >= m_DstRect.bottom && playerPos.y <= m_DstRect.bottom + m_DstRect.height)

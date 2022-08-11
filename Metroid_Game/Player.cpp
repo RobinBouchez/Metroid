@@ -148,7 +148,17 @@ void Player::Shoot()
 	}
 }
 
-int Player::GetScore()
+enum class Player::State Player::GetState() const
+{
+	return m_State;
+}
+
+Rectf Player::GetShape() const
+{
+	return m_Shape;
+}
+
+int Player::GetScore() const
 {
 	return m_Score;
 }

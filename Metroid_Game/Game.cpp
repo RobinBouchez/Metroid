@@ -76,7 +76,7 @@ void Game::Draw( ) const
 	ClearBackground( );
 
 	glPushMatrix();
-		m_pCamera->Transform(m_pPlayer->m_Shape);
+		m_pCamera->Transform(m_pPlayer->GetShape());
 		DrawWorld();
 		DrawGameObjects();
 		DrawHUD();
@@ -222,7 +222,7 @@ void Game::DrawGameObjects() const
 void Game::DrawHUD() const
 {
 	float border = 150.f;
-	float x = m_pPlayer->m_Shape.left - m_Window.width / 2 + border / 2;
+	float x = m_pPlayer->GetShape().left - m_Window.width / 2 + border / 2;
 	float y = m_Window.height - border;
 	m_pHUD->Draw(x, y);
 }
