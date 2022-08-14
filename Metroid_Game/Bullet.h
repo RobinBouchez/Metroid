@@ -17,6 +17,7 @@ public:
 	Point2f m_Position;
 
 	bool GetIsActive() const;
+	void SetIsActive(bool value);
 
 private:
 	Vector2f m_Velocity;

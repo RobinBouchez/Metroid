@@ -41,7 +41,6 @@ private:
 	Camera* m_pCamera;
 	Morphball* m_pMorphball;
 	SoundManager* m_pSoundManager;
-	HUD* m_pHUD;
 	
 	Point2f m_PlayerPosition{ 2000.f, 200.f };
 
@@ -56,7 +55,6 @@ private:
 	void CreateGameObjects();
 	void CreateCamera();
 	void CreateSoundManager();
-	void CreateHUD();
 
 	//DRAW
 	void DrawWorld() const;
@@ -65,8 +63,4 @@ private:
 
 	//UPDATE
 	void UpdateGameObjects(float elapsedSec);
-	void UpdateHUD(float elapsedSec);
-
-	//DELETE
-	void DeleteGameObjects();
 };

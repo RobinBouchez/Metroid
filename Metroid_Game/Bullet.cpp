@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Bullet.h"
 #include "Animation.h"
+#include "utils.h"
 
 Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
 	: m_Rows{4}
@@ -16,7 +17,7 @@ Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
 
 	m_Boundaries.left = pos.x;
 	m_Boundaries.bottom = pos.y;
-	m_Boundaries.width = m_pTexture->GetWidth();
+	m_Boundaries.width = m_pTexture->GetWidth() / m_Rows;
 	m_Boundaries.height = m_pTexture->GetHeight();
 }
 
@@ -62,6 +63,9 @@ void Bullet::Update(float elapsedSec)
 
 	m_Position.x += v.x * elapsedSec;
 	m_Position.y += v.y * elapsedSec;
+
+	m_Boundaries.left = m_Position.x;
+	m_Boundaries.bottom = m_Position.y;
 }
 
 Rectf Bullet::GetBoundaries() const
@@ -72,6 +76,11 @@ Rectf Bullet::GetBoundaries() const
 bool Bullet::GetIsActive() const
 {
 	return m_IsActive;
+}
+
+void Bullet::SetIsActive(bool value)
+{
+	m_IsActive = value;
 }
 
 

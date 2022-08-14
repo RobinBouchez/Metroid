@@ -38,7 +38,6 @@ void Game::Initialize( )
 	CreateGameObjects();
 	CreateCamera();
 	CreateSoundManager();
-	CreateHUD();
 }
 
 void Game::Cleanup( )
@@ -46,9 +45,6 @@ void Game::Cleanup( )
 
 	delete m_pWorld;
 	m_pWorld = nullptr;
-
-	delete m_pHUD;
-	m_pHUD = nullptr;
 
 	delete m_pCamera;
 	m_pCamera = nullptr;
@@ -68,7 +64,6 @@ void Game::Cleanup( )
 void Game::Update( float elapsedSec )
 {
 	UpdateGameObjects(elapsedSec);
-	UpdateHUD(elapsedSec);
 }
 
 void Game::Draw( ) const
@@ -183,8 +178,8 @@ void Game::CreateGameObjects()
 	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{1900.f, 612.f} });
 	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{2250.f, 500.f } });
 
-	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2250.f, 500.f } });
-	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2250.f, 500.f } });
+	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2750.f, 500.f } });
+	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2750.f, 500.f } });
 
 }
 
@@ -199,11 +194,6 @@ void Game::CreateSoundManager()
 {
 	
 	//m_pSoundManager->PlayLoop("Music");
-}
-
-void Game::CreateHUD()
-{
-	m_pHUD = new HUD();
 }
 
 void Game::DrawWorld() const
@@ -224,24 +214,16 @@ void Game::DrawHUD() const
 	float border = 150.f;
 	float x = m_pPlayer->GetShape().left - m_Window.width / 2 + border / 2;
 	float y = m_Window.height - border;
-	m_pHUD->Draw(x, y);
+	HUD::GetInstance().Draw(x, y);
 }
 
 void Game::UpdateGameObjects(float elapsedSec)
 {
 	m_pPlayer->Update(elapsedSec, m_pWorld);
-	EnemyManager::GetInstance().Update(elapsedSec);
+	EnemyManager::GetInstance().Update(elapsedSec, m_pWorld, m_pPlayer);
 	m_pMorphball->CheckIfhit(m_pPlayer);
 	m_pMorphball->Update(elapsedSec);
 	BulletManager::GetInstance().Update(elapsedSec);
-}
 
-void Game::UpdateHUD(float elapsedSec)
-{
-	m_pHUD->Update(elapsedSec);
-}
-
-void Game::DeleteGameObjects()
-{
-
+	m_pWorld->Update(elapsedSec);
 }
