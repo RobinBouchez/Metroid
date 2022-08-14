@@ -5,6 +5,7 @@
 #include "GameObject.h"
 #include "World.h"
 #include "utils.h"
+#include "Player.h"
 #include "Matrix2x3.h"
 
 CrawlerEnemy::CrawlerEnemy(const Point2f &position)
@@ -30,15 +31,9 @@ void CrawlerEnemy::Draw() const
 	glPopMatrix();
 }
 
-void CrawlerEnemy::Update(float elapsedSec)
+void CrawlerEnemy::Update(float elapsedSec, World* level, Player* player)
 {
-	Enemy::Update(elapsedSec); 
-	Update(elapsedSec, m_pWorld);
-}
-
-void CrawlerEnemy::Update(float elapsedSec, World* level)
-{
-	Enemy::Update(elapsedSec);
+	Enemy::Update(elapsedSec, level, player);
 	Move(elapsedSec, level);
 }
 

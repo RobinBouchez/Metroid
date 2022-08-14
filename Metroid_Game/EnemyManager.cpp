@@ -4,6 +4,8 @@
 #include "BulletManager.h"
 #include "utils.h"
 #include "Bullet.h"
+#include "World.h"
+#include "Player.h"
 
 void EnemyManager::Add(Enemy* enemy)
 {
@@ -18,18 +20,25 @@ void EnemyManager::Draw() const
 	}
 }
 
-void EnemyManager::Update(float elapsedSec)
+void EnemyManager::Update(float elapsedSec, World* level, Player* player)
 {
 	auto& bullets = BulletManager::GetInstance().GetBullets();
 	for (auto& e : m_pEnemies)
 	{
-		e->Update(elapsedSec);
+		if (!e->GetIsActive())
+		{
+			continue;
+		}
+		e->Update(elapsedSec,level, player);
 		for (auto &b: bullets)
 		{
-			if (utils::IsOverlapping(b->GetBoundaries(), e->GetBoundaries()))
+			if (b->GetIsActive())
 			{
-				//enemy health
-				e->TakeHit();
+				if (utils::IsOverlapping(b->GetBoundaries(), e->GetBoundaries()))
+				{
+					//enemy health
+					e->TakeHit();
+				}
 			}
 		}
 	}

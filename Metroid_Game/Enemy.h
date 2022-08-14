@@ -5,6 +5,7 @@
 class Texture;
 class Animation;
 class World;
+class Player;
 
 class Enemy : public GameObject
 {
@@ -24,8 +25,12 @@ public:
 	Enemy(const Point2f& position);
 	virtual ~Enemy();
 
-	virtual void Update(float ElapsedSec) override;
+
+	virtual void Update(float elapsedSec) override {};
+	virtual void Update(float elapsedSec, World* level, Player* player);
 	virtual void Draw() const override;
+
+	bool GetIsActive() const;
 
 	Rectf GetBoundaries() const;
 	void TakeHit();
@@ -35,7 +40,6 @@ protected:
 	Point2f m_Position;
 	Texture* m_pTexture;
 	State m_State;
-	World* m_pWorld;
 
 	void CalculateTexture(const std::string& filename, const int columns);
 

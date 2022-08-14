@@ -3,6 +3,9 @@
 #include "Manager.h"
 
 class Enemy;
+class World;
+class Player;
+
 class EnemyManager final : public Manager<EnemyManager>
 {
 public:
@@ -15,7 +18,7 @@ public:
 
 	void Add(Enemy* enemy);
 	void Draw() const;
-	void Update(float elapsedSec);
+	void Update(float elapsedSec, World* level, Player* player);
 	void Cleanup();
 private:
 	std::vector<Enemy*> m_pEnemies;

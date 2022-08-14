@@ -1,9 +1,7 @@
 #pragma once
 #include "Enemy.h"
 
-class World;
-
-class CrawlerEnemy : virtual public Enemy
+class CrawlerEnemy : public Enemy
 {
 public:
 	enum class Direction
@@ -15,14 +13,13 @@ public:
 	virtual ~CrawlerEnemy();
 
 	virtual void Draw() const override;
-	virtual void Update(float elapsedSec) override;
+	virtual void Update(float elapsedSec, World* level, Player* player) override;
 
 private:
 	float m_Speed;
 	Direction m_Direction;
 
 	void Move(float elapsedSec, World* level);
-	void Update(float elapsedSec, World* level);
 	void SetTextureRotation() const;
 };
 
