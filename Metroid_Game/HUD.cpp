@@ -5,12 +5,14 @@
 
 HUD::HUD()
 	: m_FontSize{ 22 }
-	, m_FontColor{ 1.f, 1.f, 1.f, 1.f }
-	, m_StringText{"EN..00"}
-	, m_pTexture{nullptr}
+	, m_ColorScore{ 1.f, 1.f, 1.f, 1.f }
+	, m_ColorLang{ 0.f, 0.f, 1.f, 1.f }
 	, m_Ypos{}
+	, m_pTexture{nullptr}
+	, m_Score{ 0 }
+	, m_StringText{ "EN..00" }
 {
-	m_pTexture = new Texture(m_StringText, "Resources/Fonts/nintendo-nes-font.otf", m_FontSize, m_FontColor);
+	m_pTexture = new Texture(m_StringText, "Resources/Fonts/nintendo-nes-font.otf", m_FontSize, m_ColorScore);
 }
 
 HUD::~HUD()
@@ -24,21 +26,19 @@ void HUD::Draw(float& Xpos, float& Ypos) const
 	m_pTexture->Draw(Point2f(Xpos, Ypos));
 }
 
-void HUD::Update(float elapsedSec)
+void HUD::UpdateScore(int score)
 {
-	UpdateScore();
-}
+	m_Score += score;
 
-void HUD::UpdateScore()
-{
-	if (Player::m_Score <= 9)
+	std::string scoreText = std::to_string(m_Score);
+
+	if (score < 10)
 	{
-		m_StringText.pop_back();
+		scoreText = "0" + scoreText;
 	}
-	else
-	{
-		m_StringText.pop_back();
-		m_StringText.pop_back();
-	}
-	m_StringText.append(std::to_string(Player::m_Score));
+	m_StringText = "EN.." + scoreText;
+
+	delete m_pTexture;
+	m_pTexture = new Texture(m_StringText, "Resources/Fonts/nintendo-nes-font.otf", m_FontSize, m_ColorScore);
+
 }
