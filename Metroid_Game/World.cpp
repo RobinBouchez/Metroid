@@ -4,6 +4,9 @@
 #include "utils.h"
 #include "Player.h"
 #include "GameObject.h"
+#include "BulletManager.h"
+#include "utils.h"
+#include "Bullet.h"
 
 World::World(const float LevelHeight, const float Levelwidth)
 	: m_WorldTexture{new Texture("Resources/Level.png")}
@@ -30,6 +33,25 @@ void World::Draw() const
 	//{
 	//	utils::DrawPolygon(m_Vertices[i]);
 	//}
+}
+
+void World::Update(float elapsedSec)
+{
+
+	auto& bullets = BulletManager::GetInstance().GetBullets();
+	for (auto& b : bullets)
+	{
+		Point2f rayPoint1 = Point2f{ b->GetBoundaries().left , b->GetBoundaries().bottom };
+		Point2f rayPoint2 = Point2f{ b->GetBoundaries().left + b->GetBoundaries().width, b->GetBoundaries().bottom + b->GetBoundaries().height };
+		for (size_t i = 0; i < m_Vertices.size(); i++)
+		{
+			utils::HitInfo hitInfo{};
+			if (utils::Raycast(m_Vertices[i], rayPoint1, rayPoint2, hitInfo))
+			{
+				b->SetIsActive(false);
+			}
+		}
+	}
 }
 
 float World::GetWidth() const

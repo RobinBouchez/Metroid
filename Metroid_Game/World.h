@@ -10,6 +10,7 @@ public:
 	~World();
 
 	void Draw() const;
+	void Update(float elapsedSec);
 
 	float GetWidth() const;
 	float GetHeight() const;

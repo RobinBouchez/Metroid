@@ -8,7 +8,7 @@
 #include "SoundManager.h"
 #include "TextureManager.h"
 #include "BulletManager.h"
-
+#include <iostream>
 int Player::m_Score = 0;
 
 Player::Player(Point2f& position)
@@ -291,6 +291,11 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 		}
 	}
 	
+	//Prevent camera shake
+	if (abs(m_Velocity.x) < 1 && abs(m_Velocity.y) < 1)
+	{
+		return;
+	}
 	m_Shape.left += m_Velocity.x;
 	m_Shape.bottom += m_Velocity.y;
 }
