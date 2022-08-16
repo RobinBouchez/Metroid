@@ -19,8 +19,6 @@ public:
     void Update(float elapsedSec);
     void Cleanup();
 
-    bool IsHit();
-
     std::vector<Bullet*>& GetBullets();
 
 private:

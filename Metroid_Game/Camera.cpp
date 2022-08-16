@@ -38,11 +38,12 @@ Point2f Camera::Track(const Rectf& target) const
 
 void Camera::Clamp(Point2f& bottomLeftPos) const
 {
+
 	if (bottomLeftPos.x <= m_LevelBoundaries.left)
 	{
 		bottomLeftPos.x = m_LevelBoundaries.left;
 	}
-	if (bottomLeftPos.x >= m_LevelBoundaries.left + m_LevelBoundaries.width)
+	else if (bottomLeftPos.x >= m_LevelBoundaries.left + m_LevelBoundaries.width)
 	{
 		bottomLeftPos.x = m_LevelBoundaries.left + m_LevelBoundaries.width;
 	}
@@ -51,7 +52,7 @@ void Camera::Clamp(Point2f& bottomLeftPos) const
 	{		
 		bottomLeftPos.y = m_LevelBoundaries.bottom;
 	}
-	if (bottomLeftPos.y >= m_LevelBoundaries.bottom + m_LevelBoundaries.height)
+	else if (bottomLeftPos.y >= m_LevelBoundaries.bottom + m_LevelBoundaries.height)
 	{
 		bottomLeftPos.y = m_LevelBoundaries.bottom + m_LevelBoundaries.height;
 	}

@@ -46,7 +46,7 @@ void Bullet::Draw() const
 	m_TextureClip.bottom = m_Position.y;
 	m_TextureClip.height = m_pTexture->GetHeight();
 	m_TextureClip.width = m_pTexture->GetWidth() / m_Rows;
-
+	
 	m_pTexture->Draw(m_TextureClip, m_SourceClip);
 }
 

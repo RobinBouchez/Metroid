@@ -17,7 +17,8 @@ private:
 	std::string m_StringText;
 
 	//Data members
-	Texture* m_pTexture;
+	Texture* m_pMainTexture;
+	Texture* m_pENTexture;
 	const int m_FontSize;
 	const Color4f m_ColorScore;
 	const Color4f m_ColorLang;

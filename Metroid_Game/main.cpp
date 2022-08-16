@@ -11,7 +11,7 @@ int main( int argc, char *argv[] )
 
 	StartHeapControl();
 
-	Core* pCore{ new Core{ Window{ "Metroid - Bouchez, Robin - 1DAE", 1280.f , 800.f } } };
+	Core* pCore{ new Core{ Window{ "Metroid - Bouchez, Robin - 1DAE", 1270.f , 800.f } } };
 	pCore->Run();
 	delete pCore;
 

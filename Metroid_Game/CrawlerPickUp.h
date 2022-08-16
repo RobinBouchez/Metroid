@@ -1,14 +1,13 @@
 #pragma once
-#include "Screen.h"
-
+#include "PickUp.h"
 class Texture;
 class Animation;
 
-class StartScreen : public Screen
+class CrawlerPickUp : public PickUp
 {
 public:
-	StartScreen(const Point2f& position);
-	virtual ~StartScreen();
+	CrawlerPickUp(const Point2f& position);
+	virtual ~CrawlerPickUp();
 
 	virtual void Draw() const override;
 	virtual void Update(float elapsedSec) override;
@@ -17,6 +16,7 @@ private:
 	Texture* m_pTexture;
 	Animation* m_pAnimation;
 
-	const int m_AmountOfFrames;
+	const int m_Rows;
+
 };
 
