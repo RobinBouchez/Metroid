@@ -11,12 +11,18 @@ public:
 
 	Rectf GetBoundaries() const;
 	void SetIsActive(bool value);
+	
 	bool IsActive();
+	bool HasPlayed();
+	void Continue(bool value);
 
 protected:
 	bool m_IsActive{};
+	bool m_HasPlayed;
+
 	const Point2f m_ScreenPos;
 	Rectf m_Boundaries;
+	bool m_Continue;
 
 };
 

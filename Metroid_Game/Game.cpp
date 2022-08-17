@@ -116,7 +116,12 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 	case SDLK_SPACE:
 		if (ScreenManager::GetInstance().GetCurrent()->IsActive())
 		{
-			ScreenManager::GetInstance().GetCurrent()->SetIsActive(false);
+			if (ScreenManager::GetInstance().GetCurrent()->HasPlayed())
+			{
+				ScreenManager::GetInstance().GetCurrent()->Continue(true);
+			}
+			//ScreenManager::GetInstance().GetCurrent()->SetIsActive(false);
+
 		}
 		break;
 	case SDLK_m:

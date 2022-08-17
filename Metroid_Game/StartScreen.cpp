@@ -9,8 +9,10 @@ StartScreen::StartScreen(const Point2f& position)
 	, m_pTexture{ nullptr }
 	, m_AmountOfFrames{ 8 }
 	, m_pAnimation{new Animation(m_AmountOfFrames, 0.2f)}
+
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("StartScreen");
+	m_pEndTexture = TextureManager::GetInstance().CreateTexture("StartScreen_end");
 
 	m_Boundaries.width = m_pTexture->GetWidth() / m_AmountOfFrames;
 	m_Boundaries.height = m_pTexture->GetHeight();
@@ -34,7 +36,8 @@ void StartScreen::Draw() const
 	srcRect.height = m_Boundaries.height;
 
 
-	if (m_pAnimation->m_AnimationFrame >= m_AmountOfFrames)
+	
+	if (m_pAnimation->m_AnimationFrame >= m_AmountOfFrames && !m_Continue)
 	{
 		srcRect.left = m_pTexture->GetWidth() - m_pTexture->GetWidth() / m_AmountOfFrames;
 	}
@@ -42,11 +45,23 @@ void StartScreen::Draw() const
 	float scale = 3.35f;
 	glPushMatrix();
 		glScalef(scale, scale, 0);
-		m_pTexture->Draw(m_Boundaries, srcRect);
+		if (!m_Continue)
+		{
+			m_pTexture->Draw(m_Boundaries, srcRect);
+		}
+		else if(m_Continue)
+		{
+			m_pEndTexture->Draw(m_Boundaries, srcRect);
+		}
 	glPopMatrix();
 }
 
 void StartScreen::Update(float elapsedSec)
 {
 	m_pAnimation->Update(elapsedSec);
+
+	if (m_pAnimation->m_AnimationFrame >= m_AmountOfFrames)
+	{
+		m_HasPlayed = true;
+	}
 }

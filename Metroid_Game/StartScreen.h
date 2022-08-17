@@ -15,8 +15,10 @@ public:
 
 private:
 	Texture* m_pTexture;
+	Texture* m_pEndTexture;
 	Animation* m_pAnimation;
 
 	const int m_AmountOfFrames;
+
 };
 
