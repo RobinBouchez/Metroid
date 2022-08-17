@@ -9,6 +9,7 @@ class SoundManager;
 class vector;
 class HUD;
 class Enemy;
+class StartScreen;
 
 class Game final
 {
@@ -36,12 +37,13 @@ private:
 
 	int m_Volume = 100;
 
+	//Pointers
 	World* m_pWorld;
 	Player* m_pPlayer;
 	Camera* m_pCamera;
 	Morphball* m_pMorphball;
 	SoundManager* m_pSoundManager;
-	
+
 	Point2f m_PlayerPosition{ 2000.f, 200.f };
 
 	// FUNCTIONS
@@ -54,7 +56,6 @@ private:
 	void CreateWorld();
 	void CreateGameObjects();
 	void CreateCamera();
-	void CreateSoundManager();
 
 	//DRAW
 	void DrawWorld() const;

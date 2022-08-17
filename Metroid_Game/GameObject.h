@@ -4,7 +4,6 @@
 class GameObject
 {
 public:
-
 	GameObject();
 	virtual ~GameObject() = default;
 	GameObject(const GameObject&) = delete;
@@ -16,17 +15,22 @@ protected:
 	virtual void Draw() const = 0;
 	virtual void Update(float elapsedSec) = 0;
 
+	Rectf GetBoundaries();
+	Vector2f GetVelocity();
+
 	static bool m_IsOnGround;
 	static const float m_Gravity;
 	
-	Rectf m_Boundaries;
-
 	bool m_IsMovingLeft;
 
 	float m_HorizontalSpeed;
 	float m_JumpSpeed;
 	
-	Vector2f m_Velocity;
 	Vector2f m_Acceleration;
+	Vector2f m_Velocity;
+
+private:
+	Rectf m_Boundaries;
+
 };
 

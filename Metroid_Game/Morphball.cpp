@@ -16,9 +16,9 @@ Morphball::Morphball()
 	, m_pAnimation{ new Animation(m_Rows, 0.05f )}
 	, m_DstRect{}
 	, m_SrcRect{}
-	//, m_pSound{}//SoundManager::GetInstance().CreateSound("morphball")}
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("Morphball");
+	SoundManager::GetInstance().CreateSound("PickUp");
 }
 
 Morphball::~Morphball()
@@ -51,7 +51,7 @@ bool Morphball::CheckIfhit(Player* player)
 		{
 			if (!m_IsHit)
 			{
-				SoundManager::GetInstance().Play("PickUp");
+				//SoundManager::GetInstance().Play("PickUp");
 			}
 
 			m_IsHit = true;

@@ -61,6 +61,9 @@
     <Filter Include="Source Files\Framework Files">
       <UniqueIdentifier>{0d874dca-5458-485b-a16f-907c89379ac7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Game Files\PickUp">
+      <UniqueIdentifier>{ab97a1c2-fe06-4b2a-bc6a-3a4384dd2bd0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="World.cpp">
@@ -171,6 +174,15 @@
     <ClCompile Include="PlayerAnimation.cpp">
       <Filter>Source Files\Game Files\Animation\PlayerAnim</Filter>
     </ClCompile>
+    <ClCompile Include="PickUpManager.cpp">
+      <Filter>Source Files\Game Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="PickUp.cpp">
+      <Filter>Source Files\Game Files\PickUp</Filter>
+    </ClCompile>
+    <ClCompile Include="CrawlerPickUp.cpp">
+      <Filter>Source Files\Game Files\PickUp</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Player.h">
@@ -277,6 +289,15 @@
     </ClInclude>
     <ClInclude Include="PlayerAnimation.h">
       <Filter>Source Files\Game Files\Animation\PlayerAnim</Filter>
+    </ClInclude>
+    <ClInclude Include="PickUpManager.h">
+      <Filter>Source Files\Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="PickUp.h">
+      <Filter>Source Files\Game Files\PickUp</Filter>
+    </ClInclude>
+    <ClInclude Include="CrawlerPickUp.h">
+      <Filter>Source Files\Game Files\PickUp</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

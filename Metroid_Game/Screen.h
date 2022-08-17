@@ -1,15 +1,22 @@
 #pragma once
-class Texture;
 
 class Screen 
 {
 public:
-	Screen() = default;
+	Screen(const Point2f& position);
 	virtual ~Screen();
 
-protected:
-	Texture* m_pTexure;
+	virtual void Draw() const = 0;
+	virtual void Update(float elapsedSec) = 0;
 
-	bool m_IsActive;
+	Rectf GetBoundaries() const;
+	void SetIsActive(bool value);
+	bool IsActive();
+
+protected:
+	bool m_IsActive{};
+	const Point2f m_ScreenPos;
+	Rectf m_Boundaries;
+
 };
 
