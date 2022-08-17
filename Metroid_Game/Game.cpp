@@ -1,16 +1,23 @@
 #include "pch.h"
 #include "Game.h"
+
 #include "World.h"
 #include "Player.h"
 #include "Camera.h"
 #include "Morphball.h"
+#include "HUD.h"
+#include "StartScreen.h"
+
+//Inlcude Managers
 #include "SoundManager.h"
 #include "CrawlerEnemy.h"
 #include "SkrullEnemy.h"
 #include "TextureManager.h"
 #include "EnemyManager.h"
 #include "BulletManager.h"
-#include "HUD.h"
+#include "ScreenManager.h"
+
+//Extrernal includes
 #include <iostream>
 
 #if _DEBUG
@@ -34,15 +41,16 @@ void Game::Initialize( )
 {
 	std::cout << "Press the 'i' key to display the game's info." << std::endl;
 	
+	ScreenManager::GetInstance().Add(new StartScreen(Point2f{ m_Window.width / 2 - 570, 0 }));
+
 	CreateWorld();
 	CreateGameObjects();
 	CreateCamera();
-	CreateSoundManager();
+	m_pSoundManager = new SoundManager();
 }
 
 void Game::Cleanup( )
 {
-
 	delete m_pWorld;
 	m_pWorld = nullptr;
 
@@ -55,20 +63,35 @@ void Game::Cleanup( )
 	delete m_pMorphball;
 	m_pMorphball = nullptr;
 
+	delete m_pSoundManager;
+	m_pSoundManager = nullptr;
+
 	SoundManager::GetInstance().Cleanup();
 	TextureManager::GetInstance().Cleanup();
 	EnemyManager::GetInstance().Cleanup(); 
 	BulletManager::GetInstance().Cleanup();
+	ScreenManager::GetInstance().Cleanup();
 }
 
 void Game::Update( float elapsedSec )
 {
+	if (ScreenManager::GetInstance().GetCurrent()->IsActive())
+	{
+		ScreenManager::GetInstance().Update(elapsedSec);
+		return;
+	}
 	UpdateGameObjects(elapsedSec);
 }
 
 void Game::Draw( ) const
 {
 	ClearBackground( );
+
+	if (ScreenManager::GetInstance().GetCurrent()->IsActive())
+	{
+		ScreenManager::GetInstance().Draw();
+		return;
+	}
 
 	glPushMatrix();
 		m_pCamera->Transform(m_pPlayer->GetShape());
@@ -89,6 +112,12 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 	{
 	case SDLK_i:
 		DisplayInfo();
+		break;
+	case SDLK_SPACE:
+		if (ScreenManager::GetInstance().GetCurrent()->IsActive())
+		{
+			ScreenManager::GetInstance().GetCurrent()->SetIsActive(false);
+		}
 		break;
 	case SDLK_m:
 		m_pSoundManager->SetVolume(m_Volume -= m_Volume);
@@ -145,7 +174,7 @@ void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 
 void Game::ClearBackground( ) const
 {
-	glClearColor( 0.0f, 0.0f, 0.3f, 1.0f );
+	glClearColor( 0.0f, 0.0f, 0.0f, 1.0f );
 	glClear( GL_COLOR_BUFFER_BIT );
 }
 
@@ -177,6 +206,7 @@ void Game::CreateGameObjects()
 
 	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{1900.f, 612.f} });
 	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{2250.f, 500.f } });
+	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{750.f, 500.f } });
 
 	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2750.f, 500.f } });
 	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2750.f, 500.f } });
@@ -188,12 +218,6 @@ void Game::CreateCamera()
 	m_pCamera = new Camera(m_Window.width, m_Window.height);
 	
 	m_pCamera->SetLevelBoundaries(m_pWorld->GetX(), m_pWorld->GetY(), m_pWorld->GetWidth(), m_pWorld->GetHeight());
-}
-
-void Game::CreateSoundManager()
-{
-	
-	//m_pSoundManager->PlayLoop("Music");
 }
 
 void Game::DrawWorld() const
@@ -211,8 +235,8 @@ void Game::DrawGameObjects() const
 
 void Game::DrawHUD() const
 {
-	float border = 150.f;
-	float x = m_pPlayer->GetShape().left - m_Window.width / 2 + border / 2;
+	float border = 200.f;
+	float x = m_pPlayer->GetShape().left - m_Window.width / 2 + border;
 	float y = m_Window.height - border;
 	HUD::GetInstance().Draw(x, y);
 }
