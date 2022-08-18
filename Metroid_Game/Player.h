@@ -68,6 +68,8 @@ private:
 	bool m_IsRolling;
 	bool m_IsShooting;
 	
+	float m_JumpSpeed;
+
 	const float m_RotSpeed;
 	float m_Angle;
 

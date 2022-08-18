@@ -9,7 +9,6 @@ GameObject::GameObject()
 	, m_Velocity{ 0.f,0.f }
 	, m_IsMovingLeft{false}
 	, m_HorizontalSpeed{ 300.f }
-	, m_JumpSpeed{ 500.f }
 	, m_Position{}
 {
 }

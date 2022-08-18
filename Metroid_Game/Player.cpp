@@ -27,6 +27,8 @@ Player::Player(Point2f& position)
 	, m_Timer{}
 	, m_Cooldown{ 0.1f }
 	, m_HasShot{}
+	, m_JumpSpeed{ 700.f }
+
 {
 
 	m_pPlayerTexture = TextureManager::GetInstance().CreateTexture("Samus");
@@ -226,7 +228,7 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 	m_Angle += m_RotSpeed * elapsedSec;
 	m_Velocity.y += m_Acceleration.y * elapsedSec;
 	m_HorizontalSpeed += elapsedSec;
-	m_JumpSpeed += elapsedSec;
+	//m_JumpSpeed += elapsedSec;
 
 	const UINT8* State = SDL_GetKeyboardState(NULL);
 	if (State[SDL_SCANCODE_RIGHT] || State[SDL_SCANCODE_D])

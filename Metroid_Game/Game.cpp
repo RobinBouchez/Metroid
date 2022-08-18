@@ -132,13 +132,13 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 		}
 		break;
 	case SDLK_m:
-		Settings<SoundManager>().GetInstance().SetVolume(m_Volume - m_Volume);
+		//Settings<SoundManager>().GetInstance().SetVolume(m_Volume - m_Volume);
 		break;
 	case SDLK_COMMA:
-		Settings<SoundManager>().GetInstance().SetVolume(m_Volume - 10);
+		//Settings<SoundManager>().GetInstance().SetVolume(m_Volume - 10);
 		break;
 	case SDLK_PERIOD:
-		Settings<SoundManager>().GetInstance().SetVolume(m_Volume + 10);
+		//Settings<SoundManager>().GetInstance().SetVolume(m_Volume + 10);
 		break;
 	}
 }
