@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "Game.h"
+#include "Settings.h"
 
 #include "World.h"
 #include "Player.h"
@@ -131,15 +132,13 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 		}
 		break;
 	case SDLK_m:
-		m_pSoundManager->SetVolume(m_Volume -= m_Volume);
+		Settings<SoundManager>().GetInstance().SetVolume(m_Volume - m_Volume);
 		break;
 	case SDLK_COMMA:
-		m_Volume -= 10;
-		m_pSoundManager->SetVolume(m_Volume);
+		Settings<SoundManager>().GetInstance().SetVolume(m_Volume - 10);
 		break;
 	case SDLK_PERIOD:
-		m_Volume += 10;
-		m_pSoundManager->SetVolume(m_Volume);
+		Settings<SoundManager>().GetInstance().SetVolume(m_Volume + 10);
 		break;
 	}
 }
