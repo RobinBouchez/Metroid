@@ -18,7 +18,7 @@ public:
 	void Play(const std::string& soundName);
 	void PlayLoop(const std::string& soundName);
 
-	void SetVolume(int& volume);
+	void SetVolume(const int& volume);
 
 	void Cleanup();
 

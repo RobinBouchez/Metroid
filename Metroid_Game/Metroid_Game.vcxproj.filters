@@ -19,12 +19,6 @@
     <Filter Include="Source Files\Game Files\Camera">
       <UniqueIdentifier>{6e34b726-644e-4e49-a1db-1f7064fac22a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game Files\Animation">
-      <UniqueIdentifier>{8d024309-b708-45df-9a89-a1fb5d18765a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game Files\Animation\PlayerAnim">
-      <UniqueIdentifier>{e38c6469-ba98-4dbe-8ba2-79ee7ef84c0a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game Files\GameObjects">
       <UniqueIdentifier>{424f750e-4fb5-4b5e-9d2a-6a691c020257}</UniqueIdentifier>
     </Filter>
@@ -49,9 +43,6 @@
     <Filter Include="Source Files\Game Files\Managers">
       <UniqueIdentifier>{4bfcb2b1-5785-465f-8249-4dddb6ab7880}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game Files\Weapon">
-      <UniqueIdentifier>{aede4d03-ad7c-4c48-9e11-24b45cc5e5d3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game Files\World">
       <UniqueIdentifier>{7a73a2ed-0f1e-480c-a3b2-2d4f070387f0}</UniqueIdentifier>
     </Filter>
@@ -61,8 +52,32 @@
     <Filter Include="Source Files\Framework Files">
       <UniqueIdentifier>{0d874dca-5458-485b-a16f-907c89379ac7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game Files\PickUp">
+    <Filter Include="Source Files\Game Files\Settings">
+      <UniqueIdentifier>{1b6a7209-dbbd-41b0-99a1-0ee8e07f3634}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\Components">
+      <UniqueIdentifier>{4c2a6d07-87fb-47de-83d0-ae2d23ac93c0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\Components\Animation">
+      <UniqueIdentifier>{8d024309-b708-45df-9a89-a1fb5d18765a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\Components\Animation\PlayerAnim">
+      <UniqueIdentifier>{e38c6469-ba98-4dbe-8ba2-79ee7ef84c0a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\Components\Effects">
+      <UniqueIdentifier>{fdac8349-75cd-4f9c-8573-d1d341bbf9a0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\Components\Movement">
+      <UniqueIdentifier>{2f33c103-9763-4ae1-8378-248843e13b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\GameObjects\PickUp">
       <UniqueIdentifier>{ab97a1c2-fe06-4b2a-bc6a-3a4384dd2bd0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\GameObjects\Weapon">
+      <UniqueIdentifier>{aede4d03-ad7c-4c48-9e11-24b45cc5e5d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Files\Components\Vitals">
+      <UniqueIdentifier>{d6a10715-d7e1-4347-8353-796d9d106991}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -121,7 +136,7 @@
       <Filter>Source Files\Game Files\Managers</Filter>
     </ClCompile>
     <ClCompile Include="Animation.cpp">
-      <Filter>Source Files\Game Files\Animation</Filter>
+      <Filter>Source Files\Game Files\Components\Animation</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Game Files\GameObjects\Enemy</Filter>
@@ -160,7 +175,7 @@
       <Filter>Source Files\Game Files\Screen</Filter>
     </ClCompile>
     <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files\Game Files\Weapon</Filter>
+      <Filter>Source Files\Game Files\GameObjects\Weapon</Filter>
     </ClCompile>
     <ClCompile Include="Level1.cpp">
       <Filter>Source Files\Game Files\World\Levels</Filter>
@@ -172,43 +187,46 @@
       <Filter>Source Files\Game Files\GameObjects\Morphball</Filter>
     </ClCompile>
     <ClCompile Include="PlayerAnimation.cpp">
-      <Filter>Source Files\Game Files\Animation\PlayerAnim</Filter>
+      <Filter>Source Files\Game Files\Components\Animation\PlayerAnim</Filter>
     </ClCompile>
     <ClCompile Include="PickUpManager.cpp">
       <Filter>Source Files\Game Files\Managers</Filter>
     </ClCompile>
     <ClCompile Include="PickUp.cpp">
-      <Filter>Source Files\Game Files\PickUp</Filter>
+      <Filter>Source Files\Game Files\GameObjects\PickUp</Filter>
     </ClCompile>
     <ClCompile Include="CrawlerPickUp.cpp">
-      <Filter>Source Files\Game Files\PickUp</Filter>
+      <Filter>Source Files\Game Files\GameObjects\PickUp</Filter>
     </ClCompile>
-    <ClCompile Include="LevelManager.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vitals.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Effect.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Settings.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Movement.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ComponentManager.cpp">
-      <Filter>Source Files\Game Files</Filter>
+    <ClCompile Include="GameOverScreen.cpp">
+      <Filter>Source Files\Game Files\Screen</Filter>
     </ClCompile>
     <ClCompile Include="EndScreen.cpp">
-      <Filter>Source Files\Game Files</Filter>
+      <Filter>Source Files\Game Files\Screen</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelManager.cpp">
+      <Filter>Source Files\Game Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Settings.cpp">
+      <Filter>Source Files\Game Files\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="ComponentManager.cpp">
+      <Filter>Source Files\Game Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Source Files\Game Files\World</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect.cpp">
+      <Filter>Source Files\Game Files\Components\Effects</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>Source Files\Game Files\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Movement.cpp">
+      <Filter>Source Files\Game Files\Components\Movement</Filter>
+    </ClCompile>
+    <ClCompile Include="Vitals.cpp">
+      <Filter>Source Files\Game Files\Components\Vitals</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -264,7 +282,7 @@
       <Filter>Source Files\Game Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="Animation.h">
-      <Filter>Source Files\Game Files\Animation</Filter>
+      <Filter>Source Files\Game Files\Components\Animation</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Source Files\Game Files\GameObjects\Enemy</Filter>
@@ -303,7 +321,7 @@
       <Filter>Source Files\Game Files\Screen</Filter>
     </ClInclude>
     <ClInclude Include="Weapon.h">
-      <Filter>Source Files\Game Files\Weapon</Filter>
+      <Filter>Source Files\Game Files\GameObjects\Weapon</Filter>
     </ClInclude>
     <ClInclude Include="Level2.h">
       <Filter>Source Files\Game Files\World\Levels</Filter>
@@ -315,43 +333,46 @@
       <Filter>Source Files\Game Files\GameObjects\Morphball</Filter>
     </ClInclude>
     <ClInclude Include="PlayerAnimation.h">
-      <Filter>Source Files\Game Files\Animation\PlayerAnim</Filter>
+      <Filter>Source Files\Game Files\Components\Animation\PlayerAnim</Filter>
     </ClInclude>
     <ClInclude Include="PickUpManager.h">
       <Filter>Source Files\Game Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="PickUp.h">
-      <Filter>Source Files\Game Files\PickUp</Filter>
+      <Filter>Source Files\Game Files\GameObjects\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="CrawlerPickUp.h">
-      <Filter>Source Files\Game Files\PickUp</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelManager.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Level.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Vitals.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Effect.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Settings.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Movement.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ComponentManager.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Files\GameObjects\PickUp</Filter>
     </ClInclude>
     <ClInclude Include="EndScreen.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="GameOverScreen.h">
+      <Filter>Source Files\Game Files\Screen</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelManager.h">
+      <Filter>Source Files\Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Settings.h">
+      <Filter>Source Files\Game Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="ComponentManager.h">
+      <Filter>Source Files\Game Files\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Source Files\Game Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Effect.h">
+      <Filter>Source Files\Game Files\Components\Effects</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Source Files\Game Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Movement.h">
+      <Filter>Source Files\Game Files\Components\Movement</Filter>
+    </ClInclude>
+    <ClInclude Include="Vitals.h">
+      <Filter>Source Files\Game Files\Components\Vitals</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

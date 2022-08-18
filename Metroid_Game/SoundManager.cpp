@@ -21,7 +21,7 @@ void SoundManager::PlayLoop(const std::string& soundName)
 	m_pSoundEffects.at(soundName)->Play(1);
 }
 
-void SoundManager::SetVolume(int& volume)
+void SoundManager::SetVolume(const int& volume)
 {
 	for (std::pair<std::string, SoundEffect*> e : m_pSoundEffects)
 	{

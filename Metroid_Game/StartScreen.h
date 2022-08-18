@@ -4,7 +4,7 @@
 class Texture;
 class Animation;
 
-class StartScreen : public Screen
+class StartScreen final : public Screen
 {
 public:
 	StartScreen(const Point2f& position);
