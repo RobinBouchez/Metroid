@@ -39,6 +39,12 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
+	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	//_CrtSetBreakAlloc(6565);
+	//_CrtSetBreakAlloc(846);
+	//_CrtSetBreakAlloc(796);
+	//_CrtSetBreakAlloc(192);
+
 	std::cout << "Press the 'i' key to display the game's info." << std::endl;
 	
 	ScreenManager::GetInstance().Add(new StartScreen(Point2f{ m_Window.width / 2 - 570, 0 }));
@@ -120,7 +126,7 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 			{
 				ScreenManager::GetInstance().GetCurrent()->Continue(true);
 			}
-			//ScreenManager::GetInstance().GetCurrent()->SetIsActive(false);
+			ScreenManager::GetInstance().GetCurrent()->SetIsActive(false);
 
 		}
 		break;
@@ -232,17 +238,17 @@ void Game::DrawWorld() const
 
 void Game::DrawGameObjects() const
 {
+	BulletManager::GetInstance().Draw();
 	m_pPlayer->Draw();
 	EnemyManager::GetInstance().Draw();
 	m_pMorphball->Draw();
-	BulletManager::GetInstance().Draw();
 }
 
 void Game::DrawHUD() const
 {
-	float border = 200.f;
-	float x = m_pPlayer->GetShape().left - m_Window.width / 2 + border;
-	float y = m_Window.height - border;
+	const float border = 200.f;
+	const float x = m_pPlayer->GetShape().left - m_Window.width / 2 + border;
+	const float y = m_Window.height - border;
 	HUD::GetInstance().Draw(x, y);
 }
 

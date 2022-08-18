@@ -27,12 +27,36 @@ Texture* TextureManager::CreateTexture(const std::string& filename)
 	return m_TextureMap[filename];
 }
 
+Texture* TextureManager::CreateFontTexture(const std::string& name, const Color4f& color, const int& size)
+{
+	if (m_TextureMap.find(name) == m_TextureMap.end())
+	{
+		m_TextureMap.emplace(name, new Texture(name, "Resources/Fonts/nintendo-nes-font.otf", size, color));
+	}
+	return m_TextureMap[name];
+}
+
+Texture* TextureManager::Replace(const std::string& filename)
+{
+	if (!m_TextureMap.empty())
+	{
+		m_TextureMap.erase(filename);
+
+		CreateFontTexture(filename);
+		return m_TextureMap[filename];
+	}
+	return nullptr;
+}
+
 void TextureManager::Cleanup()
 {
-	for (auto& e : m_TextureMap)
+	if (!m_TextureMap.empty())
 	{
-		delete e.second;
-		e.second = nullptr;
+		for (auto& e : m_TextureMap)
+		{
+			delete e.second;
+			e.second = nullptr;
+		}
+		m_TextureMap.clear();
 	}
-	m_TextureMap.clear();
 }

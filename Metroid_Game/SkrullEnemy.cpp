@@ -11,10 +11,6 @@ SkrullEnemy::SkrullEnemy(const Point2f& position)
 	m_Boundaries = Rectf{ position.x, position.y, 70, 70 };
 }
 
-SkrullEnemy::~SkrullEnemy()
-{
-}
-
 void SkrullEnemy::Draw() const
 {
 	Enemy::Draw();

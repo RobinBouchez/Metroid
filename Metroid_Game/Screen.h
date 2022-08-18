@@ -9,12 +9,14 @@ public:
 	virtual void Draw() const = 0;
 	virtual void Update(float elapsedSec) = 0;
 
+	virtual void Continue(bool value);
+
 	Rectf GetBoundaries() const;
 	void SetIsActive(bool value);
 	
 	bool IsActive();
 	bool HasPlayed();
-	void Continue(bool value);
+
 
 protected:
 	bool m_IsActive{};

@@ -9,7 +9,7 @@ StartScreen::StartScreen(const Point2f& position)
 	, m_pTexture{ nullptr }
 	, m_AmountOfFrames{ 8 }
 	, m_pAnimation{new Animation(m_AmountOfFrames, 0.2f)}
-
+	, m_Continue{false}
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("StartScreen");
 	m_pEndTexture = TextureManager::GetInstance().CreateTexture("StartScreen_end");
@@ -64,4 +64,9 @@ void StartScreen::Update(float elapsedSec)
 	{
 		m_HasPlayed = true;
 	}
+}
+
+void StartScreen::Continue(bool value)
+{
+	Screen::Continue(value);
 }

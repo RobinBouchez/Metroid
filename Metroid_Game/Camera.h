@@ -1,10 +1,11 @@
 #pragma once
 
-class Camera
+class Camera final
 {
 public:
+	Camera() = default;
 	Camera(float width, float height);
-	~Camera();
+	~Camera() = default;
 	Camera(const Camera&) = delete;
 	Camera& operator=(const Camera&) = delete;
 	Camera(Camera&&) = delete;
@@ -13,6 +14,7 @@ public:
 	void SetLevelBoundaries(float x, float y, float width, float height);
 	
 	void Transform(const Rectf& target) const;
+
 private:
 	float m_Width;
 	float m_Height;

@@ -163,21 +163,28 @@
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletManager.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Component.cpp" />
+    <ClCompile Include="ComponentManager.cpp" />
     <ClCompile Include="Core.cpp" />
     <ClCompile Include="CrawlerEnemy.cpp" />
     <ClCompile Include="CrawlerPickUp.cpp" />
+    <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="EndScreen.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyManager.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="Level1.cpp" />
     <ClCompile Include="Level2.cpp" />
+    <ClCompile Include="LevelManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Manager.cpp" />
     <ClCompile Include="Matrix2x3.cpp" />
     <ClCompile Include="MenuScreen.cpp" />
     <ClCompile Include="Morphball.cpp" />
+    <ClCompile Include="Movement.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -190,6 +197,7 @@
     <ClCompile Include="PlayerAnimation.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="ScreenManager.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="SkrullEnemy.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -201,6 +209,7 @@
     <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="utils.cpp" />
     <ClCompile Include="Vector2f.cpp" />
+    <ClCompile Include="Vitals.cpp" />
     <ClCompile Include="Weapon.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
@@ -209,20 +218,27 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletManager.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Component.h" />
+    <ClInclude Include="ComponentManager.h" />
     <ClInclude Include="Core.h" />
     <ClInclude Include="CrawlerEnemy.h" />
     <ClInclude Include="CrawlerPickUp.h" />
+    <ClInclude Include="Effect.h" />
+    <ClInclude Include="EndScreen.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyManager.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="Level1.h" />
     <ClInclude Include="Level2.h" />
+    <ClInclude Include="LevelManager.h" />
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Matrix2x3.h" />
     <ClInclude Include="MenuScreen.h" />
     <ClInclude Include="Morphball.h" />
+    <ClInclude Include="Movement.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="PickUp.h" />
     <ClInclude Include="PickUpManager.h" />
@@ -230,6 +246,7 @@
     <ClInclude Include="PlayerAnimation.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="ScreenManager.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="SkrullEnemy.h" />
     <ClInclude Include="SoundEffect.h" />
     <ClInclude Include="SoundManager.h" />
@@ -241,6 +258,7 @@
     <ClInclude Include="TextureManager.h" />
     <ClInclude Include="utils.h" />
     <ClInclude Include="Vector2f.h" />
+    <ClInclude Include="Vitals.h" />
     <ClInclude Include="Weapon.h" />
     <ClInclude Include="World.h" />
   </ItemGroup>

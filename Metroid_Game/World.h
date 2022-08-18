@@ -3,7 +3,7 @@
 #include <vector>
 #include "Vector2f.h"
 
-class World
+class World final
 {
 public:
 	World(const float LevelHeight, const float Levelwidth);
@@ -25,6 +25,7 @@ public:
 	const std::vector<std::vector<Point2f>>& GetVertices() const;
 
 private:
+
 	std::vector<std::vector<Point2f>> m_Vertices;
 	Texture* m_WorldTexture;
 	const Point2f m_TexturePosition;

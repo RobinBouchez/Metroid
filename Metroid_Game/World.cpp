@@ -7,21 +7,25 @@
 #include "BulletManager.h"
 #include "utils.h"
 #include "Bullet.h"
+#include "TextureManager.h"
 
 World::World(const float LevelHeight, const float Levelwidth)
-	: m_WorldTexture{new Texture("Resources/Level.png")}
+	: m_WorldTexture{nullptr}
 	, m_TexturePosition{ 0, 0 }
-	, m_TextureWidth{ m_WorldTexture->GetWidth() }
-	, m_TextureHeight{ m_WorldTexture->GetHeight() }
+	, m_TextureWidth{}
+	, m_TextureHeight{}
 	, m_Vertices{}
 {
+	m_WorldTexture = TextureManager::GetInstance().CreateTexture("level");
+
+	const_cast<float&>(m_TextureWidth) = m_WorldTexture->GetWidth();
+	const_cast<float&>(m_TextureHeight) = m_WorldTexture->GetHeight();
+
 	LoadSVG();
 }
 
 World::~World()
 {
-	delete m_WorldTexture;
-	m_WorldTexture = nullptr;
 }
 
 void World::Draw() const

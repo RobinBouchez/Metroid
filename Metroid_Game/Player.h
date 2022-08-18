@@ -39,6 +39,7 @@ public:
 
 	Rectf GetShape() const;
 	int GetScore() const;
+
 	enum class State GetState() const;
 
 

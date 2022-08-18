@@ -9,10 +9,6 @@ Camera::Camera(float width, float height)
 {
 }
 
-Camera::~Camera()
-{
-}
-
 void Camera::SetLevelBoundaries(float x, float y, float width, float height)
 {
 	m_LevelBoundaries.bottom = y;

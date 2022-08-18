@@ -1,21 +1,15 @@
 #pragma once
-#include "Vector2f.h"
 #include "GameObject.h"
 
 class Texture;
 class Animation;
 class World;
 class Player;
+class Vitals;
 
 class Enemy : public GameObject
 {
 public:
-	enum class State
-	{
-		alive,
-		dead
-	};
-
 	enum class Direction
 	{
 		right = 0, down = 1, left = 2, up = 3
@@ -39,7 +33,7 @@ protected:
 	Rectf m_Boundaries;
 	Point2f m_Position;
 	Texture* m_pTexture;
-	State m_State;
+	Vitals* m_Vitals;
 
 	void CalculateTexture(const std::string& filename, const int columns);
 
@@ -51,8 +45,7 @@ private:
 	bool m_IsActive;
 
 	float m_CurrentHealth;
-	const float m_Health;
-	float m_Damage;
+	//const float m_Health;
 	int m_Columns;
 };
 

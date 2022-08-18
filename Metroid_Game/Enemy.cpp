@@ -6,19 +6,19 @@
 #include "Animation.h"
 #include "utils.h"
 #include "HUD.h"
+#include "Vitals.h"
+#include "Component.h"
 
 Enemy::Enemy(const Point2f& position)
 	: m_Position{ position }
-	, m_State{ State::alive }
+	, m_CurrentHealth{}
+	, m_Vitals{ new Vitals(m_CurrentHealth) }
 	, m_Boundaries{}
 	, m_HorizontalSpeed{ 180.f }
-	, m_Health{ 100 }
-	, m_Damage{ 25 }
-	, m_pAnimation{ new Animation( 2 )}
+	, m_pAnimation{ new Animation(2)}
 	, m_Columns{3}
-	, m_pTexture{nullptr}
+	, m_pTexture{ nullptr }
 	, m_IsActive{ true }
-	, m_CurrentHealth{}
 {
 }
 
@@ -26,6 +26,9 @@ Enemy::~Enemy()
 {
 	delete m_pAnimation;
 	m_pAnimation = nullptr;
+
+	delete m_Vitals;
+	m_Vitals = nullptr;
 }
 
 void Enemy::Update(float elapsedSec, World* level, Player* player)
@@ -72,8 +75,8 @@ Rectf Enemy::GetBoundaries() const
 
 void Enemy::TakeHit()
 {
-	m_CurrentHealth--;
-	if (m_CurrentHealth <= 0)
+	m_Vitals->SetHealth(m_CurrentHealth--);
+	if (m_Vitals->GetHealth() <= 0)
 	{
 		m_IsActive = false;
 

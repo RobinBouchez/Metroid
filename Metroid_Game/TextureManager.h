@@ -14,6 +14,9 @@ public:
 	TextureManager& operator=(TextureManager&&) = delete;
 
 	Texture* CreateTexture(const std::string& filename);
+	Texture* CreateFontTexture(const std::string& name, const Color4f& color = Color4f{ 1.f, 1.f, 1.f, 1.f }, const int& size = 24);
+	Texture* Replace(const std::string& filename);
+
 	void Cleanup();
 	
 protected:

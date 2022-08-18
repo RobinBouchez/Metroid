@@ -10,7 +10,18 @@ GameObject::GameObject()
 	, m_IsMovingLeft{false}
 	, m_HorizontalSpeed{ 300.f }
 	, m_JumpSpeed{ 500.f }
+	, m_Position{}
 {
+}
+
+const Point2f GameObject::GetPosition()
+{
+	return m_Position;
+}
+
+const void GameObject::SetPosition(const Point2f& pos)
+{
+	m_Position = pos;
 }
 
 Rectf GameObject::GetBoundaries()

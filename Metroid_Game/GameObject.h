@@ -6,14 +6,18 @@ class GameObject
 public:
 	GameObject();
 	virtual ~GameObject() = default;
-	GameObject(const GameObject&) = delete;
+	GameObject(const GameObject&) = default;
 	GameObject& operator=(const GameObject&) = delete;
 	GameObject(GameObject&&) = delete;
 	GameObject& operator=(GameObject&&) = delete;
 
+	const Point2f GetPosition();
+	const void SetPosition(const Point2f& pos);
+
 protected:
 	virtual void Draw() const = 0;
 	virtual void Update(float elapsedSec) = 0;
+
 
 	Rectf GetBoundaries();
 	Vector2f GetVelocity();
@@ -31,6 +35,8 @@ protected:
 
 private:
 	Rectf m_Boundaries;
+
+	Point2f m_Position;
 
 };
 

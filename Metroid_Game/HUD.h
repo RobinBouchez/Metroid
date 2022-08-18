@@ -7,22 +7,26 @@ class HUD final : public Manager<HUD>
 {
 public:
 	HUD();
-	~HUD();
+	~HUD() = default;
 
-	void Draw(float& pos, float &Ypos) const;
-
-	void UpdateScore(int score);
+	void Draw(const float& pos, const float &Ypos) const;
+	void UpdateScore(const int& score);
 
 private:
 	std::string m_StringText;
 
-	//Data members
-	Texture* m_pMainTexture;
+	//TEXTURES
+	Texture* m_pScoreTexture;
 	Texture* m_pENTexture;
-	const int m_FontSize;
+	Texture* m_pDotTexture;
+
+	//COLORS
 	const Color4f m_ColorScore;
-	const Color4f m_ColorLang;
-	const float m_Ypos;
+	const Color4f m_ColorBlue;
+	const Color4f m_ColorOrange;
+
+
+	const int m_FontSize;
 
 	int m_Score;
 };

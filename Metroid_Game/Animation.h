@@ -1,8 +1,10 @@
 #pragma once
+#include "Component.h"
 
-class Animation
+class Animation final 
 {
 public:
+	Animation() = default;
 	Animation(const int& frameCount, const float& speed = 0.1f);
 	virtual ~Animation() = default;
 

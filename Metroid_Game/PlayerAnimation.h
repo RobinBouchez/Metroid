@@ -3,7 +3,7 @@
 
 class Player;
 
-class PlayerAnimation : public Animation
+class PlayerAnimation// : public Animation
 {
 public:
 	enum class State
@@ -19,7 +19,7 @@ public:
 	PlayerAnimation(const int& frameCount, const float& speed);
 	virtual ~PlayerAnimation();
 
-	virtual void Update(float elapsedSec) override;
+	virtual void Update(float elapsedSec);
 
 private:
 	Player* m_Player;
