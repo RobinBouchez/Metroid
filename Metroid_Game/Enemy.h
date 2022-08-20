@@ -38,6 +38,8 @@ protected:
 	void CalculateTexture(const std::string& filename, const int columns);
 
 private:
+	void SpawnPickup();
+
 	Animation* m_pAnimation;
 
 	float m_HorizontalSpeed;

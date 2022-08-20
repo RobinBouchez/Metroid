@@ -6,8 +6,14 @@
 #include "Player.h"
 #include "Camera.h"
 #include "Morphball.h"
+#include "Vitals.h"
 #include "HUD.h"
+#include "Level.h"
+
+//Scenes
 #include "StartScreen.h"
+#include "GameOverScreen.h"
+#include "Screen.h"
 
 //Inlcude Managers
 #include "SoundManager.h"
@@ -17,6 +23,7 @@
 #include "EnemyManager.h"
 #include "BulletManager.h"
 #include "ScreenManager.h"
+#include "PickUpManager.h"
 
 //Extrernal includes
 #include <iostream>
@@ -48,7 +55,7 @@ void Game::Initialize( )
 
 	std::cout << "Press the 'i' key to display the game's info." << std::endl;
 	
-	ScreenManager::GetInstance().Add(new StartScreen(Point2f{ m_Window.width / 2 - 570, 0 }));
+	ScreenManager::GetInstance().Add(new StartScreen(Point2f{ m_Window.width / 2 - 570, 0 }, m_Window));
 
 	CreateWorld();
 	CreateGameObjects();
@@ -58,6 +65,8 @@ void Game::Initialize( )
 
 void Game::Cleanup( )
 {
+	m_pWorld->CleanUp();
+
 	delete m_pWorld;
 	m_pWorld = nullptr;
 
@@ -78,16 +87,19 @@ void Game::Cleanup( )
 	EnemyManager::GetInstance().Cleanup(); 
 	BulletManager::GetInstance().Cleanup();
 	ScreenManager::GetInstance().Cleanup();
+	PickUpManager::GetInstance().Cleanup();
 }
 
 void Game::Update( float elapsedSec )
 {
-	if (ScreenManager::GetInstance().GetCurrent()->IsActive())
-	{
-		ScreenManager::GetInstance().Update(elapsedSec);
-		return;
-	}
+	//if (ScreenManager::GetInstance().GetCurrent()->IsActive())
+	//{
+	//	ScreenManager::GetInstance().Update(elapsedSec);
+	//	return;
+	//}
+	ScreenManager::GetInstance().GetCurrent()->Update(elapsedSec);
 	UpdateGameObjects(elapsedSec);
+
 }
 
 void Game::Draw( ) const
@@ -96,13 +108,12 @@ void Game::Draw( ) const
 
 	if (ScreenManager::GetInstance().GetCurrent()->IsActive())
 	{
-		ScreenManager::GetInstance().Draw();
+		ScreenManager::GetInstance().GetCurrent()->Draw();
 		return;
 	}
 
 	glPushMatrix();
 		m_pCamera->Transform(m_pPlayer->GetShape());
-		DrawWorld();
 		DrawGameObjects();
 		DrawHUD();
 	glPopMatrix();
@@ -205,12 +216,12 @@ void Game::DisplayInfo()
 
 void Game::CreateWorld()
 {
-	m_pWorld = new World(m_Window.height, m_Window.width);
+	m_pWorld = new World();
 }
 
 void Game::CreateGameObjects()
 {
-	m_pPlayer = new Player(m_PlayerPosition);
+	m_pPlayer = new Player( m_PlayerPosition );
 
 	m_pMorphball = new Morphball();
 
@@ -227,37 +238,40 @@ void Game::CreateCamera()
 {
 	m_pCamera = new Camera(m_Window.width, m_Window.height);
 	
-	m_pCamera->SetLevelBoundaries(m_pWorld->GetX(), m_pWorld->GetY(), m_pWorld->GetWidth(), m_pWorld->GetHeight());
-}
-
-void Game::DrawWorld() const
-{
-	m_pWorld->Draw();
+	m_pCamera->SetLevelBoundaries(m_pWorld->GetLevel()->GetBounds());
 }
 
 void Game::DrawGameObjects() const
 {
+	m_pWorld->Draw();
+
 	BulletManager::GetInstance().Draw();
 	m_pPlayer->Draw();
 	EnemyManager::GetInstance().Draw();
+	PickUpManager::GetInstance().Draw();
 	m_pMorphball->Draw();
+
 }
 
 void Game::DrawHUD() const
 {
 	const float border = 200.f;
-	const float x = m_pPlayer->GetShape().left - m_Window.width / 2 + border;
+	const float x = m_pCamera->GetPosition().x + border;
 	const float y = m_Window.height - border;
 	HUD::GetInstance().Draw(x, y);
 }
 
 void Game::UpdateGameObjects(float elapsedSec)
 {
+	if (m_pPlayer->GetVitals()->GetHealth() == 0)
+	{
+		ScreenManager::GetInstance().Add(new GameOverScreen(Point2f{ 0, 0 }, m_Window));
+	}
 	m_pPlayer->Update(elapsedSec, m_pWorld);
 	EnemyManager::GetInstance().Update(elapsedSec, m_pWorld, m_pPlayer);
 	m_pMorphball->CheckIfhit(m_pPlayer);
 	m_pMorphball->Update(elapsedSec);
 	BulletManager::GetInstance().Update(elapsedSec);
-
+	PickUpManager::GetInstance().Update(elapsedSec);
 	m_pWorld->Update(elapsedSec);
 }

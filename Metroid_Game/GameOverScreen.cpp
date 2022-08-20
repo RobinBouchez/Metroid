@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "TextureManager.h"
 
-GameOverScreen::GameOverScreen(const Point2f& position) : Screen(position)
+GameOverScreen::GameOverScreen(const Point2f& position, const Window& window) : Screen(position, window)
 	, m_pTexture{ nullptr }
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("GameOver");
@@ -11,5 +11,11 @@ GameOverScreen::GameOverScreen(const Point2f& position) : Screen(position)
 
 void GameOverScreen::Draw() const
 {
-	m_pTexture->Draw(m_ScreenPos);
+	//Screen::Draw();
+	m_pTexture->Draw(m_ScreenPos, GetBoundaries());
+}
+
+void GameOverScreen::Update(float elapsedSec)
+{
+	//Screen::Update(elapsedSec);
 }

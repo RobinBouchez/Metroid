@@ -4,8 +4,8 @@
 #include "Texture.h"
 #include "Animation.h"
 
-StartScreen::StartScreen(const Point2f& position)
-	: Screen(position)
+StartScreen::StartScreen(const Point2f& position, const Window& window)
+	: Screen(position, window)
 	, m_pTexture{ nullptr }
 	, m_AmountOfFrames{ 8 }
 	, m_pAnimation{new Animation(m_AmountOfFrames, 0.2f)}
@@ -32,8 +32,8 @@ void StartScreen::Draw() const
 
 	srcRect.left = m_pAnimation->m_AnimationFrame * m_pTexture->GetWidth() / m_AmountOfFrames;
 	srcRect.bottom = 0.f;
-	srcRect.width = m_Boundaries.width;
-	srcRect.height = m_Boundaries.height;
+	srcRect.width = GetBoundaries().width;
+	srcRect.height = GetBoundaries().height;
 
 
 	

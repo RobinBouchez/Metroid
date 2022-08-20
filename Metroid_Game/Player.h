@@ -7,6 +7,7 @@ class Bullet;
 class World;
 class Animation;
 class SoundManager;
+class Vitals;
 
 class Player : public GameObject
 {
@@ -27,7 +28,7 @@ public:
 	};
 
 
-	Player(Point2f& position);
+	Player(const Point2f& position);
 	virtual ~Player();
 
 	virtual void Draw() const override;
@@ -41,7 +42,8 @@ public:
 	int GetScore() const;
 
 	enum class State GetState() const;
-
+	Vitals* GetVitals() const;
+	void Morph();
 
 	static int m_Score;
 
@@ -53,6 +55,8 @@ private:
 	Animation* m_pAnimation;
 	Texture* m_pPlayerTexture;
 	Texture* m_pBallTexture;
+	Vitals* m_Vitals;
+
 
 	Rectf m_SourceClip;
 	Rectf m_BallTextureClip;

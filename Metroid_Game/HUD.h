@@ -17,16 +17,7 @@ private:
 
 	//TEXTURES
 	Texture* m_pScoreTexture;
-	Texture* m_pENTexture;
-	Texture* m_pDotTexture;
-
-	//COLORS
-	const Color4f m_ColorScore;
-	const Color4f m_ColorBlue;
-	const Color4f m_ColorOrange;
-
-
-	const int m_FontSize;
+	Texture* m_pHUDTexture;
 
 	int m_Score;
 };

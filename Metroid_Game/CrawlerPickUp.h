@@ -3,9 +3,10 @@
 class Texture;
 class Animation;
 
-class CrawlerPickUp : public PickUp
+class CrawlerPickUp final : public PickUp
 {
 public:
+	CrawlerPickUp() = default;
 	CrawlerPickUp(const Point2f& position);
 	virtual ~CrawlerPickUp();
 
@@ -16,7 +17,7 @@ private:
 	Texture* m_pTexture;
 	Animation* m_pAnimation;
 
-	const int m_Rows;
+	const int m_Columns;
 
 };
 

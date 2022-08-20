@@ -1,14 +1,12 @@
 #pragma once
 #include "Manager.h"
-
 #include <vector>
 
 class Level;
 
-class LevelManager final : Manager< LevelManager>
+class LevelManager : Manager< LevelManager>
 {
 public:
-
 	LevelManager() = default;
 	~LevelManager() = default;
 	LevelManager(const LevelManager&) = delete;
@@ -16,10 +14,8 @@ public:
 	LevelManager(LevelManager&&) = delete;
 	LevelManager& operator=(LevelManager&&) = delete;
 
-
 public:
-	
-	Level* GetCurrent();
+	Level* GetCurrent() const;
 	void Add(Level* level);
 	void Draw() const;
 	void Remove();

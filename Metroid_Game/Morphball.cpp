@@ -7,6 +7,7 @@
 #include "utils.h"
 #include "SoundManager.h"
 #include "SoundEffect.h"
+#include "utils.h"
 
 bool Morphball::m_IsHit = false;
 
@@ -17,7 +18,7 @@ Morphball::Morphball()
 	, m_DstRect{}
 	, m_SrcRect{}
 {
-	m_pTexture = TextureManager::GetInstance().CreateTexture("Morphball");
+	m_pTexture = TextureManager::GetInstance().CreateTexture("u_morphball");
 	SoundManager::GetInstance().CreateSound("PickUp");
 }
 
@@ -44,19 +45,15 @@ void Morphball::Update(float elapsedSec)
 
 bool Morphball::CheckIfhit(Player* player)
 {
-	Point2f playerPos{ player->GetShape().left, player->GetShape().bottom};
-	if (playerPos.x >= m_DstRect.left && playerPos.x <= m_DstRect.left + m_DstRect.width)
+	if (utils::IsOverlapping(player->GetShape(), m_DstRect))
 	{
-		if (playerPos.y >= m_DstRect.bottom && playerPos.y <= m_DstRect.bottom + m_DstRect.height)
+		if (!m_IsHit)
 		{
-			if (!m_IsHit)
-			{
-				//SoundManager::GetInstance().Play("PickUp");
-			}
-
-			m_IsHit = true;
-			return true;		
+			player->Morph();
+			//SoundManager::GetInstance().Play("PickUp");
 		}
+		m_IsHit = true;
+		return true;
 	}
 	return false;
 }

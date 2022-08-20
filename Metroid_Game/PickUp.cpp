@@ -2,10 +2,10 @@
 #include "PickUp.h"
 
 PickUp::PickUp(const Point2f& position)
-	: m_IsActive{ false }
+	: m_IsActive{ true }
 	, m_Position{ position }
+	, m_Shape{}
 {
-
 }
 
 PickUp::~PickUp()
@@ -22,4 +22,9 @@ void PickUp::Draw() const
 
 void PickUp::Update(float elapsedSec)
 {
+}
+
+Rectf PickUp::GetShape() const
+{
+	return m_Shape;
 }

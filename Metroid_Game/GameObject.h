@@ -12,12 +12,12 @@ public:
 	GameObject& operator=(GameObject&&) = delete;
 
 	const Point2f GetPosition();
+	const Rectf GetBounds();
 	const void SetPosition(const Point2f& pos);
 
 protected:
 	virtual void Draw() const = 0;
 	virtual void Update(float elapsedSec) = 0;
-
 
 	Rectf GetBoundaries();
 	Vector2f GetVelocity();
@@ -31,6 +31,9 @@ protected:
 	
 	Vector2f m_Acceleration;
 	Vector2f m_Velocity;
+
+	const float m_Width;
+	const float m_Height;
 
 private:
 	Rectf m_Boundaries;

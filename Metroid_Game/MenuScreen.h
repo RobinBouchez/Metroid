@@ -8,7 +8,7 @@ class MenuScreen final : public Screen
 public:
 	enum class Option { Start, Continue	};
 
-	MenuScreen(const Point2f& position);
+	MenuScreen(const Point2f& position, const Window& window);
 	virtual ~MenuScreen();
 
 	virtual void Draw() const override;

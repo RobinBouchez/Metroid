@@ -3,7 +3,7 @@
 class Screen 
 {
 public:
-	Screen(const Point2f& position);
+	Screen(const Point2f& position, const Window& window);
 	virtual ~Screen();
 
 	virtual void Draw() const = 0;

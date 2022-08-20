@@ -1,7 +1,6 @@
 #pragma once
-#include "Component.h"
 
-class Animation final 
+class Animation final
 {
 public:
 	Animation() = default;

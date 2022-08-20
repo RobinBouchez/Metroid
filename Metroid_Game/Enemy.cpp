@@ -8,11 +8,14 @@
 #include "HUD.h"
 #include "Vitals.h"
 #include "Component.h"
+#include "PickUpManager.h"
+#include "PickUp.h"
+#include "CrawlerPickUp.h"
 
 Enemy::Enemy(const Point2f& position)
 	: m_Position{ position }
-	, m_CurrentHealth{}
-	, m_Vitals{ new Vitals(m_CurrentHealth) }
+	, m_CurrentHealth{ 3 }
+	, m_Vitals{ nullptr }
 	, m_Boundaries{}
 	, m_HorizontalSpeed{ 180.f }
 	, m_pAnimation{ new Animation(2)}
@@ -20,6 +23,7 @@ Enemy::Enemy(const Point2f& position)
 	, m_pTexture{ nullptr }
 	, m_IsActive{ true }
 {
+	m_Vitals = new Vitals(m_CurrentHealth);
 }
 
 Enemy::~Enemy()
@@ -73,14 +77,23 @@ Rectf Enemy::GetBoundaries() const
 	return m_Boundaries;
 }
 
+
+void Enemy::SpawnPickup()
+{
+	if (rand() % 10 <= 7) // Spawn Pickup with a 70% chance
+	{
+		PickUpManager::GetInstance().Create(new CrawlerPickUp(m_Position));
+	}
+}
+
 void Enemy::TakeHit()
 {
-	m_Vitals->SetHealth(m_CurrentHealth--);
+	m_Vitals->SetHealth(--m_CurrentHealth);
 	if (m_Vitals->GetHealth() <= 0)
 	{
 		m_IsActive = false;
+		SpawnPickup();
 
 		HUD::GetInstance().UpdateScore(3);
 	}
-
 }

@@ -2,7 +2,7 @@
 #include "LevelManager.h"
 #include "Level.h"
 
-Level* LevelManager::GetCurrent()
+Level* LevelManager::GetCurrent() const
 {
 	if (!m_LevelVector.empty())
 	{

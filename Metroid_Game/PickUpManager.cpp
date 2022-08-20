@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "PickUpManager.h"
 #include "PickUp.h"
+#include "utils.h"
+#include "HUD.h"
+
 
 void PickUpManager::Draw() const
 {
@@ -10,9 +13,20 @@ void PickUpManager::Draw() const
 	}
 }
 
-void PickUpManager::Create(PickUp* PickUp)
+void PickUpManager::IsPlayerOverlapping(const Rectf& player)
 {
-	m_pPickUpVector.push_back(PickUp);
+	for (auto e : m_pPickUpVector)
+	{
+		if (!e->m_IsActive)
+		{
+			continue;
+		}
+		if (utils::IsOverlapping(player, e->GetShape()))
+		{
+			HUD::GetInstance().UpdateScore(10);
+			e->m_IsActive = false;
+		}
+	}
 }
 
 void PickUpManager::Update(float elapsedSec)
@@ -33,7 +47,9 @@ void PickUpManager::Cleanup()
 	m_pPickUpVector.clear();
 }
 
-std::vector<PickUp*>& PickUpManager::GetBullets()
+std::vector<PickUp*>& PickUpManager::GetPickUps()
 {
 	return m_pPickUpVector;
 }
+
+

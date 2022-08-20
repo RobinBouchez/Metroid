@@ -7,11 +7,16 @@
 #include "utils.h"
 #include "Player.h"
 #include "Matrix2x3.h"
+#include "CrawlerPickUp.h"
+#include "PickUp.h"
+#include "PickUpManager.h"
+#include "Vitals.h"
 
 CrawlerEnemy::CrawlerEnemy(const Point2f &position)
 	: Enemy( position )
 	, m_Speed{ 100.f }
 	, m_Direction{ Direction::right }
+	, m_PickUp{ nullptr }
 {
 	m_Velocity = Vector2f{ 1.f, 0.f };
 	CalculateTexture("Crawler", 3);
@@ -36,6 +41,7 @@ void CrawlerEnemy::Update(float elapsedSec, World* level, Player* player)
 	Enemy::Update(elapsedSec, level, player);
 	Move(elapsedSec, level);
 }
+
 
 void CrawlerEnemy::Move(float elapsedSec, World* level)
 {

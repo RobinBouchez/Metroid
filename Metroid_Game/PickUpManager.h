@@ -15,12 +15,22 @@ public:
     PickUpManager& operator=(PickUpManager&& other) = delete;
 
     void Draw() const;
-    void Create(PickUp* PickUp);
+
+    template<typename T>
+    std::enable_if_t<std::is_base_of_v<PickUp, T>, T*> Create(T* newPickUp);
+    void IsPlayerOverlapping(const Rectf& player);
     void Update(float elapsedSec);
     void Cleanup();
 
-    std::vector<PickUp*>& GetBullets();
+    std::vector<PickUp*>& GetPickUps();
 
 private:
     std::vector<PickUp*> m_pPickUpVector;
 };
+
+template<typename T>
+inline std::enable_if_t<std::is_base_of_v<PickUp, T>, T*> PickUpManager::Create(T* newPickUp)
+{
+    m_pPickUpVector.push_back(newPickUp);
+    return newPickUp;
+}

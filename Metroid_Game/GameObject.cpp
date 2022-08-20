@@ -18,6 +18,11 @@ const Point2f GameObject::GetPosition()
 	return m_Position;
 }
 
+const Rectf GameObject::GetBounds()
+{
+	return Rectf{ m_Position.x, m_Position.y, m_Width, m_Height };
+}
+
 const void GameObject::SetPosition(const Point2f& pos)
 {
 	m_Position = pos;

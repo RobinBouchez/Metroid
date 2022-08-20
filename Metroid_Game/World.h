@@ -1,39 +1,26 @@
 #pragma once
-#include "Texture.h"
-#include <vector>
 #include "Vector2f.h"
+#include "LevelManager.h"
+#include <vector>
 
-class World final
+class World final : LevelManager
 {
 public:
-	World(const float LevelHeight, const float Levelwidth);
-	~World();
+	World();
+	~World() = default;
 
 	void Draw() const;
 	void Update(float elapsedSec);
+	void CleanUp();
 
-	float GetWidth() const;
-	float GetHeight() const;
-	float GetX() const;
-	float GetY() const;
+	Level* GetLevel() const;
+
+
 	Point2f GetLastShapePosition();
 
-	float GetRatio();
 	void HandleCollision(Rectf& shape, Vector2f& velocity);
 	bool IsOnGround(const Rectf& actorShape);
 
 	const std::vector<std::vector<Point2f>>& GetVertices() const;
-
-private:
-
-	std::vector<std::vector<Point2f>> m_Vertices;
-	Texture* m_WorldTexture;
-	const Point2f m_TexturePosition;
-
-	const float m_TextureWidth, m_TextureHeight;
-
-	void LoadSVG();
-	
-	Point2f m_LastShapePosition;
 };
 

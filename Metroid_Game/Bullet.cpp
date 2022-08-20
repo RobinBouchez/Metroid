@@ -6,14 +6,14 @@
 #include "utils.h"
 
 Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
-	: m_Rows{4}
+	: m_Rows{ 2 }
 	, m_pAnimation{ new Animation(m_Rows) }
 	, m_Position{ pos }
 	, m_Velocity{ velocity }
 	, m_Speed{ 200 }
 	, m_IsActive{ true }
 {
-	m_pTexture = TextureManager::GetInstance().CreateTexture("Bullet");
+	m_pTexture = TextureManager::GetInstance().CreateTexture("bullet");
 
 	m_Boundaries.left = pos.x;
 	m_Boundaries.bottom = pos.y;
@@ -33,6 +33,7 @@ void Bullet::Draw() const
 	{
 		return;
 	}
+
 	Rectf m_SourceClip;
 	Rectf m_TextureClip;
 
@@ -82,5 +83,3 @@ void Bullet::SetIsActive(bool value)
 {
 	m_IsActive = value;
 }
-
-

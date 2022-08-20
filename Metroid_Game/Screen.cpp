@@ -2,7 +2,7 @@
 #include "Screen.h"
 #include "Texture.h"
 
-Screen::Screen(const Point2f& position)
+Screen::Screen(const Point2f& position, const Window& window)
 	: m_IsActive{ true }
 	, m_ScreenPos{ position }
 	, m_Boundaries {}
@@ -11,6 +11,8 @@ Screen::Screen(const Point2f& position)
 {
 	m_Boundaries.left = position.x;
 	m_Boundaries.bottom = position.y;
+	m_Boundaries.width = window.width;
+	m_Boundaries.height = window.height;
 }
 
 Screen::~Screen()

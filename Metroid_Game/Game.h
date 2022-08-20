@@ -58,7 +58,6 @@ private:
 	void CreateCamera();
 
 	//DRAW
-	void DrawWorld() const;
 	void DrawGameObjects() const;
 	void DrawHUD() const;
 

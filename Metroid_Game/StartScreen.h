@@ -7,7 +7,7 @@ class Animation;
 class StartScreen final : public Screen
 {
 public:
-	StartScreen(const Point2f& position);
+	StartScreen(const Point2f& position, const Window& window);
 	virtual ~StartScreen();
 
 	virtual void Draw() const override;

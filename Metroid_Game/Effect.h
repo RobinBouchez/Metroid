@@ -5,7 +5,7 @@
 class GameObject;
 class Texture;
 
-class Effect final
+class Effect
 {
 public:
 	Effect(GameObject* object);

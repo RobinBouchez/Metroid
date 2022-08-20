@@ -1,5 +1,6 @@
 #pragma once
 #include "Enemy.h"
+class CrawlerPickUp;
 
 class CrawlerEnemy final : public Enemy
 {
@@ -15,9 +16,11 @@ public:
 	virtual void Draw() const override;
 	virtual void Update(float elapsedSec, World* level, Player* player) override;
 
+	void SpawnPickup();
+
 private:
 	Direction m_Direction;
-
+	CrawlerPickUp* m_PickUp;
 	const float m_Speed;
 
 	void Move(float elapsedSec, World* level);

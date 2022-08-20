@@ -46,9 +46,6 @@
     <Filter Include="Source Files\Game Files\World">
       <UniqueIdentifier>{7a73a2ed-0f1e-480c-a3b2-2d4f070387f0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game Files\World\Levels">
-      <UniqueIdentifier>{4d1e28ac-bfc7-4d73-be81-c2c1ee7d00fc}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Framework Files">
       <UniqueIdentifier>{0d874dca-5458-485b-a16f-907c89379ac7}</UniqueIdentifier>
     </Filter>
@@ -177,12 +174,6 @@
     <ClCompile Include="Weapon.cpp">
       <Filter>Source Files\Game Files\GameObjects\Weapon</Filter>
     </ClCompile>
-    <ClCompile Include="Level1.cpp">
-      <Filter>Source Files\Game Files\World\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="Level2.cpp">
-      <Filter>Source Files\Game Files\World\Levels</Filter>
-    </ClCompile>
     <ClCompile Include="Morphball.cpp">
       <Filter>Source Files\Game Files\GameObjects\Morphball</Filter>
     </ClCompile>
@@ -227,6 +218,15 @@
     </ClCompile>
     <ClCompile Include="Vitals.cpp">
       <Filter>Source Files\Game Files\Components\Vitals</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Source Files\Game Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletEffect.cpp">
+      <Filter>Source Files\Game Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -323,12 +323,6 @@
     <ClInclude Include="Weapon.h">
       <Filter>Source Files\Game Files\GameObjects\Weapon</Filter>
     </ClInclude>
-    <ClInclude Include="Level2.h">
-      <Filter>Source Files\Game Files\World\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="Level1.h">
-      <Filter>Source Files\Game Files\World\Levels</Filter>
-    </ClInclude>
     <ClInclude Include="Morphball.h">
       <Filter>Source Files\Game Files\GameObjects\Morphball</Filter>
     </ClInclude>
@@ -373,6 +367,15 @@
     </ClInclude>
     <ClInclude Include="Vitals.h">
       <Filter>Source Files\Game Files\Components\Vitals</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Source Files\Game Files\World</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletEffect.h">
+      <Filter>Source Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

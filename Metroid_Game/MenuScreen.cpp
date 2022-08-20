@@ -3,7 +3,7 @@
 #include "Texture.h"
 #include "TextureManager.h"
 
-MenuScreen::MenuScreen(const Point2f& position) : Screen(position)
+MenuScreen::MenuScreen(const Point2f& position, const Window& window) : Screen(position, window)
 	, m_pTexture{ nullptr }
 	, m_pButtonTexture{ nullptr }
 	, m_Option{ Option::Start }

@@ -20,8 +20,3 @@ void Animation::Update(float elapsedSec)
 		m_AnimationTime = 0;
 	}
 }
-//
-//Animation* Animation::Create(const int& frameCount, const float& speed)
-//{
-//}
-//

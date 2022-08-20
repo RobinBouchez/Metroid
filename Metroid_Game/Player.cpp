@@ -8,17 +8,22 @@
 #include "SoundManager.h"
 #include "TextureManager.h"
 #include "BulletManager.h"
+#include "PickUp.h"
+#include "PickUpManager.h"
+#include "utils.h"
+#include "Vitals.h"
+
 #include <iostream>
 int Player::m_Score = 0;
 
-Player::Player(Point2f& position)
+Player::Player(const Point2f& position)
 	: m_State{ State::idle }
 	, m_SourceClip{}
 	, m_TextureClip{}
 	, m_Shape{}
 	, m_Rows{ 4 }
 	, m_Cols{ 6 }
-	, m_pAnimation{ new Animation(m_Rows) }
+	, m_pAnimation{ new Animation(m_Rows, 0.1f) }
 	, m_IsRolling{false}
 	, m_Angle{}
 	, m_RotSpeed{ 1200.f }
@@ -28,6 +33,7 @@ Player::Player(Point2f& position)
 	, m_Cooldown{ 0.1f }
 	, m_HasShot{}
 	, m_JumpSpeed{ 700.f }
+	, m_Vitals{ new Vitals(1)}
 
 {
 
@@ -53,6 +59,9 @@ Player::~Player()
 {	
 	delete m_pAnimation;
 	m_pAnimation = nullptr;
+
+	delete m_Vitals;
+	m_Vitals = nullptr;
 }
 
 void Player::Draw() const
@@ -97,8 +106,9 @@ void Player::Update(float elapsedSec, World* &level)
 {
 	UpdateMovement(elapsedSec, level);
 	SetTexture();
-	
 	m_pAnimation->Update(elapsedSec);
+
+	PickUpManager::GetInstance().IsPlayerOverlapping(m_Shape);
 
 	if (!m_IsRolling)
 	{
@@ -145,7 +155,19 @@ void Player::Shoot()
 			bulletVelocity = Vector2f{ 0, 1 };
 			break;
 		}
-		BulletManager::GetInstance().Create(new Bullet(Point2f{ m_Shape.left + 10, m_Shape.bottom + 50 }, bulletVelocity));
+
+		float Xoffset = 70.f;
+		const float Yoffset = 60.f;
+		if (m_AimDirection == AimDirection::up)
+		{
+			Xoffset = 0.f;
+
+			if (m_IsMovingLeft)
+			{
+				Xoffset = -Xoffset / 4.f;
+			}
+		}
+		BulletManager::GetInstance().Create(new Bullet(Point2f{ m_Shape.left + Xoffset, m_Shape.bottom + Yoffset }, bulletVelocity));
 		m_HasShot = true;
 	}
 }
@@ -153,6 +175,15 @@ void Player::Shoot()
 enum class Player::State Player::GetState() const
 {
 	return m_State;
+}
+
+Vitals* Player::GetVitals() const
+{
+	return m_Vitals;
+}
+
+void Player::Morph()
+{
 }
 
 Rectf Player::GetShape() const
