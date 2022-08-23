@@ -8,7 +8,7 @@
 SkrullEnemy::SkrullEnemy(const Point2f& position)
 	: Enemy(position)
 	, m_DetectionRadius{ 500.f }
-	, m_AttackSpeed{ 4.f }
+	, m_AttackSpeed{ 6.f }
 {
 	m_Position = position;
 	m_Tag = "Skrull";
@@ -27,20 +27,30 @@ void SkrullEnemy::Update(float elapsedSec, World* level, Player* player)
 {
 	Enemy::Update(elapsedSec, level, player);
 	
-	float distance = utils::GetDistance(Point2f{m_Position.x, m_Position.y}, Point2f{player->m_Shape.left, player->m_Shape.bottom});
 
-	if (level->IsOnGround(player->m_Shape))
+	float distance = utils::GetDistance(Point2f{ this->m_Position.x, this->m_Position.y}, Point2f{player->m_Shape.left + player->m_Shape.width / 2, player->m_Shape.bottom + player->m_Shape.height / 2});
+
+	if (level->IsOnGround(this->GetBoundaries()))
 	{
 		return;
 	}
 
+	m_AttackSpeed += elapsedSec;
+
 	if (distance <= m_DetectionRadius)
 	{
-		Vector2f direction{ player->m_Shape.left - m_Position.x, player->m_Shape.bottom - m_Position.y };
+		Vector2f direction{ player->m_Shape.left - this->m_Position.x, player->m_Shape.bottom - this->m_Position.y };
 		
 		direction = direction.Normalized();
 
-		m_Position.x += direction.x * m_AttackSpeed;
-		m_Position.y += direction.y * m_AttackSpeed;
+		const float m_SafeRadius = player->m_Shape.height;
+		if (distance <= m_SafeRadius)
+		{
+			this->m_Position.y -= 1.f * m_AttackSpeed;
+			return;
+		}
+
+		this->m_Position.x += direction.x * m_AttackSpeed;
+		this->m_Position.y += direction.y * m_AttackSpeed;
 	}
 }

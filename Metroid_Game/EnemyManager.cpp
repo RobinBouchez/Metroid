@@ -11,6 +11,7 @@
 #include "Player.h"
 #include "Vitals.h"
 
+
 #include <iostream>
 
 void EnemyManager::Add(Enemy* enemy)
@@ -52,7 +53,7 @@ void EnemyManager::Update(float elapsedSec, World* level, Player* player)
 				}
 			}
 		}
-		if (utils::IsOverlapping(e->GetBoundaries(), player->GetBoundaries()))
+		if (utils::IsOverlapping(e->GetBoundaries(), player->m_Shape))
 		{
 			player->GetVitals()->TakeDamage(0.5f);
 		}

@@ -10,8 +10,9 @@ public:
 	virtual void Draw() const override;
 	virtual void Update(float elapsedSec, World* level, Player* player);
 
+	//Point2f m_Position;
 private:
 	const float m_DetectionRadius;
-	const float m_AttackSpeed;
+	float m_AttackSpeed;
 };
 

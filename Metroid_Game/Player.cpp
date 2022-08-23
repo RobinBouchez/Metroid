@@ -199,7 +199,6 @@ void Player::Shoot()
 			{
 				Xoffset = -10.f;
 			}
-			//Xoffset = 10.f;
 			Yoffset = 50.f;
 			break;
 		}

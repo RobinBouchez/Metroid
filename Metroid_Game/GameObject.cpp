@@ -6,7 +6,7 @@
 bool GameObject::m_IsOnGround = false;
 
 GameObject::GameObject()
-	: m_Acceleration{ 30.f , -9.f }
+	: m_Acceleration{ 30.f , -20.f }
 	, m_Velocity{ 0.f, 0.f }
 	, m_Position{}
 	, m_Height{}

@@ -4,6 +4,7 @@
 #include "Bullet.h"
 #include "Animation.h"
 #include "utils.h"
+#include "SoundManager.h"
 #include "BulletEffect.h"
 
 Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
@@ -14,7 +15,8 @@ Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
 	, m_Hit{ false }
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("bullet");
-
+	SoundManager::GetInstance().CreateSound("Bullet");
+	SoundManager::GetInstance().Play("Bullet");
 	m_Position.x = pos.x;
 	m_Position.y = pos.y;
 	m_Width = m_pTexture->GetWidth() / m_Rows;

@@ -1,5 +1,7 @@
 #include "pch.h"
 #include "Vitals.h"
+#include "SoundManager.h"
+#include "HUD.h"
 
 Vitals::Vitals(const float& health)
     : m_Health{ health }
@@ -8,6 +10,8 @@ Vitals::Vitals(const float& health)
     , m_InvinsibleDuration{ 1.f }
     , m_TakenDamage{ false }
 {
+    SoundManager::GetInstance().CreateSound("Damage");
+
 }
 
 Vitals::~Vitals()
@@ -45,6 +49,8 @@ void Vitals::TakeDamage(const float& damage)
     {
         m_Health -= damage;
         m_TakenDamage = true;
+        HUD::GetInstance().UpdateScore(-3);
+        SoundManager::GetInstance().Play("Damage");
     }
 }
 
