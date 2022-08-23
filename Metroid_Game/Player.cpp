@@ -39,7 +39,6 @@ Player::Player(const Point2f& position)
 {
 	m_pPlayerTexture = TextureManager::GetInstance().CreateTexture("Samus");
 	m_pBallTexture = TextureManager::GetInstance().CreateTexture("morphball");
-	m_pDeathTexture = TextureManager::GetInstance().CreateTexture("PlayerDeath");
 
 	m_Position = position;
 
@@ -364,7 +363,7 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 	}
 	
 	//Prevent camera shake
-	if (abs(m_Velocity.x) < 1 && abs(m_Velocity.y) < 1)
+	if (abs(m_Velocity.x) < 2 && abs(m_Velocity.y) < 2)
 	{
 		return;
 	}

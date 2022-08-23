@@ -53,7 +53,7 @@ void CrawlerEnemy::Move(float elapsedSec, World* level)
 	utils::HitInfo hitinfo_down_2;
 	utils::HitInfo hitinfo_right_2;
 
-	float detectionDistance = 1.8f;
+	float detectionDistance = 1.2f;
 	bool isHittingDown{ false };
 	bool isHittingRight{ false };	
 	bool isHittingDown_2{ false };

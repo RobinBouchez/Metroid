@@ -10,6 +10,7 @@ SkrullEnemy::SkrullEnemy(const Point2f& position)
 	, m_DetectionRadius{ 500.f }
 	, m_AttackSpeed{ 5.f }
 {
+	m_Position = position;
 	m_Tag = "Skrull";
 	CalculateTexture(m_Tag, 3);
 
