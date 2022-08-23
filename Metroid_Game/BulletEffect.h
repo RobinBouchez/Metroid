@@ -3,6 +3,7 @@
 
 class Texture;
 class GameObject;
+class Bullet;
 
 class BulletEffect final : public Effect
 {
@@ -11,11 +12,11 @@ public:
 	virtual ~BulletEffect() =  default;
 
 	virtual void Draw() const override;
+	void DrawEffect(const Point2f& pos) const;
 	virtual void Update(float elapsedSec) override;
-
-	bool Trigger(Bullet* bullet, GameObject* object);
 
 private:
 	Texture* m_pTexture;
+
 };
 

@@ -1,39 +1,31 @@
 #include "pch.h"
 #include "GameObject.h"
 
+#include <functional>
+
 bool GameObject::m_IsOnGround = false;
 
 GameObject::GameObject()
-	: m_Boundaries{}
-	, m_Acceleration{ 30.f , -9.810f }
+	: m_Acceleration{ 30.f , -22.f }
 	, m_Velocity{ 0.f,0.f }
-	, m_IsMovingLeft{false}
-	, m_HorizontalSpeed{ 300.f }
 	, m_Position{}
+	, m_Height{}
+	, m_Width{}
+	, m_IsActive{ true }
 {
 }
 
-const Point2f GameObject::GetPosition()
-{
-	return m_Position;
-}
-
-const Rectf GameObject::GetBounds()
+const Rectf GameObject::GetBoundaries() const
 {
 	return Rectf{ m_Position.x, m_Position.y, m_Width, m_Height };
 }
 
-const void GameObject::SetPosition(const Point2f& pos)
+bool GameObject::GetIsActive() const
 {
-	m_Position = pos;
+	return m_IsActive;
 }
 
-Rectf GameObject::GetBoundaries()
+void GameObject::SetIsActive(bool value)
 {
-	return m_Boundaries;
-}
-
-Vector2f GameObject::GetVelocity()
-{
-	return m_Velocity;
+	m_IsActive = value;
 }

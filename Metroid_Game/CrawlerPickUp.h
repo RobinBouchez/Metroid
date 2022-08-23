@@ -18,6 +18,5 @@ private:
 	Animation* m_pAnimation;
 
 	const int m_Columns;
-
 };
 

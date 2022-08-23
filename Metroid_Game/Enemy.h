@@ -24,16 +24,14 @@ public:
 	virtual void Update(float elapsedSec, World* level, Player* player);
 	virtual void Draw() const override;
 
-	bool GetIsActive() const;
+	virtual std::string GetTag() const;
 
-	Rectf GetBoundaries() const;
 	void TakeHit();
-	
+
 protected:
-	Rectf m_Boundaries;
-	Point2f m_Position;
 	Texture* m_pTexture;
 	Vitals* m_Vitals;
+	std::string m_Tag;
 
 	void CalculateTexture(const std::string& filename, const int columns);
 
@@ -41,13 +39,8 @@ private:
 	void SpawnPickup();
 
 	Animation* m_pAnimation;
-
 	float m_HorizontalSpeed;
-
-	bool m_IsActive;
-
 	float m_CurrentHealth;
-	//const float m_Health;
 	int m_Columns;
 };
 

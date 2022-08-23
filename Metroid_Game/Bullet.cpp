@@ -4,27 +4,34 @@
 #include "Bullet.h"
 #include "Animation.h"
 #include "utils.h"
+#include "BulletEffect.h"
 
 Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
 	: m_Rows{ 2 }
 	, m_pAnimation{ new Animation(m_Rows) }
-	, m_Position{ pos }
-	, m_Velocity{ velocity }
-	, m_Speed{ 200 }
-	, m_IsActive{ true }
+	, m_Speed{ 300  }
+	, m_LifeTime{}
+	, m_Hit{ false }
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("bullet");
 
-	m_Boundaries.left = pos.x;
-	m_Boundaries.bottom = pos.y;
-	m_Boundaries.width = m_pTexture->GetWidth() / m_Rows;
-	m_Boundaries.height = m_pTexture->GetHeight();
+	m_Position.x = pos.x;
+	m_Position.y = pos.y;
+	m_Width = m_pTexture->GetWidth() / m_Rows;
+	m_Height = m_pTexture->GetHeight();
+
+	m_Velocity = velocity;
+
+	m_pBulletEffect = new BulletEffect();
 }
 
 Bullet::~Bullet()
 {
 	delete m_pAnimation;
 	m_pAnimation;
+
+	delete m_pBulletEffect;
+	m_pBulletEffect = nullptr;
 }
 
 void Bullet::Draw() const
@@ -34,21 +41,28 @@ void Bullet::Draw() const
 		return;
 	}
 
-	Rectf m_SourceClip;
-	Rectf m_TextureClip;
+	if (m_Hit)
+	{
+		m_pBulletEffect->DrawEffect(m_Position);
+	}
+	else
+	{
+		Rectf m_SourceClip;
+		Rectf m_TextureClip;
 
-	m_SourceClip.left = m_pAnimation->m_AnimationFrame * m_pTexture->GetWidth() / m_Rows;
-	m_SourceClip.bottom = m_pTexture->GetHeight();
-	m_SourceClip.height = m_pTexture->GetHeight();
-	m_SourceClip.width = m_pTexture->GetWidth() / m_Rows;
+		m_SourceClip.left = m_pAnimation->m_AnimationFrame * m_pTexture->GetWidth() / m_Rows;
+		m_SourceClip.bottom = m_pTexture->GetHeight();
+		m_SourceClip.height = m_pTexture->GetHeight();
+		m_SourceClip.width = m_pTexture->GetWidth() / m_Rows;
 
 
-	m_TextureClip.left =  m_Position.x;
-	m_TextureClip.bottom = m_Position.y;
-	m_TextureClip.height = m_pTexture->GetHeight();
-	m_TextureClip.width = m_pTexture->GetWidth() / m_Rows;
-	
-	m_pTexture->Draw(m_TextureClip, m_SourceClip);
+		m_TextureClip.left = m_Position.x;
+		m_TextureClip.bottom = m_Position.y;
+		m_TextureClip.height = m_pTexture->GetHeight();
+		m_TextureClip.width = m_pTexture->GetWidth() / m_Rows;
+
+		m_pTexture->Draw(m_TextureClip, m_SourceClip);
+	}
 }
 
 void Bullet::Update(float elapsedSec)
@@ -62,24 +76,26 @@ void Bullet::Update(float elapsedSec)
 
 	Vector2f v = m_Velocity * m_Speed; 
 
-	m_Position.x += v.x * elapsedSec;
-	m_Position.y += v.y * elapsedSec;
+	if (m_Hit)
+	{
+		m_pBulletEffect->Update(elapsedSec);
+	}
+	else
+	{
+		m_Position.x += v.x * elapsedSec;
+		m_Position.y += v.y * elapsedSec;
+	}
 
-	m_Boundaries.left = m_Position.x;
-	m_Boundaries.bottom = m_Position.y;
+	m_LifeTime += elapsedSec;
+
+	if (m_LifeTime >= 1.f)
+	{
+		m_IsActive = false;
+	}
+
 }
 
-Rectf Bullet::GetBoundaries() const
+void Bullet::Explode()
 {
-	return m_Boundaries;
-}
-
-bool Bullet::GetIsActive() const
-{
-	return m_IsActive;
-}
-
-void Bullet::SetIsActive(bool value)
-{
-	m_IsActive = value;
+	m_Hit = true;
 }

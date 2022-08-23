@@ -2,10 +2,19 @@
 #include "World.h"
 #include "Level.h"
 #include "LevelManager.h"
+#include "Camera.h"
+#include "EnemyManager.h"
+
+#include <iostream>
+#include <fstream>
 
 World::World()
 {
-	LevelManager::Add(new Level(0));
+	LevelManager::Add(new Level(m_LevelIndex));
+}
+
+World::~World()
+{
 }
 
 void World::Draw() const
@@ -46,4 +55,29 @@ bool World::IsOnGround(const Rectf& actorShape)
 const std::vector<std::vector<Point2f>>& World::GetVertices() const
 {
 	return LevelManager::GetCurrent()->GetVertices();
+}
+
+void World::SaveEnemies()
+{
+	std::string fileName = "Level" + std::to_string(LevelManager::GetCurrent()->GetIndex()) + ".txt";
+	std::ofstream file(fileName);
+
+	file << EnemyManager::GetInstance();
+
+	file.close();
+}
+
+void World::LoadEnemies()
+{
+	std::string fileName = "Level" + std::to_string(LevelManager::GetCurrent()->GetIndex()) + ".txt";
+	std::ifstream file(fileName);
+
+	if (!EnemyManager::GetInstance().GetEnemies().empty())
+	{
+		EnemyManager::GetInstance().Cleanup();
+	}
+
+	file >> EnemyManager::GetInstance();
+
+	file.close();
 }

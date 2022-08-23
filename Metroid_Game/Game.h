@@ -30,32 +30,31 @@ public:
 	void ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e );
 	void ProcessMouseDownEvent( const SDL_MouseButtonEvent& e );
 	void ProcessMouseUpEvent( const SDL_MouseButtonEvent& e );
+	static Window m_Window;
 
 private:
 	// DATA MEMBERS
-	const Window m_Window;
 
 	int m_Volume = 100;
 
 	//Pointers
 	World* m_pWorld;
 	Player* m_pPlayer;
-	Camera* m_pCamera;
 	Morphball* m_pMorphball;
-	SoundManager* m_pSoundManager;
 
-	Point2f m_PlayerPosition{ 2000.f, 200.f };
+	Point2f m_PlayerPosition{ 2000.f, 180.f };
 
 	// FUNCTIONS
 	void Initialize( );
 	void Cleanup( );
 	void ClearBackground( ) const;
 	void DisplayInfo();
+	void SaveGame(const std::string& name);
+	void LoadGame(const std::string& name);
 
 	//CREATE
 	void CreateWorld();
 	void CreateGameObjects();
-	void CreateCamera();
 
 	//DRAW
 	void DrawGameObjects() const;

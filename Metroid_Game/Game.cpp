@@ -1,6 +1,5 @@
 #include "pch.h"
 #include "Game.h"
-#include "Settings.h"
 
 #include "World.h"
 #include "Player.h"
@@ -13,6 +12,7 @@
 //Scenes
 #include "StartScreen.h"
 #include "GameOverScreen.h"
+#include "MenuScreen.h"
 #include "Screen.h"
 
 //Inlcude Managers
@@ -24,9 +24,11 @@
 #include "BulletManager.h"
 #include "ScreenManager.h"
 #include "PickUpManager.h"
+#include "LevelManager.h"
 
 //Extrernal includes
 #include <iostream>
+#include <fstream>
 
 #if _DEBUG
 #if __has_include(<vld.h>)
@@ -34,9 +36,11 @@
 #endif
 #endif
 
+Window Game::m_Window{};
+
 Game::Game( const Window& window ) 
-	:m_Window{ window }
 {
+	m_Window = window;
 	Initialize( );
 }
 
@@ -47,40 +51,32 @@ Game::~Game( )
 
 void Game::Initialize( )
 {
-	//_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
-	//_CrtSetBreakAlloc(6565);
-	//_CrtSetBreakAlloc(846);
-	//_CrtSetBreakAlloc(796);
-	//_CrtSetBreakAlloc(192);
-
 	std::cout << "Press the 'i' key to display the game's info." << std::endl;
 	
 	ScreenManager::GetInstance().Add(new StartScreen(Point2f{ m_Window.width / 2 - 570, 0 }, m_Window));
 
+	SoundManager::GetInstance().CreateSound("Music", ".mp3");
+	SoundManager::GetInstance().PlayLoop("Music");
+
 	CreateWorld();
 	CreateGameObjects();
-	CreateCamera();
-	m_pSoundManager = new SoundManager();
+
 }
 
 void Game::Cleanup( )
 {
+	SaveGame("GameData");
+	m_pWorld->SaveEnemies();
 	m_pWorld->CleanUp();
 
 	delete m_pWorld;
 	m_pWorld = nullptr;
-
-	delete m_pCamera;
-	m_pCamera = nullptr;
 
 	delete m_pPlayer;
 	m_pPlayer = nullptr;
 
 	delete m_pMorphball;
 	m_pMorphball = nullptr;
-
-	delete m_pSoundManager;
-	m_pSoundManager = nullptr;
 
 	SoundManager::GetInstance().Cleanup();
 	TextureManager::GetInstance().Cleanup();
@@ -92,14 +88,12 @@ void Game::Cleanup( )
 
 void Game::Update( float elapsedSec )
 {
-	//if (ScreenManager::GetInstance().GetCurrent()->IsActive())
-	//{
-	//	ScreenManager::GetInstance().Update(elapsedSec);
-	//	return;
-	//}
-	ScreenManager::GetInstance().GetCurrent()->Update(elapsedSec);
+	if (ScreenManager::GetInstance().GetCurrent()->IsActive())
+	{
+		ScreenManager::GetInstance().GetCurrent()->Update(elapsedSec);
+		return;
+	}
 	UpdateGameObjects(elapsedSec);
-
 }
 
 void Game::Draw( ) const
@@ -111,12 +105,13 @@ void Game::Draw( ) const
 		ScreenManager::GetInstance().GetCurrent()->Draw();
 		return;
 	}
-
 	glPushMatrix();
-		m_pCamera->Transform(m_pPlayer->GetShape());
-		DrawGameObjects();
-		DrawHUD();
+	m_pWorld->GetLevel()->m_pCamera->Transform(m_pPlayer->GetBoundaries());
+	DrawGameObjects();
+	DrawHUD();
 	glPopMatrix();
+
+
 }
 
 void Game::ProcessKeyDownEvent( const SDL_KeyboardEvent & e )
@@ -134,22 +129,23 @@ void Game::ProcessKeyUpEvent( const SDL_KeyboardEvent& e )
 	case SDLK_SPACE:
 		if (ScreenManager::GetInstance().GetCurrent()->IsActive())
 		{
-			if (ScreenManager::GetInstance().GetCurrent()->HasPlayed())
-			{
-				ScreenManager::GetInstance().GetCurrent()->Continue(true);
-			}
-			ScreenManager::GetInstance().GetCurrent()->SetIsActive(false);
-
+			ScreenManager::GetInstance().Replace(new MenuScreen(Point2f{ m_Window.width / 2 - 570, 0 }, m_Window));
 		}
 		break;
 	case SDLK_m:
-		//Settings<SoundManager>().GetInstance().SetVolume(m_Volume - m_Volume);
+		SoundManager::GetInstance().SetVolume(m_Volume - m_Volume);
 		break;
 	case SDLK_COMMA:
-		//Settings<SoundManager>().GetInstance().SetVolume(m_Volume - 10);
+		SoundManager::GetInstance().SetVolume(m_Volume -= 10);
 		break;
 	case SDLK_PERIOD:
-		//Settings<SoundManager>().GetInstance().SetVolume(m_Volume + 10);
+		SoundManager::GetInstance().SetVolume(m_Volume += 10);
+		break;
+	case SDLK_RETURN:
+		if (MenuScreen::m_SaveGame)
+		{
+			LoadGame("GameData");
+		}
 		break;
 	}
 }
@@ -161,36 +157,10 @@ void Game::ProcessMouseMotionEvent( const SDL_MouseMotionEvent& e )
 
 void Game::ProcessMouseDownEvent( const SDL_MouseButtonEvent& e )
 {
-	//std::cout << "MOUSEBUTTONDOWN event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
 }
 
 void Game::ProcessMouseUpEvent( const SDL_MouseButtonEvent& e )
 {
-	//std::cout << "MOUSEBUTTONUP event: ";
-	//switch ( e.button )
-	//{
-	//case SDL_BUTTON_LEFT:
-	//	std::cout << " left button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_RIGHT:
-	//	std::cout << " right button " << std::endl;
-	//	break;
-	//case SDL_BUTTON_MIDDLE:
-	//	std::cout << " middle button " << std::endl;
-	//	break;
-	//}
 }
 
 void Game::ClearBackground( ) const
@@ -208,6 +178,9 @@ void Game::DisplayInfo()
 	
 	std::cout << "----- GAME CONTROLS -----" << std::endl;
 	std::cout << "" << std::endl;
+	std::cout << "Press the space bar to start the game" << std::endl;
+	std::cout << "Use the arrow keys to select an option in the menu" << std::endl;
+	std::cout << "Press Enter/Return to confirm" << std::endl;
 	std::cout << "Use the 'w' 'a' 's' 'd' keys to move the player " << std::endl;
 	std::cout << "Or use the arrow keys to also  move the player " << std::endl;
 	std::cout << "Use the space bar to jump" << std::endl;
@@ -225,39 +198,26 @@ void Game::CreateGameObjects()
 
 	m_pMorphball = new Morphball();
 
-	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{1900.f, 612.f} });
-	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{2250.f, 500.f } });
-	EnemyManager::GetInstance().Add(new CrawlerEnemy{ Point2f{750.f, 500.f } });
-
-	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2750.f, 500.f } });
-	EnemyManager::GetInstance().Add(new SkrullEnemy{ Point2f{2750.f, 500.f } });
-
-}
-
-void Game::CreateCamera()
-{
-	m_pCamera = new Camera(m_Window.width, m_Window.height);
-	
-	m_pCamera->SetLevelBoundaries(m_pWorld->GetLevel()->GetBounds());
+	m_pWorld->LoadEnemies();
 }
 
 void Game::DrawGameObjects() const
 {
 	m_pWorld->Draw();
-
-	BulletManager::GetInstance().Draw();
 	m_pPlayer->Draw();
-	EnemyManager::GetInstance().Draw();
-	PickUpManager::GetInstance().Draw();
 	m_pMorphball->Draw();
 
+	BulletManager::GetInstance().Draw();
+	EnemyManager::GetInstance().Draw();
+	PickUpManager::GetInstance().Draw();
 }
 
 void Game::DrawHUD() const
 {
 	const float border = 200.f;
-	const float x = m_pCamera->GetPosition().x + border;
+	const float x = m_pWorld->GetLevel()->m_pCamera->GetPosition().x + border;
 	const float y = m_Window.height - border;
+
 	HUD::GetInstance().Draw(x, y);
 }
 
@@ -265,13 +225,56 @@ void Game::UpdateGameObjects(float elapsedSec)
 {
 	if (m_pPlayer->GetVitals()->GetHealth() == 0)
 	{
-		ScreenManager::GetInstance().Add(new GameOverScreen(Point2f{ 0, 0 }, m_Window));
+		ScreenManager::GetInstance().Add(new GameOverScreen(Point2f{ m_Window.width / 2 - 570, 0 }, m_Window));
 	}
+
 	m_pPlayer->Update(elapsedSec, m_pWorld);
-	EnemyManager::GetInstance().Update(elapsedSec, m_pWorld, m_pPlayer);
+
 	m_pMorphball->CheckIfhit(m_pPlayer);
 	m_pMorphball->Update(elapsedSec);
+
+	EnemyManager::GetInstance().Update(elapsedSec, m_pWorld, m_pPlayer);
 	BulletManager::GetInstance().Update(elapsedSec);
 	PickUpManager::GetInstance().Update(elapsedSec);
+
 	m_pWorld->Update(elapsedSec);
+}
+
+void Game::SaveGame(const std::string& name)
+{
+	std::ofstream file(name + ".txt"); //Create file
+
+	//write data to file
+	file << m_pWorld->m_LevelIndex << '\n';
+	file << m_pPlayer->GetBoundaries().left << '\n';
+	file << m_pPlayer->GetBoundaries().bottom << '\n';
+	file << m_pPlayer->GetVitals()->GetHealth() << '\n';
+	file << m_pPlayer->GetScore();
+	file.close();
+}
+
+void Game::LoadGame(const std::string& name)
+{
+	std::ifstream file{ name + ".txt" };
+	
+	std::string index{};
+	std::getline(file, index);
+	m_pWorld->m_LevelIndex = std::stoi(index);
+
+	std::string x{};
+	std::getline(file, x);
+	std::string y{};
+	std::getline(file, y);
+
+	m_pPlayer->SetPosition(Point2f{ std::stof(x), std::stof(y) });
+
+	std::string health{};
+	std::getline(file, health);
+	m_pPlayer->GetVitals()->SetHealth(std::stof(health));
+
+	std::string Score{};
+	std::getline(file, Score);
+	m_pPlayer->m_Score = std::stoi(Score);
+
+	file.close();
 }

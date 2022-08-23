@@ -1,22 +1,19 @@
 #pragma once
-#include "Component.h"
-#include "Animation.h"
+#include "GameObject.h"
 
-class GameObject;
-class Texture;
+class Animation;
 
 class Effect
 {
 public:
-	Effect(GameObject* object);
+	Effect();
 	virtual ~Effect();
 
-	virtual void Draw() const;
-	virtual void Update(float elapsedSec);
+	virtual void Draw() const = 0;
+	virtual void Update(float elapsedSec) = 0;
 
-private:
-	Texture* m_pTexture;	
-	GameObject* m_Object;
+protected:
+	Animation* m_pAnimation;
 
 };
 

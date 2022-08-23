@@ -15,6 +15,7 @@ public:
 	virtual void Update(float elapsedSec) override;
 
 
+	static bool m_SaveGame;
 private:
 	Texture* m_pTexture;
 	Texture* m_pButtonTexture;

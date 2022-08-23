@@ -11,19 +11,21 @@
 #include "PickUpManager.h"
 #include "PickUp.h"
 #include "CrawlerPickUp.h"
+#include "Bullet.h"
+#include "BulletManager.h"
 
 Enemy::Enemy(const Point2f& position)
-	: m_Position{ position }
-	, m_CurrentHealth{ 3 }
+	: m_CurrentHealth{ 3 }
 	, m_Vitals{ nullptr }
-	, m_Boundaries{}
 	, m_HorizontalSpeed{ 180.f }
 	, m_pAnimation{ new Animation(2)}
 	, m_Columns{3}
 	, m_pTexture{ nullptr }
-	, m_IsActive{ true }
 {
+	m_Position = position;
+
 	m_Vitals = new Vitals(m_CurrentHealth);
+	m_Tag = "Enemy";
 }
 
 Enemy::~Enemy()
@@ -51,7 +53,7 @@ void Enemy::Draw() const
 		return;
 	}
 
-	m_pTexture->Draw(m_Boundaries, Rectf{ m_pAnimation->m_AnimationFrame * m_pTexture->GetWidth() / m_Columns, 0,
+	m_pTexture->Draw(GetBoundaries(), Rectf{m_pAnimation->m_AnimationFrame * m_pTexture->GetWidth() / m_Columns, 0,
 										m_pTexture->GetWidth() / 3, m_pTexture->GetHeight() });
 }
 
@@ -61,28 +63,20 @@ void Enemy::CalculateTexture(const std::string& filename, const int columns)
 
 	m_Columns = columns;
 
-	m_Boundaries.left = m_Position.x;
-	m_Boundaries.bottom = m_Position.y;
-	m_Boundaries.width = m_pTexture->GetWidth() / columns;
-	m_Boundaries.height = m_pTexture->GetHeight();
+	m_Width = m_pTexture->GetWidth() / columns;
+	m_Height = m_pTexture->GetHeight();
 }
 
-bool Enemy::GetIsActive() const
+std::string Enemy::GetTag() const
 {
-	return m_IsActive;
+	return m_Tag;
 }
-
-Rectf Enemy::GetBoundaries() const
-{
-	return m_Boundaries;
-}
-
 
 void Enemy::SpawnPickup()
 {
 	if (rand() % 10 <= 7) // Spawn Pickup with a 70% chance
 	{
-		PickUpManager::GetInstance().Create(new CrawlerPickUp(m_Position));
+		PickUpManager::GetInstance().Create(new CrawlerPickUp(Point2f{m_Position.x, m_Position.y}));
 	}
 }
 
@@ -95,5 +89,6 @@ void Enemy::TakeHit()
 		SpawnPickup();
 
 		HUD::GetInstance().UpdateScore(3);
+		BulletManager::GetInstance().GetBullets().back()->Explode();
 	}
 }

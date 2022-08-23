@@ -13,7 +13,7 @@ public:
 	SoundManager(SoundManager&& other) = delete;
 	SoundManager& operator=(SoundManager&& other) = delete;
 	
-	SoundEffect* CreateSound(const std::string& filename);
+	SoundEffect* CreateSound(const std::string& filename, const std::string& type = ".wav");
 
 	void Play(const std::string& soundName);
 	void PlayLoop(const std::string& soundName);

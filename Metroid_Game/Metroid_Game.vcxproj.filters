@@ -49,9 +49,6 @@
     <Filter Include="Source Files\Framework Files">
       <UniqueIdentifier>{0d874dca-5458-485b-a16f-907c89379ac7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Game Files\Settings">
-      <UniqueIdentifier>{1b6a7209-dbbd-41b0-99a1-0ee8e07f3634}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Game Files\Components">
       <UniqueIdentifier>{4c2a6d07-87fb-47de-83d0-ae2d23ac93c0}</UniqueIdentifier>
     </Filter>
@@ -69,9 +66,6 @@
     </Filter>
     <Filter Include="Source Files\Game Files\GameObjects\PickUp">
       <UniqueIdentifier>{ab97a1c2-fe06-4b2a-bc6a-3a4384dd2bd0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Game Files\GameObjects\Weapon">
-      <UniqueIdentifier>{aede4d03-ad7c-4c48-9e11-24b45cc5e5d3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Game Files\Components\Vitals">
       <UniqueIdentifier>{d6a10715-d7e1-4347-8353-796d9d106991}</UniqueIdentifier>
@@ -171,9 +165,6 @@
     <ClCompile Include="MenuScreen.cpp">
       <Filter>Source Files\Game Files\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="Weapon.cpp">
-      <Filter>Source Files\Game Files\GameObjects\Weapon</Filter>
-    </ClCompile>
     <ClCompile Include="Morphball.cpp">
       <Filter>Source Files\Game Files\GameObjects\Morphball</Filter>
     </ClCompile>
@@ -192,14 +183,8 @@
     <ClCompile Include="GameOverScreen.cpp">
       <Filter>Source Files\Game Files\Screen</Filter>
     </ClCompile>
-    <ClCompile Include="EndScreen.cpp">
-      <Filter>Source Files\Game Files\Screen</Filter>
-    </ClCompile>
     <ClCompile Include="LevelManager.cpp">
       <Filter>Source Files\Game Files\Managers</Filter>
-    </ClCompile>
-    <ClCompile Include="Settings.cpp">
-      <Filter>Source Files\Game Files\Settings</Filter>
     </ClCompile>
     <ClCompile Include="ComponentManager.cpp">
       <Filter>Source Files\Game Files\Managers</Filter>
@@ -219,14 +204,11 @@
     <ClCompile Include="Vitals.cpp">
       <Filter>Source Files\Game Files\Components\Vitals</Filter>
     </ClCompile>
-    <ClCompile Include="Grid.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Block.cpp">
-      <Filter>Source Files\Game Files</Filter>
-    </ClCompile>
     <ClCompile Include="BulletEffect.cpp">
-      <Filter>Source Files\Game Files</Filter>
+      <Filter>Source Files\Game Files\GameObjects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="Door.cpp">
+      <Filter>Source Files\Game Files\GameObjects</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -320,9 +302,6 @@
     <ClInclude Include="MenuScreen.h">
       <Filter>Source Files\Game Files\Screen</Filter>
     </ClInclude>
-    <ClInclude Include="Weapon.h">
-      <Filter>Source Files\Game Files\GameObjects\Weapon</Filter>
-    </ClInclude>
     <ClInclude Include="Morphball.h">
       <Filter>Source Files\Game Files\GameObjects\Morphball</Filter>
     </ClInclude>
@@ -338,17 +317,11 @@
     <ClInclude Include="CrawlerPickUp.h">
       <Filter>Source Files\Game Files\GameObjects\PickUp</Filter>
     </ClInclude>
-    <ClInclude Include="EndScreen.h">
-      <Filter>Source Files\Game Files\Screen</Filter>
-    </ClInclude>
     <ClInclude Include="GameOverScreen.h">
       <Filter>Source Files\Game Files\Screen</Filter>
     </ClInclude>
     <ClInclude Include="LevelManager.h">
       <Filter>Source Files\Game Files\Managers</Filter>
-    </ClInclude>
-    <ClInclude Include="Settings.h">
-      <Filter>Source Files\Game Files\Settings</Filter>
     </ClInclude>
     <ClInclude Include="ComponentManager.h">
       <Filter>Source Files\Game Files\Managers</Filter>
@@ -368,14 +341,11 @@
     <ClInclude Include="Vitals.h">
       <Filter>Source Files\Game Files\Components\Vitals</Filter>
     </ClInclude>
-    <ClInclude Include="Grid.h">
-      <Filter>Source Files\Game Files\World</Filter>
-    </ClInclude>
-    <ClInclude Include="Block.h">
-      <Filter>Source Files</Filter>
-    </ClInclude>
     <ClInclude Include="BulletEffect.h">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Game Files\GameObjects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="Door.h">
+      <Filter>Source Files\Game Files\GameObjects</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #include "PickUpManager.h"
 #include "PickUp.h"
 #include "utils.h"
+#include "GameObject.h"
 #include "HUD.h"
 
 
@@ -17,14 +18,14 @@ void PickUpManager::IsPlayerOverlapping(const Rectf& player)
 {
 	for (auto e : m_pPickUpVector)
 	{
-		if (!e->m_IsActive)
+		if (!e->GetIsActive())
 		{
 			continue;
 		}
-		if (utils::IsOverlapping(player, e->GetShape()))
+		if (utils::IsOverlapping(player, e->GetBoundaries()))
 		{
 			HUD::GetInstance().UpdateScore(10);
-			e->m_IsActive = false;
+			e->SetIsActive(false);
 		}
 	}
 }

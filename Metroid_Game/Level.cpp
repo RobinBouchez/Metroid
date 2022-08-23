@@ -9,14 +9,18 @@
 #include "Bullet.h"
 #include "Texture.h"
 #include "TextureManager.h"
+#include "Camera.h"
+#include "structs.h"
+#include "game.h"
 
-Level::Level(const int& index)
+Level::Level(const int index)
 	: m_LevelTexture{nullptr}
 	, m_TexturePosition{ 0, 0 }
 	, m_TextureWidth{}
 	, m_TextureHeight{}
 	, m_Vertices{}
-	, m_Index{index}
+	, m_Index{index} 
+	, m_Scale{}
 {
 	m_LevelTexture = TextureManager::GetInstance().CreateTexture("Level" + std::to_string(index));
 
@@ -24,6 +28,16 @@ Level::Level(const int& index)
 	const_cast<float&>(m_TextureHeight) = m_LevelTexture->GetHeight();
 
 	LoadSVG();
+
+	m_Scale = Game::m_Window.height / m_TextureHeight;
+
+	CreateCamera(Game::m_Window.width, Game::m_Window.height, m_Scale);
+}
+
+Level::~Level()
+{
+	delete m_pCamera;
+	m_pCamera = nullptr;
 }
 
 void Level::Draw() const
@@ -54,6 +68,11 @@ Rectf Level::GetBounds() const
 	return Rectf{ m_TexturePosition.x, m_TexturePosition.y, m_TextureWidth, m_TextureHeight };
 }
 
+int Level::GetIndex() const
+{
+	return m_Index;
+}
+
 Point2f Level::GetLastShapePosition()
 {
 	return Point2f(m_LastShapePosition.x, m_LastShapePosition.y);
@@ -63,6 +82,12 @@ Point2f Level::GetLastShapePosition()
 void Level::LoadSVG()
 {
 	SVGParser::GetVerticesFromSvgFile("Resources/Levelsvg" + std::to_string(m_Index) + ".svg", m_Vertices);
+}
+
+void Level::CreateCamera(const float width, const float height, const float scale)
+{
+	m_pCamera = new Camera(width, height, scale);
+	m_pCamera->SetLevelBoundaries(Level::GetBounds());
 }
 
 void Level::HandleCollision(Rectf& shape, Vector2f& actorVelocity)

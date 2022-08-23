@@ -10,10 +10,10 @@ CrawlerPickUp::CrawlerPickUp(const Point2f& position)
 	, m_Columns{ 5 }
 {
 	m_pTexture = TextureManager::GetInstance().CreateTexture("PickUp");
-	m_Shape.left = position.x;
-	m_Shape.bottom = position.y;
-	m_Shape.width = 30.f;
-	m_Shape.height = 30.f;
+	m_Position.x = position.x;
+	m_Position.y = position.y;
+	m_Width = 30.f;
+	m_Height = 30.f;
 }
 
 
@@ -41,7 +41,7 @@ void CrawlerPickUp::Draw() const
 	m_SourceClip.height = m_pTexture->GetHeight();
 	m_SourceClip.width = 29.f;
 
-	m_pTexture->Draw(m_Shape, m_SourceClip);
+	m_pTexture->Draw(GetBoundaries(), m_SourceClip);
 
 }
 

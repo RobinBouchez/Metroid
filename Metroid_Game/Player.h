@@ -29,6 +29,7 @@ public:
 
 
 	Player(const Point2f& position);
+	Player(const Point2f& position, const float health);
 	virtual ~Player();
 
 	virtual void Draw() const override;
@@ -38,16 +39,14 @@ public:
 
 	void Shoot();
 
-	Rectf GetShape() const;
+	void SetPosition(const Point2f& pos);
 	int GetScore() const;
 
 	enum class State GetState() const;
+
 	Vitals* GetVitals() const;
-	void Morph();
 
 	static int m_Score;
-
-
 private:
 	AimDirection m_AimDirection;
 	State m_State;
@@ -55,15 +54,13 @@ private:
 	Animation* m_pAnimation;
 	Texture* m_pPlayerTexture;
 	Texture* m_pBallTexture;
+	Texture* m_pDeathTexture;
 	Vitals* m_Vitals;
-
 
 	Rectf m_SourceClip;
 	Rectf m_BallTextureClip;
 	Rectf m_TextureClip;
 	
-	Rectf m_Shape;
-
 	Rectf m_BallShape;
 
 	int m_Rows;
@@ -81,6 +78,11 @@ private:
 	bool m_HasShot;
 	float m_Cooldown;
 
+	bool m_IsMovingLeft;
+
+	float m_HorizontalSpeed;
+
 	void SetTexture();
 	void UpdateMovement(float elapsedSec, World* &level);
+	void UpdateVitals(float elapsedSec);
 };

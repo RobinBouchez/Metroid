@@ -17,9 +17,14 @@ public:
 	EnemyManager& operator=(EnemyManager&&) = delete;
 
 	void Add(Enemy* enemy);
+	std::vector<Enemy*> GetEnemies();
 	void Draw() const;
 	void Update(float elapsedSec, World* level, Player* player);
 	void Cleanup();
+
+	friend std::ostream& operator<<(std::ostream& os, const EnemyManager& em);
+	friend std::istream& operator>>(std::istream& os, const EnemyManager& em);
+
 private:
 	std::vector<Enemy*> m_pEnemies;
 };

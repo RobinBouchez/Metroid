@@ -4,7 +4,7 @@ class Camera final
 {
 public:
 	Camera() = default;
-	Camera(float width, float height);
+	Camera(float width, float height, float scale);
 	~Camera() = default;
 	Camera(const Camera&) = delete;
 	Camera& operator=(const Camera&) = delete;
@@ -14,7 +14,9 @@ public:
 	void SetLevelBoundaries(const Rectf& level);
 
 	Point2f GetPosition() const;
+	const float GetScale() const;
 	void Transform(const Rectf& target);
+	void Transition();
 
 private:
 	float m_Width;
@@ -26,6 +28,8 @@ private:
 
 	Point2f Track(const Rectf& target) const;
 	void Clamp(Point2f& bottomLeftPos) const;
+
+	void GetAspectRatio();
 
 };
 

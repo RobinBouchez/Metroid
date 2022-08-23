@@ -12,12 +12,12 @@
 bool Morphball::m_IsHit = false;
 
 Morphball::Morphball()
-	: m_Position{ 1136.f, 250.f }
-	, m_Rows{ 4 }
+	: m_Rows{ 4 }
 	, m_pAnimation{ new Animation(m_Rows, 0.05f )}
 	, m_DstRect{}
 	, m_SrcRect{}
 {
+	m_Position = Point2f{ 1136.f, 250.f };
 	m_pTexture = TextureManager::GetInstance().CreateTexture("u_morphball");
 	SoundManager::GetInstance().CreateSound("PickUp");
 }
@@ -45,12 +45,11 @@ void Morphball::Update(float elapsedSec)
 
 bool Morphball::CheckIfhit(Player* player)
 {
-	if (utils::IsOverlapping(player->GetShape(), m_DstRect))
+	if (utils::IsOverlapping(player->GetBoundaries(), m_DstRect))
 	{
 		if (!m_IsHit)
 		{
-			player->Morph();
-			//SoundManager::GetInstance().Play("PickUp");
+			SoundManager::GetInstance().Play("PickUp");
 		}
 		m_IsHit = true;
 		return true;

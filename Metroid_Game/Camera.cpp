@@ -3,11 +3,11 @@
 
 #include <algorithm>
 
-Camera::Camera(float width, float height)
+Camera::Camera(float width, float height, float scale)
 	: m_Width{ width }
 	, m_Height{ height }
 	, m_LevelBoundaries{}
-	, m_Scale{ 1.1f }
+	, m_Scale{ scale }
 	, m_CameraPos{}
 {
 
@@ -19,7 +19,6 @@ void Camera::SetLevelBoundaries(const Rectf& level)
 	m_LevelBoundaries.left = level.left;
 	m_LevelBoundaries.width = level.width;
 	m_LevelBoundaries.height = level.height;
-
 }
 
 Point2f Camera::GetPosition() const
@@ -27,15 +26,30 @@ Point2f Camera::GetPosition() const
 	return m_CameraPos;
 }
 
+const float Camera::GetScale() const
+{
+	return m_Scale;
+}
+
 void Camera::Transform(const Rectf& target)
 {
+	//glPushMatrix();
 	m_CameraPos = Track(target);
 	//m_CameraPos.x = std::clamp(m_CameraPos.x, 0.f, target.left + m_Width);
 	//m_CameraPos.y = std::clamp(m_CameraPos.y, 0.f, target.bottom + m_Height);
+	//m_CameraPos.x = std::clamp(m_CameraPos.x, 0.f, m_LevelBoundaries.width);
+	//m_CameraPos.y = std::clamp(m_CameraPos.y, 0.f, m_LevelBoundaries.height);
 
 	Clamp(m_CameraPos);
 	glScalef(m_Scale, m_Scale, 0);
-	glTranslatef(-m_CameraPos.x, -m_CameraPos.y, 0);
+	glTranslatef(-m_CameraPos.x, std::clamp(-m_CameraPos.y, m_LevelBoundaries.bottom, m_LevelBoundaries.height), 0);
+	//glTranslatef(-m_CameraPos.x, 0, 0);
+	//glPopMatrix();
+}
+
+void Camera::Transition()
+{
+
 }
 
 Point2f Camera::Track(const Rectf& target) const 
@@ -51,9 +65,9 @@ void Camera::Clamp(Point2f& bottomLeftPos) const
 	{
 		bottomLeftPos.x = m_LevelBoundaries.left;
 	}
-	else if (bottomLeftPos.x >= m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width + textureBorderWidth)
+	else if (bottomLeftPos.x >= m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width)// + textureBorderWidth)
 	{
-		bottomLeftPos.x = m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width + textureBorderWidth;/// 2 - 525.f;
+		bottomLeftPos.x = m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width;//+ textureBorderWidth;/// 2 - 525.f;
 	}
 	
 	if (bottomLeftPos.y <= m_LevelBoundaries.bottom)
@@ -65,4 +79,8 @@ void Camera::Clamp(Point2f& bottomLeftPos) const
 		bottomLeftPos.y = m_LevelBoundaries.bottom + m_LevelBoundaries.height;
 	}
 	
+}
+
+void Camera::GetAspectRatio()
+{
 }

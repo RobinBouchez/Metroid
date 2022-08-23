@@ -11,34 +11,27 @@ public:
 	GameObject(GameObject&&) = delete;
 	GameObject& operator=(GameObject&&) = delete;
 
-	const Point2f GetPosition();
-	const Rectf GetBounds();
-	const void SetPosition(const Point2f& pos);
+	const  Rectf GetBoundaries() const;
+
+	bool GetIsActive() const;
+	void SetIsActive(bool value);
 
 protected:
 	virtual void Draw() const = 0;
 	virtual void Update(float elapsedSec) = 0;
 
-	Rectf GetBoundaries();
-	Vector2f GetVelocity();
 
 	static bool m_IsOnGround;
 	static const float m_Gravity;
 	
-	bool m_IsMovingLeft;
-
-	float m_HorizontalSpeed;
-	
 	Vector2f m_Acceleration;
 	Vector2f m_Velocity;
 
-	const float m_Width;
-	const float m_Height;
+	float m_Width;
+	float m_Height;
 
-private:
-	Rectf m_Boundaries;
+	bool m_IsActive;
 
 	Point2f m_Position;
-
 };
 

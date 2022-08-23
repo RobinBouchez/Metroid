@@ -1,20 +1,21 @@
 #pragma once
 #include "Vector2f.h"
-#include "Component.h"
 
-class Movement final //: public Component<Movement>
+class Movement final
 {
 public:
 	Movement();
 	~Movement() = default;
 
-	virtual void Update(float elapsedSec);// override;
+	virtual void Update(float elapsedSec) = 0;
 
-	const Vector2f& GetVelocity() const;
-	const void SetVelocity(const Vector2f& value);
-
+	Vector2f GetVelocity() const;
+	void SetVelocity(const Vector2f& value);
 
 private:
 	Vector2f m_Velocity;
+	Vector2f m_Acceleration;
+
+	const float Speed{};
 };
 

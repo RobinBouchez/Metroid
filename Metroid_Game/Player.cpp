@@ -14,13 +14,13 @@
 #include "Vitals.h"
 
 #include <iostream>
+
 int Player::m_Score = 0;
 
 Player::Player(const Point2f& position)
 	: m_State{ State::idle }
 	, m_SourceClip{}
 	, m_TextureClip{}
-	, m_Shape{}
 	, m_Rows{ 4 }
 	, m_Cols{ 6 }
 	, m_pAnimation{ new Animation(m_Rows, 0.1f) }
@@ -29,30 +29,37 @@ Player::Player(const Point2f& position)
 	, m_RotSpeed{ 1200.f }
 	, m_IsShooting{false}
 	, m_AimDirection{}
+	, m_IsMovingLeft{ false }
+	, m_HorizontalSpeed{ 300.f }
 	, m_Timer{}
 	, m_Cooldown{ 0.1f }
 	, m_HasShot{}
-	, m_JumpSpeed{ 700.f }
-	, m_Vitals{ new Vitals(1)}
+	, m_JumpSpeed{ 800.f }
+	, m_Vitals{ new Vitals(3)}
 
 {
-
 	m_pPlayerTexture = TextureManager::GetInstance().CreateTexture("Samus");
 	m_pBallTexture = TextureManager::GetInstance().CreateTexture("morphball");
+	m_pDeathTexture = TextureManager::GetInstance().CreateTexture("PlayerDeath");
 
-	m_Shape.left = position.x;
-	m_Shape.bottom = position.y;
-	m_Shape.width = m_pPlayerTexture->GetWidth() / m_Rows;
-	m_Shape.height = m_pPlayerTexture->GetHeight() / m_Cols;
+	m_Position.x = position.x;
+	m_Position.y = position.y;
+	m_Width = m_pPlayerTexture->GetWidth() / m_Rows;
+	m_Height = m_pPlayerTexture->GetHeight() / m_Cols;
 
-	m_BallShape.left = m_Shape.left;
-	m_BallShape.bottom = m_Shape.bottom;
+	m_BallShape.left = m_Position.x;
+	m_BallShape.bottom = m_Position.y;
 	m_BallShape.width = m_pBallTexture->GetWidth();
 	m_BallShape.height = m_pBallTexture->GetHeight();
 
 	SoundManager::GetInstance().CreateSound("Jump");
 	SoundManager::GetInstance().CreateSound("Roll");
+}
 
+Player::Player(const Point2f& position, const float health)
+	: Player{ position }
+{
+	m_Vitals->SetHealth(health);
 }
 
 Player::~Player()
@@ -66,72 +73,103 @@ Player::~Player()
 
 void Player::Draw() const
 {
-	if (m_IsMovingLeft)
+	if (m_Vitals->m_State == Vitals::State::alive)
 	{
-		if (m_IsRolling)
+		if (m_IsMovingLeft)
+		{
+			if (m_IsRolling)
+			{
+				glPushMatrix();
+				glTranslatef(m_Position.x + m_BallShape.width / 2, m_Position.y + m_BallShape.height / 2, 0);
+				glRotatef(m_Angle, 0, 0, 1);
+				glTranslatef(-(m_Position.x + m_BallShape.width / 2), -(m_Position.y + m_BallShape.height / 2), 0);
+				m_pBallTexture->Draw(m_BallTextureClip);
+				glPopMatrix();
+			}
+			else
+			{
+				glPushMatrix();
+				glTranslatef(m_Position.x, 0, 0);
+				glScalef(-1, 1, 1);
+				glTranslatef(-m_Position.x - m_Width, 0, 0);
+				m_pPlayerTexture->Draw(m_TextureClip, m_SourceClip);
+				glPopMatrix();
+			}
+		}
+		else if (m_IsRolling)
 		{
 			glPushMatrix();
-			glTranslatef(m_Shape.left + m_BallShape.width / 2, m_Shape.bottom + m_BallShape.height / 2, 0);
-			glRotatef(m_Angle, 0, 0, 1);
-			glTranslatef(-(m_Shape.left + m_BallShape.width / 2), -(m_Shape.bottom + m_BallShape.height / 2), 0);
+			glTranslatef(m_Position.x + m_BallShape.width / 2, m_Position.y + m_BallShape.height / 2, 0);
+			glRotatef(m_Angle, 0, 0, -1);
+			glTranslatef(-(m_Position.x + m_BallShape.width / 2), -(m_Position.y + m_BallShape.height / 2), 0);
 			m_pBallTexture->Draw(m_BallTextureClip);
 			glPopMatrix();
 		}
 		else
 		{
-			glPushMatrix();
-			glTranslatef(m_Shape.left, 0, 0);
-			glScalef(-1, 1, 1);
-			glTranslatef(-m_Shape.left - m_Shape.width, 0, 0);
 			m_pPlayerTexture->Draw(m_TextureClip, m_SourceClip);
-			glPopMatrix();
 		}
 	}
-	else if (m_IsRolling)
+	else if (m_Vitals->m_State == Vitals::State::dead)
 	{
-		glPushMatrix();
-			glTranslatef(m_Shape.left + m_BallShape.width / 2, m_Shape.bottom + m_BallShape.height / 2, 0);
-			glRotatef(m_Angle, 0, 0, -1);
-			glTranslatef(-(m_Shape.left + m_BallShape.width / 2), -(m_Shape.bottom + m_BallShape.height / 2), 0);
-			m_pBallTexture->Draw(m_BallTextureClip);
-		glPopMatrix();
-	}
-	else
-	{
-		m_pPlayerTexture->Draw(m_TextureClip, m_SourceClip);
+		float rows = 2;
+
+		Rectf destRect{};
+		destRect.left = m_Position.x;
+		destRect.bottom = m_Position.y;
+		destRect.width = m_pDeathTexture->GetWidth() / rows;
+		destRect.height = m_pDeathTexture->GetHeight();
+
+		Rectf srcRect{};
+		srcRect.left = m_pAnimation->m_AnimationFrame * m_pDeathTexture->GetWidth() / rows;
+		srcRect.bottom = 0.f;
+		srcRect.width = m_pDeathTexture->GetWidth() / rows;
+		srcRect.height = m_pDeathTexture->GetHeight();
+
+		m_pDeathTexture->Draw(destRect, srcRect);
 	}
 }
 
-void Player::Update(float elapsedSec, World* &level)
+void Player::Update(float elapsedSec, World*& level)
 {
-	UpdateMovement(elapsedSec, level);
-	SetTexture();
-	m_pAnimation->Update(elapsedSec);
-
-	PickUpManager::GetInstance().IsPlayerOverlapping(m_Shape);
-
-	if (!m_IsRolling)
+	if(m_Vitals->m_State == Vitals::State::alive)
 	{
-		level->HandleCollision(m_Shape, m_Velocity);
-	}
-	else
-	{
-		m_BallShape.left = m_Shape.left;
-		m_BallShape.bottom = m_Shape.bottom;
-		level->HandleCollision(m_BallShape, m_Velocity);
-		m_Shape.left = m_BallShape.left;
-		m_Shape.bottom = m_BallShape.bottom;
-	}
+		UpdateMovement(elapsedSec, level);
+		SetTexture();
 
-	if (m_HasShot)
-	{
-		m_Timer += elapsedSec;
-		if (m_Timer >= m_Cooldown)
+		PickUpManager::GetInstance().IsPlayerOverlapping(GetBoundaries());
+
+		if (!m_IsRolling)
 		{
-			m_Timer = 0;
-			m_HasShot = false;
+			Rectf bounds = GetBoundaries();
+			level->HandleCollision(bounds, m_Velocity);
+		}
+		else
+		{
+			m_BallShape.left = m_Position.x;
+			m_BallShape.bottom = m_Position.y;
+
+			level->HandleCollision(m_BallShape, m_Velocity);
+			m_Position.x = m_BallShape.left;
+			m_Position.y = m_BallShape.bottom;
+		}
+
+		if (m_HasShot)
+		{
+			m_Timer += elapsedSec;
+			if (m_Timer >= m_Cooldown)
+			{
+				m_Timer = 0;
+				m_HasShot = false;
+			}
 		}
 	}
+	if (m_Vitals->GetHealth() == 0)
+	{
+		m_Vitals->m_State = Vitals::State::dead;
+	}
+	m_pAnimation->Update(elapsedSec);
+	UpdateVitals(elapsedSec);
 }
 
 void Player::Update(float elapsedSec)
@@ -167,10 +205,11 @@ void Player::Shoot()
 				Xoffset = -Xoffset / 4.f;
 			}
 		}
-		BulletManager::GetInstance().Create(new Bullet(Point2f{ m_Shape.left + Xoffset, m_Shape.bottom + Yoffset }, bulletVelocity));
+		BulletManager::GetInstance().Create(new Bullet(Point2f{ m_Position.x + Xoffset, m_Position.y + Yoffset }, bulletVelocity));
 		m_HasShot = true;
 	}
 }
+
 
 enum class Player::State Player::GetState() const
 {
@@ -182,13 +221,10 @@ Vitals* Player::GetVitals() const
 	return m_Vitals;
 }
 
-void Player::Morph()
+void Player::SetPosition(const Point2f& pos)
 {
-}
-
-Rectf Player::GetShape() const
-{
-	return m_Shape;
+	m_Position.x = pos.x;
+	m_Position.y = pos.y;
 }
 
 int Player::GetScore() const
@@ -201,46 +237,46 @@ void Player::SetTexture()
 	switch (m_State)
 	{
 	case Player::State::idle:
-		m_SourceClip.left = 0.f;
+		m_SourceClip.left   = 0.f;
 		m_SourceClip.bottom = m_pPlayerTexture->GetHeight() / m_Cols;
 		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
 		m_SourceClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::running:
-		m_SourceClip.left = m_pAnimation->m_AnimationFrame * m_pPlayerTexture->GetWidth() / m_Rows;
+		m_SourceClip.left   = m_pAnimation->m_AnimationFrame * m_pPlayerTexture->GetWidth() / m_Rows;
 		m_SourceClip.bottom = (m_pPlayerTexture->GetHeight() / m_Cols) * 2;
 		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
+		m_SourceClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::jumping:
 		m_IsRolling = false;
-		m_SourceClip.left = 0;
+		m_SourceClip.left   = 0.f;
 		m_SourceClip.bottom = m_pPlayerTexture->GetHeight() - m_pPlayerTexture->GetHeight() / m_Cols;
 		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
+		m_SourceClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::lookingUp:
 		m_IsRolling = false;
-		m_SourceClip.left = 0;
+		m_SourceClip.left   = 0.f;
 		m_SourceClip.bottom = (m_pPlayerTexture->GetHeight() / m_Cols) * 4;
 		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
+		m_SourceClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	case Player::State::crouching:
-		m_SourceClip.left = 0;
-		m_SourceClip.bottom = 0;
+		m_SourceClip.left   = 0.f;
+		m_SourceClip.bottom = 0.f;
 		m_SourceClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
-		m_SourceClip.width = m_pPlayerTexture->GetWidth() / m_Rows;
+		m_SourceClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 		break;
 	}
 	
-	m_BallTextureClip.left = m_Shape.left;
-	m_BallTextureClip.bottom = m_Shape.bottom;
+	m_BallTextureClip.left   = m_Position.x;
+	m_BallTextureClip.bottom = m_Position.y;
 	m_BallTextureClip.height = m_pBallTexture->GetHeight();
-	m_BallTextureClip.width = m_pBallTexture->GetWidth();
+	m_BallTextureClip.width  = m_pBallTexture->GetWidth();
 	
-	m_TextureClip.left   = m_Shape.left;
-	m_TextureClip.bottom = m_Shape.bottom;
+	m_TextureClip.left   = m_Position.x;
+	m_TextureClip.bottom = m_Position.y;
 	m_TextureClip.height = m_pPlayerTexture->GetHeight() / m_Cols;
 	m_TextureClip.width  = m_pPlayerTexture->GetWidth() / m_Rows;
 }
@@ -259,7 +295,7 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 	m_Angle += m_RotSpeed * elapsedSec;
 	m_Velocity.y += m_Acceleration.y * elapsedSec;
 	m_HorizontalSpeed += elapsedSec;
-	//m_JumpSpeed += elapsedSec;
+	m_JumpSpeed += elapsedSec;
 
 	const UINT8* State = SDL_GetKeyboardState(NULL);
 	if (State[SDL_SCANCODE_RIGHT] || State[SDL_SCANCODE_D])
@@ -291,9 +327,12 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 	{
 		if (Morphball::m_IsHit)
 		{
-			m_IsRolling = true;
+			if (level->IsOnGround(GetBoundaries()))
+			{
+				m_IsRolling = true;
 
-			SoundManager::GetInstance().Play("Roll");
+				SoundManager::GetInstance().Play("Roll");
+			}
 		}
 	}
 	else if (State[SDL_SCANCODE_SPACE])
@@ -302,17 +341,17 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 
 		m_IsRolling = false;
 
-		if (level->IsOnGround(m_Shape))
+		if (level->IsOnGround(GetBoundaries()))
 		{
 			m_Velocity.y += m_JumpSpeed * elapsedSec;
-			//SoundManager::GetInstance().Play("Jump");
+			SoundManager::GetInstance().Play("Jump");
 		}
 	}
 	else if (State[SDL_SCANCODE_F])
 	{
-		m_IsShooting = true;
-		if (m_State != State::lookingUp)
+		if (m_State != State::lookingUp && m_AimDirection != AimDirection::up)
 		{
+			m_IsShooting = true;
 			Shoot();
 		}
 	}
@@ -329,6 +368,20 @@ void Player::UpdateMovement(float elapsedSec, World* &level)
 	{
 		return;
 	}
-	m_Shape.left += m_Velocity.x;
-	m_Shape.bottom += m_Velocity.y;
+	m_Position.x += m_Velocity.x;
+	m_Position.y += m_Velocity.y;
+}
+
+void Player::UpdateVitals(float elapsedSec)
+{
+	m_Vitals->Update(elapsedSec);
+
+	switch (m_Vitals->m_State)
+	{
+	case Vitals::State::alive:
+		break;
+	case Vitals::State::dead:
+		m_State = State::dead;
+		break;
+	}
 }
