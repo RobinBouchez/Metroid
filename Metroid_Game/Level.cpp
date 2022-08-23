@@ -45,8 +45,6 @@ void Level::Draw() const
 	//glPushMatrix();
 	//glScalef(m_Scale, m_Scale, 0);
 	m_LevelTexture->Draw(Rectf{ m_TexturePosition.x, m_TexturePosition.y, m_TextureWidth, m_TextureHeight });
-
-
 	//glPopMatrix();
 }
 
