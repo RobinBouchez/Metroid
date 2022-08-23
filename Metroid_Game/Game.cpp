@@ -66,7 +66,6 @@ void Game::Initialize( )
 void Game::Cleanup( )
 {
 	SaveGame("GameData");
-	m_pWorld->SaveEnemies();
 	m_pWorld->CleanUp();
 
 	delete m_pWorld;
@@ -250,6 +249,7 @@ void Game::SaveGame(const std::string& name)
 	file << m_pPlayer->m_Shape.bottom << '\n';
 	file << m_pPlayer->GetVitals()->GetHealth() << '\n';
 	file << m_pPlayer->GetScore();
+	file << EnemyManager::GetInstance();
 	file.close();
 }
 
@@ -275,6 +275,8 @@ void Game::LoadGame(const std::string& name)
 	std::string Score{};
 	std::getline(file, Score);
 	m_pPlayer->m_Score = std::stoi(Score);
+
+	file >> EnemyManager::GetInstance();
 
 	file.close();
 }

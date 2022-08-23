@@ -56,7 +56,6 @@ private:
 	Animation* m_pAnimation;
 	Texture* m_pPlayerTexture;
 	Texture* m_pBallTexture;
-	Texture* m_pDeathTexture;
 	Vitals* m_Vitals;
 
 	Rectf m_SourceClip;

@@ -45,7 +45,7 @@ void Morphball::Update(float elapsedSec)
 
 bool Morphball::CheckIfhit(Player* player)
 {
-	if (utils::IsOverlapping(player->GetBoundaries(), m_DstRect))
+	if (utils::IsOverlapping(player->m_Shape, m_DstRect))
 	{
 		if (!m_IsHit)
 		{

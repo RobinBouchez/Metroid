@@ -33,18 +33,10 @@ const float Camera::GetScale() const
 
 void Camera::Transform(const Rectf& target)
 {
-	//glPushMatrix();
 	m_CameraPos = Track(target);
-	//m_CameraPos.x = std::clamp(m_CameraPos.x, 0.f, target.left + m_Width);
-	//m_CameraPos.y = std::clamp(m_CameraPos.y, 0.f, target.bottom + m_Height);
-	//m_CameraPos.x = std::clamp(m_CameraPos.x, 0.f, m_LevelBoundaries.width);
-	//m_CameraPos.y = std::clamp(m_CameraPos.y, 0.f, m_LevelBoundaries.height);
-
 	Clamp(m_CameraPos);
 	glScalef(m_Scale, m_Scale, 0);
 	glTranslatef(-m_CameraPos.x, std::clamp(-m_CameraPos.y, m_LevelBoundaries.bottom, m_LevelBoundaries.height), 0);
-	//glTranslatef(-m_CameraPos.x, 0, 0);
-	//glPopMatrix();
 }
 
 void Camera::Transition()
@@ -59,15 +51,15 @@ Point2f Camera::Track(const Rectf& target) const
 
 void Camera::Clamp(Point2f& bottomLeftPos) const
 {
-	const float textureBorderWidth = 115; //width of the wall of the level in pixels
+	const float textureBorderWidth = 60.f; //width of the wall of the level in pixels
 
 	if (bottomLeftPos.x <= m_LevelBoundaries.left)
 	{
 		bottomLeftPos.x = m_LevelBoundaries.left;
 	}
-	else if (bottomLeftPos.x >= m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width)// + textureBorderWidth)
+	else if (bottomLeftPos.x >= m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width + textureBorderWidth)
 	{
-		bottomLeftPos.x = m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width;//+ textureBorderWidth;/// 2 - 525.f;
+		bottomLeftPos.x = m_LevelBoundaries.left + m_LevelBoundaries.width - m_Width + textureBorderWidth;
 	}
 	
 	if (bottomLeftPos.y <= m_LevelBoundaries.bottom)
@@ -79,8 +71,4 @@ void Camera::Clamp(Point2f& bottomLeftPos) const
 		bottomLeftPos.y = m_LevelBoundaries.bottom + m_LevelBoundaries.height;
 	}
 	
-}
-
-void Camera::GetAspectRatio()
-{
 }

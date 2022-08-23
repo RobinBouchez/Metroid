@@ -112,21 +112,21 @@ void Player::Draw() const
 	}
 	else if (m_Vitals->m_State == Vitals::State::dead)
 	{
-		float rows = 2;
+		//float rows = 2;
 
-		Rectf destRect{};
-		destRect.left = m_Shape.left;
-		destRect.bottom = m_Shape.bottom;
-		destRect.width = m_pDeathTexture->GetWidth() / rows;
-		destRect.height = m_pDeathTexture->GetHeight();
+		//Rectf destRect{};
+		//destRect.left = m_Shape.left;
+		//destRect.bottom = m_Shape.bottom;
+		//destRect.width = m_pDeathTexture->GetWidth() / rows;
+		//destRect.height = m_pDeathTexture->GetHeight();
 
-		Rectf srcRect{};
-		srcRect.left = m_pAnimation->m_AnimationFrame * m_pDeathTexture->GetWidth() / rows;
-		srcRect.bottom = 0.f;
-		srcRect.width = m_pDeathTexture->GetWidth() / rows;
-		srcRect.height = m_pDeathTexture->GetHeight();
+		//Rectf srcRect{};
+		//srcRect.left = m_pAnimation->m_AnimationFrame * m_pDeathTexture->GetWidth() / rows;
+		//srcRect.bottom = 0.f;
+		//srcRect.width = m_pDeathTexture->GetWidth() / rows;
+		//srcRect.height = m_pDeathTexture->GetHeight();
 
-		m_pDeathTexture->Draw(destRect, srcRect);
+		//m_pDeathTexture->Draw(destRect, srcRect);
 	}
 }
 
@@ -180,31 +180,30 @@ void Player::Shoot()
 	if (!m_HasShot)
 	{
 		Vector2f bulletVelocity{};
+		float Xoffset{}, Yoffset{}; // offset bullet position to match weapon barrel
 		switch (m_AimDirection)
 		{
 		case AimDirection::left:
 			bulletVelocity = Vector2f{ -1, 0 };
+			Xoffset = -40.f;
+			Yoffset = 0.f;
 			break;
 		case AimDirection::right:
 			bulletVelocity = Vector2f{ 1, 0 };
+			Xoffset = 40.f;
+			Yoffset = 0.f;
 			break;
 		case AimDirection::up:
 			bulletVelocity = Vector2f{ 0, 1 };
-			break;
-		}
-
-		float Xoffset = 70.f;
-		const float Yoffset = 60.f;
-		if (m_AimDirection == AimDirection::up)
-		{
-			Xoffset = 0.f;
-
 			if (m_IsMovingLeft)
 			{
-				Xoffset = -Xoffset / 4.f;
+				Xoffset = -10.f;
 			}
+			//Xoffset = 10.f;
+			Yoffset = 50.f;
+			break;
 		}
-		BulletManager::GetInstance().Create(new Bullet(Point2f{ m_Shape.left + Xoffset, m_Shape.bottom + Yoffset }, bulletVelocity));
+		BulletManager::GetInstance().Create(new Bullet(Point2f{ m_Shape.left + m_Shape.width / 2 + Xoffset, m_Shape.bottom + m_Shape.height / 2 + Yoffset }, bulletVelocity));
 		m_HasShot = true;
 	}
 }

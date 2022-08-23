@@ -9,7 +9,7 @@
 Bullet::Bullet(const Point2f& pos, const Vector2f& velocity)
 	: m_Rows{ 2 }
 	, m_pAnimation{ new Animation(m_Rows) }
-	, m_Speed{ 300  }
+	, m_Speed{ 370  }
 	, m_LifeTime{}
 	, m_Hit{ false }
 {

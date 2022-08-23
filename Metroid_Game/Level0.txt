@@ -1,6 +1,7 @@
-Crawler 856.00 95.00
-Crawler 1850.00 300.00
-Crawler 2250.00 300.00
-
-Skrull 3050.00 600.00
-Skrull 3050.00 600.00
+Crawler 1130.79 150.805
+Crawler 1983.82 505.956
+Crawler 2273.85 393.66
+Skrull 3311.51 600
+Skrull 2999.45 600
+Skrull 2699.45 600
+Crawler 3311.85 200.66

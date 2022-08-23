@@ -57,16 +57,6 @@ const std::vector<std::vector<Point2f>>& World::GetVertices() const
 	return LevelManager::GetCurrent()->GetVertices();
 }
 
-void World::SaveEnemies()
-{
-	std::string fileName = "Level" + std::to_string(LevelManager::GetCurrent()->GetIndex()) + ".txt";
-	std::ofstream file(fileName);
-
-	file << EnemyManager::GetInstance();
-
-	file.close();
-}
-
 void World::LoadEnemies()
 {
 	std::string fileName = "Level" + std::to_string(LevelManager::GetCurrent()->GetIndex()) + ".txt";

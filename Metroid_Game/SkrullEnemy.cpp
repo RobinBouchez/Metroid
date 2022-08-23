@@ -8,13 +8,13 @@
 SkrullEnemy::SkrullEnemy(const Point2f& position)
 	: Enemy(position)
 	, m_DetectionRadius{ 500.f }
-	, m_AttackSpeed{ 5.f }
+	, m_AttackSpeed{ 4.f }
 {
 	m_Position = position;
 	m_Tag = "Skrull";
-	CalculateTexture(m_Tag, 3);
 
-	m_Width  = 70.f;
+	CalculateTexture(m_Tag, 3);
+	m_Width = 70.f;
 	m_Height = 70.f;
 }
 
@@ -27,16 +27,16 @@ void SkrullEnemy::Update(float elapsedSec, World* level, Player* player)
 {
 	Enemy::Update(elapsedSec, level, player);
 	
-	float distance = utils::GetDistance(Point2f{m_Position.x, m_Position.y}, Point2f{player->GetBoundaries().left, player->GetBoundaries().bottom});
+	float distance = utils::GetDistance(Point2f{m_Position.x, m_Position.y}, Point2f{player->m_Shape.left, player->m_Shape.bottom});
 
-	if (level->IsOnGround(GetBoundaries()))
+	if (level->IsOnGround(player->m_Shape))
 	{
 		return;
 	}
 
 	if (distance <= m_DetectionRadius)
 	{
-		Vector2f direction{ player->GetBoundaries().left - m_Position.x, player->GetBoundaries().bottom - m_Position.y };
+		Vector2f direction{ player->m_Shape.left - m_Position.x, player->m_Shape.bottom - m_Position.y };
 		
 		direction = direction.Normalized();
 

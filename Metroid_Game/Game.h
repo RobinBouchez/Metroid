@@ -42,6 +42,7 @@ private:
 	Player* m_pPlayer;
 	Morphball* m_pMorphball;
 
+	//Point2f m_PlayerPosition{ 100, 180.f };
 	Point2f m_PlayerPosition{ 2000.f, 180.f };
 
 	// FUNCTIONS

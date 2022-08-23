@@ -28,8 +28,5 @@ private:
 
 	Point2f Track(const Rectf& target) const;
 	void Clamp(Point2f& bottomLeftPos) const;
-
-	void GetAspectRatio();
-
 };
 

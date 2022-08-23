@@ -22,7 +22,6 @@ public:
 
 	const std::vector<std::vector<Point2f>>& GetVertices() const;
 
-	void SaveEnemies();
 	void LoadEnemies();
 
 	int m_LevelIndex{0};
