@@ -42,7 +42,7 @@ Texture* TextureManager::Replace(const std::string& filename)
 	{
 		m_TextureMap.erase(filename);
 
-		CreateTexture(filename);
+		CreateFontTexture(filename);
 		return m_TextureMap[filename];
 	}
 	return nullptr;

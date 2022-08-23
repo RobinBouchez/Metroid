@@ -8,7 +8,7 @@
 SkrullEnemy::SkrullEnemy(const Point2f& position)
 	: Enemy(position)
 	, m_DetectionRadius{ 500.f }
-	, m_AttackSpeed{ 6.f }
+	, m_AttackSpeed{ 5.f }
 {
 	m_Position = position;
 	m_Tag = "Skrull";

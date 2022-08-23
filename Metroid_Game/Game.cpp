@@ -78,11 +78,12 @@ void Game::Cleanup( )
 	m_pMorphball = nullptr;
 
 	SoundManager::GetInstance().Cleanup();
-	TextureManager::GetInstance().Cleanup();
 	EnemyManager::GetInstance().Cleanup(); 
 	BulletManager::GetInstance().Cleanup();
 	ScreenManager::GetInstance().Cleanup();
 	PickUpManager::GetInstance().Cleanup();
+	TextureManager::GetInstance().Cleanup();
+
 }
 
 void Game::Update( float elapsedSec )
