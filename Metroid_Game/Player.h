@@ -47,6 +47,8 @@ public:
 	Vitals* GetVitals() const;
 
 	static int m_Score;
+
+	Rectf m_Shape;
 private:
 	AimDirection m_AimDirection;
 	State m_State;

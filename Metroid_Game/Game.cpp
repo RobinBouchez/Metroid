@@ -106,7 +106,7 @@ void Game::Draw( ) const
 		return;
 	}
 	glPushMatrix();
-	m_pWorld->GetLevel()->m_pCamera->Transform(m_pPlayer->GetBoundaries());
+	m_pWorld->GetLevel()->m_pCamera->Transform(m_pPlayer->m_Shape);
 	DrawGameObjects();
 	DrawHUD();
 	glPopMatrix();
@@ -246,8 +246,8 @@ void Game::SaveGame(const std::string& name)
 
 	//write data to file
 	file << m_pWorld->m_LevelIndex << '\n';
-	file << m_pPlayer->GetBoundaries().left << '\n';
-	file << m_pPlayer->GetBoundaries().bottom << '\n';
+	file << m_pPlayer->m_Shape.left << '\n';
+	file << m_pPlayer->m_Shape.bottom << '\n';
 	file << m_pPlayer->GetVitals()->GetHealth() << '\n';
 	file << m_pPlayer->GetScore();
 	file.close();
